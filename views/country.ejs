@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/css/country.css"/>
+    </head>
+    <body>
+        
+        <h1><%- JSON.parse(country_name) %></h1>
+        
+        <div class="leader-pic" id="hos">
+            <img src="<%- JSON.parse(hos_pic) %>">
+            <p>Head of State: <%- JSON.parse(hos) %></p>
+        </div>
+        
+        <div class="leader-pic" id="hog">
+        </div>
+        
+        <% include partials/script.ejs %>
+        
+        <div>
+            <button id="button"><a href="/">Back to index</a></button>
+        </div>
+
+    </body>
+</html>

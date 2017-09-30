@@ -1,0 +1,11 @@
+<% if (hog_pic) { %>
+    <script>
+        var img = document.createElement('img');
+        img.setAttribute('src', '<%- JSON.parse(hog_pic) %>');
+        document.getElementById('hog').appendChild(img);
+
+        var caption = document.createElement('p');
+        caption.innerHTML = '<p>Head of Government: <%- JSON.parse(hog) %></p>';
+        document.getElementById('hog').appendChild(caption);
+    </script>
+<% } %>

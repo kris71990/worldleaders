@@ -1,0 +1,23 @@
+body {
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+}
+
+img {
+    height: 300px;
+    width: auto;
+}
+
+.leader-pic {
+    display: inline-block;
+}
+
+#button {
+    background-color: #9ED68F;
+    border: 1px solid black;
+    padding: 8px 16px;
+    border-radius: 10px;
+}
