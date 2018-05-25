@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --coverage",
-    "dbon": "mkdir -p ./db && mongod --dboath ./db",
+    "dbon": "mkdir -p ./db && mongod --dbpath ./db",
     "dboff": "killall mongod",
-    "start": "node index.js"
+    "start": "nodemon"
   },
   "author": "",
   "license": "ISC",
@@ -32,9 +32,10 @@
   },
   "dependencies": {
     "babel-preset-stage-0": "^6.24.1",
+    "bluebird": "^3.5.1",
     "dotenv": "^5.0.1",
     "faker": "^4.1.0",
     "reload": "^2.0.0",
-    "winston": "^2.4.2"
+    "winston": "^3.0.0-rc5"
   }
 }

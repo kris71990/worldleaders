@@ -197,7 +197,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-db/
+data/
 build/
+db/
 
 # End of https://www.gitignore.io/api/node,macos,linux,windows,webstorm,visualstudiocode

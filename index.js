@@ -6,7 +6,7 @@ if (!process.env.NODE_ENV) {
   throw new Error('NODE_ENV is undefined');
 }
 
-if (process.env.NODE_ENV !== 'development') {
+if (process.env.NODE_ENV !== 'production') {
   console.log('--- DEVELOPMENT SETTINGS ---');
   require('babel-register');
   require('./src/main');
