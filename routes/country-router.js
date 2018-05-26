@@ -11,6 +11,8 @@ const jsonParser = json();
 const countryRouter = new Router();
 
 countryRouter.post('/countries', jsonParser, (request, response, next) => {
+  if (Object.keys(request.body).length > 1) throw new HttpError(400, 'improper request');
+
   const countryExists = Object.keys(data.countries).filter(key => key === request.body.countryName.toLowerCase());
 
   if (countryExists.length === 0) throw new HttpError(404, 'country does not exist');
