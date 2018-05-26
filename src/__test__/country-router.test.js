@@ -66,4 +66,37 @@ describe('Test country-router', () => {
         });
     });
   });
+
+  describe('GET from /countries/:id', () => {
+    test('GET with correct id should return 200 and json', () => {
+      return superagent.post(`${API_URL}/countries`)
+        .send({
+          countryName: 'togo',
+        })
+        .then((response) => {
+          return superagent.get(`${API_URL}/countries/${response.body._id}`)
+            .then((res) => {
+              expect(res.status).toEqual(200);
+              expect(res.body).toBeTruthy();
+              expect(res.body.countryName).toEqual('togo');
+              expect(res.body.typeOfGovernment).toBeTruthy();
+            });
+        });
+    });
+
+    test('GET with incorrect id should return 404', () => {
+      return superagent.post(`${API_URL}/countries`)
+        .send({
+          countryName: 'togo',
+        })
+        .then(() => {
+          return superagent.get(`${API_URL}/countries/1234`)
+            .then(() => {})
+            .catch((error) => {
+              expect(error.status).toEqual(404);
+              expect(error.body).toBeFalsy();
+            });
+        });
+    });
+  });
 });

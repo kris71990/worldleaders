@@ -33,4 +33,19 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
     .catch(next);
 });
 
+countryRouter.get('/countries/:id', (request, response, next) => {
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  return Country.findById(request.params.id)
+    .then((country) => {
+      if (!country) {
+        logger.log(logger.INFO, 'GET - returning 404 status, no country found');
+        return next(new HttpError(404, 'country not found'));
+      }
+      logger.log(logger.INFO, 'GET /country/:id successful, returning 200');
+      return response.json(country);
+    })
+    .catch(next);
+});
+
 export default countryRouter;
