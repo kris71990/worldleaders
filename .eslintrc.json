@@ -12,6 +12,7 @@
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "no-trailing-spaces":"off",
     "no-underscore-dangle": "off",
-    "strict": "off"
+    "strict": "off",
+    "max-len": "off"
   }
 }

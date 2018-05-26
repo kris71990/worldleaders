@@ -7,13 +7,13 @@ const countrySchema = mongoose.Schema({
     type: String, required: true, unique: true,
   },
   headOfState: {
-    type: String, required: true,
+    type: String,
   },
   headOfGovernment: {
-    type: String, requried: true,
+    type: String,
   },
   typeOfGovernment: {
-    type: String, required: true,
+    type: String,
   },
 });
 
