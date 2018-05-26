@@ -9,6 +9,11 @@
     "dboff": "killall mongod",
     "start": "nodemon"
   },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/src/__test__/lib/test.env.js"
+    ]
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {

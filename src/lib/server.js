@@ -4,7 +4,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 import logger from './logger';
-import countryRouter from '../../routes/country-router';
+import countryRouter from '../routes/country-router';
 import errorMiddleware from './error-middleware';
 
 mongoose.Promise = bluebird;

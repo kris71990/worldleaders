@@ -1,8 +1,21 @@
-# worldleaders - an encyclopedia of world leaders and governmental systems
- 
- This app supplies a list of countries and, when a country is clicked, selects the appropriate document from a database 
- and renders its contents to the path of that country. It shows the relevant heads of state and government (if they exist)
- of the selected country.
- 
- future development includes an overhaul of how the information is rendered as well as additional information scraped from
- the internet about the appropriate countries 
+# World Leaders
+
+**Author Kris Sakarias**
+
+**Version 2.0.0**
+
+## Overview
+
+This will be a REST API that uses data from the CIA World Factbook. 
+
+### Documentation
+
+Starting the Server:
+
+```git clone https://github.com/kris71990/worldleadersapp
+
+npm i
+
+mongod
+
+npm run start````
