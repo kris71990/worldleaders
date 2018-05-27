@@ -19,9 +19,16 @@ describe('Test country-router', () => {
         })
         .then((response) => {
           expect(response.status).toEqual(201);
-          expect(response.body.headOfState).toBeTruthy();
-          expect(response.body.headOfGovernment).toBeTruthy();
-          expect(response.body.typeOfGovernment).toBeTruthy();
+          expect(response.body.countryName).toEqual('afghanistan');
+          expect(response.body.population).toBeTruthy();
+          expect(response.body.area).toBeTruthy();
+          expect(response.body.gdpPPPRank).toBeTruthy();
+          expect(response.body.imports).toBeInstanceOf(Array);
+          expect(response.body.exports).toBeInstanceOf(Array);
+          expect(response.body.naturalResources).toBeInstanceOf(Array);
+          expect(response.body.ethnicities).toBeInstanceOf(Array);
+          expect(response.body.languages).toBeInstanceOf(Array);
+          expect(response.body.religions).toBeInstanceOf(Array);
         });
     });
 
@@ -79,7 +86,16 @@ describe('Test country-router', () => {
               expect(res.status).toEqual(200);
               expect(res.body).toBeTruthy();
               expect(res.body.countryName).toEqual('togo');
-              expect(res.body.typeOfGovernment).toBeTruthy();
+              expect(response.body.countryName).toEqual('togo');
+              expect(response.body.population).toBeTruthy();
+              expect(response.body.area).toBeTruthy();
+              expect(response.body.gdpPPPRank).toBeTruthy();
+              expect(response.body.imports).toBeInstanceOf(Array);
+              expect(response.body.exports).toBeInstanceOf(Array);
+              expect(response.body.naturalResources).toBeInstanceOf(Array);
+              expect(response.body.ethnicities).toBeInstanceOf(Array);
+              expect(response.body.languages).toBeInstanceOf(Array);
+              expect(response.body.religions).toBeInstanceOf(Array);
             });
         });
     });
