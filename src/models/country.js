@@ -21,6 +21,7 @@ const countrySchema = mongoose.Schema({
   exportPartners: { type: Array },
   imports: { type: Array },
   importPartners: { type: Array },
+  typeOfGovernment: { type: String },
 });
 
 const Country = mongoose.model('country', countrySchema);

@@ -25,6 +25,55 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
   const peopleInfo = data.countries[searchableCountry].data.people;
   const economyInfo = data.countries[searchableCountry].data.economy;
 
+
+  const countryList = data.countries;
+  const keys = Object.keys(countryList);
+  const systems = [];
+
+  // trying to parse the long and unpredictable strings of the government_type to make it more uniform
+
+  // try {
+  //   for (let i = 0; i < keys.length; i++) {
+  //     if (countryList[keys[i]].data.government.government_type) {
+  //       systems.push(countryList[keys[i]].data.government.government_type);
+  //     }
+  //   }
+  //   const democracies = systems.filter(country => country.includes('democracy')).map((x) => {
+  //     const split = x.split(' ');
+  //     return split;
+  //   }).map((y) => {
+  //     let index = 0;
+  //     y.forEach((z, i) => {
+  //       if (z.includes('democracy')) {
+  //         index = i + 1;
+  //         return index;
+  //       }  
+  //     }, 0);
+  //     return y.slice(0, index);
+  //   });
+  //   // const dictatorships = systems.filter(country => country.includes('dictatorship'));
+  // } catch (error) {
+  //   throw new HttpError(400, 'error in for loop');
+  // }
+
+
+  const govSys = governmentInfo.government_type;
+  console.log(govSys.indexOf('republic'));
+
+  let sys;
+
+  if (govSys.indexOf('dictatorship') > -1) {
+    sys = 'dictatorship';
+  } else if (govSys.indexOf('democracy') > -1 || govSys.indexOf('democracy;') > -1) {
+    sys = 'democracy';
+  } else if (govSys.indexOf('republic') > -1) {
+    sys = 'republic';
+  } else {
+    sys = 'unknown';
+  }
+
+  console.log(sys);
+
   return new Country({
     countryName: searchableCountry,
     location: geographyInfo.map_references,
@@ -44,6 +93,7 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
     exportPartners: economyInfo.exports.partners.by_country,
     imports: economyInfo.imports.commodities.by_commodity,
     importPartners: economyInfo.imports.partners.by_country,
+    typeOfGovernment: sys,
   }).save()
     .then((country) => {
       logger.log(logger.INFO, 'POST /country successful, returning 201');
