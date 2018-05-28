@@ -8,7 +8,7 @@ const systemSchema = mongoose.Schema({
     unique: true,
     required: true,
   },
-  // countryName: { type: String, required: true, unique: true },
+  countryName: { type: String, required: true, unique: true },
   typeOfGovernment: { type: String },
 });
 

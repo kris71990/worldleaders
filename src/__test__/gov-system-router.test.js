@@ -19,35 +19,85 @@ describe('Test system-router', () => {
           countryName: 'benin',
         })
         .then((countryResponse) => {
-          console.log(countryResponse.body._id);
           return superagent.post(`${API_URL}/system`)
             .send({
               country: countryResponse.body._id,
+              countryName: countryResponse.body.countryName,
             })
             .then((response) => {
               expect(response.status).toEqual(201);
               expect(response.body._id).toBeTruthy();
               expect(response.body.country).toEqual(countryResponse.body._id);
+              expect(response.body.countryName).toEqual(countryResponse.body.countryName);
             });
         });
     });
   });
 
-  // test.only('POST a system with wrong id returns 404', () => {
-  //   return superagent.post(`${API_URL}/countries`) 
-  //     .send({
-  //       countryName: 'benin',
-  //     })
-  //     .then((countryResponse) => {
-  //       console.log(countryResponse.body._id);
-  //       return superagent.post(`${API_URL}/system`)
-  //         .send({
-  //           country: mongoose.Types.ObjectId(),
-  //         })
-  //         .then(() => {})
-  //         .catch((error) => {
-  //           expect(error.status).toEqual(404);
-  //         });   
-  //     });
-  // });
+  test('POST a system with wrong country id returns 404', () => {
+    return superagent.post(`${API_URL}/countries`) 
+      .send({
+        countryName: 'benin',
+      })
+      .then((countryResponse) => {
+        return superagent.post(`${API_URL}/system`)
+          .send({
+            country: 1234,
+            countryName: countryResponse.body.countryName,
+          })
+          .then(() => {})
+          .catch((error) => {
+            expect(error.status).toEqual(404);
+          });   
+      });
+  });
+
+  test('POST a system with wrong country returns 400', () => {
+    return superagent.post(`${API_URL}/countries`) 
+      .send({
+        countryName: 'benin',
+      })
+      .then((countryResponse) => {
+        return superagent.post(`${API_URL}/system`)
+          .send({
+            country: countryResponse.body._id,
+            countryName: 'togo',
+          })
+          .then(() => {})
+          .catch((error) => {
+            expect(error.status).toEqual(400);
+          });   
+      });
+  });
+
+  test('POST a system without specifying country', () => {
+    return superagent.post(`${API_URL}/countries`) 
+      .send({
+        countryName: 'benin',
+      })
+      .then((countryResponse) => {
+        return superagent.post(`${API_URL}/system`)
+          .send({
+            country: countryResponse.body._id,
+          })
+          .then(() => {})
+          .catch((error) => {
+            expect(error.status).toEqual(400);
+          });   
+      });
+  });
+
+  test('POST a system without any parameters', () => {
+    return superagent.post(`${API_URL}/countries`) 
+      .send({
+        countryName: 'benin',
+      })
+      .then(() => {
+        return superagent.post(`${API_URL}/system`)
+          .then(() => {})
+          .catch((error) => {
+            expect(error.status).toEqual(400);
+          });   
+      });
+  });
 });
