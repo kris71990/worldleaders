@@ -25,12 +25,11 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
   const peopleInfo = data.countries[searchableCountry].data.people;
   const economyInfo = data.countries[searchableCountry].data.economy;
 
+  // const countryList = data.countries;
+  // const keys = Object.keys(countryList);
+  // const systems = [];
 
-  const countryList = data.countries;
-  const keys = Object.keys(countryList);
-  const systems = [];
-
-  // trying to parse the long and unpredictable strings of the government_type to make it more uniform
+  // trying to parse the long and unpredictable strings of the government_type to make it more uniform for the government system model
 
   // try {
   //   for (let i = 0; i < keys.length; i++) {
@@ -58,8 +57,6 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
 
 
   const govSys = governmentInfo.government_type;
-  console.log(govSys.indexOf('republic'));
-
   let sys;
 
   if (govSys.indexOf('dictatorship') > -1) {
@@ -71,8 +68,6 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
   } else {
     sys = 'unknown';
   }
-
-  console.log(sys);
 
   return new Country({
     countryName: searchableCountry,

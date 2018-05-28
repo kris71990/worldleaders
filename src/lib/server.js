@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 import logger from './logger';
 import countryRouter from '../routes/country-router';
+import govSystemRouter from '../routes/gov-system-router';
 import errorMiddleware from './error-middleware';
 
 mongoose.Promise = bluebird;
@@ -13,6 +14,7 @@ const app = express();
 let server = null;
 
 app.use(countryRouter);
+app.use(govSystemRouter);
 
 app.all('*', (request, response) => {
   logger.log(logger.INFO, '404 - not found from catch-all');
