@@ -46,15 +46,15 @@ describe('Test country-router', () => {
     test('POST a country that already exists returns 409', () => {
       return superagent.post(`${API_URL}/countries`)
         .send({
-          countryName: 'benin',
+          countryName: 'china',
         })
         .then(() => {
           return superagent.post(`${API_URL}/countries`)
             .send({
-              countryName: 'benin',
+              countryName: 'china',
             });
         })
-        .then(() => {})
+        .then(Promise.reject)
         .catch((error) => {
           expect(error.status).toEqual(409);
         });
