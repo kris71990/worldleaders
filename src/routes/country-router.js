@@ -89,6 +89,7 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
     imports: economyInfo.imports.commodities.by_commodity,
     importPartners: economyInfo.imports.partners.by_country,
     typeOfGovernment: sys,
+    hasLinkedSystem: false,
   }).save()
     .then((country) => {
       logger.log(logger.INFO, 'POST /country successful, returning 201');
