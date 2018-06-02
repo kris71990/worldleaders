@@ -7,10 +7,6 @@ import { createCountryMock, removeCountryMock } from './lib/country-mock';
 
 const API_URL = `http://localhost:${process.env.PORT}`;
 
-
-// travis build breaking when posting to multiple endpoints asynchronously, change by saving to mongo first, and then posting
-
-
 describe('Test system-router', () => {
   beforeAll(startServer);
   afterEach(removeCountryMock);

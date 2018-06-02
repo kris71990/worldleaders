@@ -9,6 +9,16 @@ const systemSchema = mongoose.Schema({
     required: true,
   },
   countryName: { type: String, required: true, unique: true },
+  fullName: { type: String },
+  capital: { type: String },
+  capitalCoordinates: { type: Array },
+  independence: { type: String },
+  chiefOfState: { type: String },
+  headOfGovernment: { type: String },
+  electionsExec: { type: String },
+  electionResultsExec: { type: String },
+  electionsLeg: { type: String },
+  electionResultsLeg: { type: String },
   typeOfGovernment: { type: String },
 });
 
