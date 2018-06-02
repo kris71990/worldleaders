@@ -3,7 +3,7 @@
 import mongoose from 'mongoose';
 
 const systemSchema = mongoose.Schema({
-  country: {
+  countryId: {
     type: mongoose.Schema.ObjectId,
     unique: true,
     required: true,
@@ -23,5 +23,12 @@ const systemSchema = mongoose.Schema({
 });
 
 const System = mongoose.model('system', systemSchema);
+
+System.create = (countryName, countryId) => {
+  return new System({
+    countryName,
+    countryId,
+  }).save();
+};
 
 export default System;

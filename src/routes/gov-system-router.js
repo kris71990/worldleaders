@@ -13,12 +13,13 @@ const govSystemRouter = new Router();
 
 govSystemRouter.post('/system', jsonParser, (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+  console.log(request.body)
   
-  if (!request.body.country || !request.body.countryName) {
+  if (!request.body.countryId || !request.body.countryName) {
     throw new HttpError(400, 'bad request - missing argument');
   }
 
-  Country.findById(request.body.country)
+  Country.findById(request.body.countryId)
     .then((country) => {
       if (country.countryName !== request.body.countryName) {
         throw new HttpError(400, 'bad request - incorrect country');
@@ -51,7 +52,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
         });
 
         return new System({
-          country: request.body.country,
+          countryId: request.body.countryId,
           countryName: request.body.countryName,
           fullName: governmentInfo.country_name.conventional_long_form,
           capital: governmentInfo.capital.name,
@@ -61,7 +62,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
           headOfGovernment: governmentInfo.executive_branch.head_of_government,
           electionsExec: governmentInfo.executive_branch.elections_appointments,
           electionResultsExec: governmentInfo.executive_branch.election_results,
-          electionsLeg: governmentInfo.legislative_branch.elections_appointments,
+          electionsLeg: governmentInfo.legislative_branch.elections,
           electionResultsLeg: governmentInfo.legislative_branch.election_results,
           typeOfGovernment: country.typeOfGovernment,
         }).save()
@@ -71,6 +72,25 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
           })
           .catch(next);
       }
+    })
+    .catch(next);
+});
+
+govSystemRouter.get('/system/:country', (request, response, next) => {
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  if (!request.params.country) {
+    throw new HttpError(400, 'bad request - missing argument');
+  }
+
+  return System.find({ countryName: request.params.country })
+    .then((system) => {
+      if (!system) {
+        logger.log(logger.INFO, 'GET - returning 404 status, no country found');
+        return next(new HttpError(404, 'country not found'));
+      }
+      logger.log(logger.INFO, 'GET /system/:country successful, returning 200');
+      return response.json(system[0]);
     })
     .catch(next);
 });
