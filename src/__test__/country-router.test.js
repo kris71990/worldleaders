@@ -2,13 +2,13 @@
 
 import superagent from 'superagent';
 import { startServer, stopServer } from '../lib/server';
-import Country from '../../src/models/country';
+import { createCountryMock, removeCountryMock } from './lib/country-mock';
 
 const API_URL = `http://localhost:${process.env.PORT}`;
 
 describe('Test country-router', () => {
   beforeAll(startServer);
-  afterEach(() => Country.remove({}));
+  afterEach(removeCountryMock);
   afterAll(stopServer);
 
   describe('POST to /countries', () => {
@@ -101,16 +101,26 @@ describe('Test country-router', () => {
     });
 
     test('GET with incorrect id should return 404', () => {
+      return superagent.get(`${API_URL}/countries/1234`)
+        .then(() => {})
+        .catch((error) => {
+          expect(error.status).toEqual(404);
+          expect(error.body).toBeFalsy();
+        });
+    });
+  });
+
+  describe('PUT to countries/:id', () => {
+    test('PUT should return 200 and updated json', () => {
       return superagent.post(`${API_URL}/countries`)
         .send({
           countryName: 'togo',
         })
-        .then(() => {
-          return superagent.get(`${API_URL}/countries/1234`)
-            .then(() => {})
-            .catch((error) => {
-              expect(error.status).toEqual(404);
-              expect(error.body).toBeFalsy();
+        .then((response) => {
+          return superagent.put(`${API_URL}/countries/${response.body._id}`)
+            .then((res) => {
+              expect(res.status).toEqual(200);
+              expect(res.body).toBeTruthy();
             });
         });
     });

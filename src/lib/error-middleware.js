@@ -17,17 +17,10 @@ export default (error, request, response, next) => { // eslint-disable-line no-u
     logger.log(logger.INFO, 'Responding with a 404 code - not found');
     return response.sendStatus(404);
   }
-  if (errorMessage.includes('validation failed')) {
-    logger.log(logger.INFO, 'Responding with a 400 code - failed validation');
-    return response.sendStatus(400);
-  }
+
   if (errorMessage.includes('duplicate key')) {
     logger.log(logger.INFO, 'Responding with a 409 code - conflict');
     return response.sendStatus(409);
-  }
-  if (errorMessage.includes('unauthorized')) {
-    logger.log(logger.INFO, 'Responding with a 401 code - unauthorized');
-    return response.sendStatus(401);
   }
   
   logger.log(logger.ERROR, 'Responding with a 500 error code - internal server error');
