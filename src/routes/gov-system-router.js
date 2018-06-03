@@ -13,7 +13,6 @@ const govSystemRouter = new Router();
 
 govSystemRouter.post('/system', jsonParser, (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
-  console.log(request.body)
   
   if (!request.body.countryId || !request.body.countryName) {
     throw new HttpError(400, 'bad request - missing argument');

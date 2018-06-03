@@ -55,10 +55,15 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
   //   throw new HttpError(400, 'error in for loop');
   // }
 
+  let bordering = geographyInfo.land_boundaries.border_countries;
+  if (!bordering.length) {
+    bordering = [];
+  } else {
+    bordering = geographyInfo.land_boundaries.border_countries.map(border => border.country);
+  }
 
   const govSys = governmentInfo.government_type;
   let sys;
-
   if (govSys.indexOf('dictatorship') > -1) {
     sys = 'dictatorship';
   } else if (govSys.indexOf('democracy') > -1 || govSys.indexOf('democracy;') > -1) {
@@ -79,7 +84,7 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
     lifeExpectancy: peopleInfo.life_expectancy_at_birth.total_population.value,
     lifeExpectancyRank: peopleInfo.life_expectancy_at_birth.global_rank,
     gdpPPPRank: economyInfo.gdp.purchasing_power_parity.global_rank,
-    borderCountries: geographyInfo.land_boundaries.border_countries.map(border => border.country),
+    borderCountries: bordering,
     naturalResources: geographyInfo.natural_resources.resources,
     ethnicities: peopleInfo.ethnic_groups.ethnicity,
     languages: peopleInfo.languages.language,
@@ -90,6 +95,7 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
     importPartners: economyInfo.imports.partners.by_country,
     typeOfGovernment: sys,
     hasLinkedSystem: false,
+    lastUpdated: data.countries[searchableCountry].metadata.date,
   }).save()
     .then((country) => {
       logger.log(logger.INFO, 'POST /country successful, returning 201');
@@ -104,6 +110,38 @@ countryRouter.get('/countries/:id', (request, response, next) => {
   return Country.findById(request.params.id)
     .then((country) => {
       logger.log(logger.INFO, 'GET /country/:id successful, returning 200');
+      return response.json(country);
+    })
+    .catch(next);
+});
+
+countryRouter.put('/countries/:id', (request, response, next) => {
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  return Country.findById(request.params.id)
+    .then((country) => {
+      const dateDB = country.lastUpdated;
+      const dateData = data.countries[country.countryName].metadata.date;
+      
+      if (dateDB !== dateData) {
+        const peopleInfo = data.countries[country.countryName].data.people;
+        const economyInfo = data.countries[country.countryName].data.economy;
+
+        country.population = peopleInfo.population.total;
+        country.populationRank = peopleInfo.population.global_rank;
+        country.lifeExpectancy = peopleInfo.life_expectancy_at_birth.total_population.value;
+        country.lifeExpectancyRank = economyInfo.gdp.purchasing_power_parity.global_rank;
+        country.ethnicities = peopleInfo.ethnic_groups.ethnicity;
+        country.languages = peopleInfo.languages.language;
+        country.religions = peopleInfo.religions.religion;
+        country.lastUpdated = data.countries[country.countryName].metadata.date;
+
+        country.save();
+        
+        logger.log(logger.INFO, `${country.countryName} updated with latest data`);
+        return response.json(country);
+      }
+      logger.log(logger.INFO, `${country.countryName} already up to date`);
       return response.json(country);
     })
     .catch(next);

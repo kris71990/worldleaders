@@ -23,10 +23,10 @@ const countrySchema = mongoose.Schema({
   importPartners: { type: Array },
   typeOfGovernment: { type: String },
   hasLinkedSystem: { type: Boolean },
+  lastUpdated: { type: String },
 });
 
 const Country = mongoose.model('country', countrySchema);
-
 
 Country.create = (countryName) => {
   return new Country({
