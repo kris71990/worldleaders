@@ -26,19 +26,6 @@ app.all('*', (request, response) => {
 
 app.use(errorMiddleware);
 
-// const file = fs.createWriteStream('file.txt');
-
-// app.get('https://raw.githubusercontent.com/iancoleman/cia_world_factbook_api/master/data/2018-04-30_factbook.json', (response) => {    
-//   console.log(response);
-//   response.on('data', (data) => {
-//     file.write(data);
-//   });
-//   response.on('end', () => {
-//     file.end();
-//   });
-//   logger.log(logger.INFO, 'Newest data received');
-// });
-
 const startServer = () => {
   return mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true })
     .then(() => {
@@ -48,10 +35,12 @@ const startServer = () => {
             if (err) throw new HttpError(400, 'problem accessing data');
             logger.log(logger.INFO, 'Data up to date');
           });
-          server = app.listen(process.env.PORT, () => {
-            logger.log(logger.INFO, `Server listening on port ${process.env.PORT}`);
-          });
         });
+    })
+    .then(() => {
+      server = app.listen(process.env.PORT, () => {
+        logger.log(logger.INFO, `Server listening on port ${process.env.PORT}`);
+      });
     });
 };
 
