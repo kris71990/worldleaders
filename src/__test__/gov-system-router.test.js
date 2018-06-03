@@ -117,5 +117,13 @@ describe('Test system-router', () => {
             });
         });
     });
+
+    test('GET a system that doesn\'t exist', () => {
+      return superagent.get(`${API_URL}/system/togo`)
+        .then(() => {})
+        .catch((error) => {
+          expect(error.status).toEqual(404);
+        });
+    });
   });
 });

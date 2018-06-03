@@ -79,13 +79,9 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
 govSystemRouter.get('/system/:country', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
-  if (!request.params.country) {
-    throw new HttpError(400, 'bad request - missing argument');
-  }
-
   return System.find({ countryName: request.params.country })
     .then((system) => {
-      if (!system) {
+      if (system.length === 0) {
         logger.log(logger.INFO, 'GET - returning 404 status, no country found');
         return next(new HttpError(404, 'country not found'));
       }

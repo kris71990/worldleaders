@@ -101,17 +101,11 @@ describe('Test country-router', () => {
     });
 
     test('GET with incorrect id should return 404', () => {
-      return superagent.post(`${API_URL}/countries`)
-        .send({
-          countryName: 'togo',
-        })
-        .then(() => {
-          return superagent.get(`${API_URL}/countries/1234`)
-            .then(() => {})
-            .catch((error) => {
-              expect(error.status).toEqual(404);
-              expect(error.body).toBeFalsy();
-            });
+      return superagent.get(`${API_URL}/countries/1234`)
+        .then(() => {})
+        .catch((error) => {
+          expect(error.status).toEqual(404);
+          expect(error.body).toBeFalsy();
         });
     });
   });
