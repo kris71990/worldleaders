@@ -141,10 +141,10 @@ countryRouter.put('/countries/:id', (request, response, next) => {
         country.save();
         
         logger.log(logger.INFO, `${country.countryName} updated with latest data`);
-        return response.json(country);
+        return response.status(201).json(country);
       }
       logger.log(logger.INFO, `${country.countryName} already up to date`);
-      return response.json(country);
+      return response.status(200).json(country);
     })
     .catch(next);
 });
