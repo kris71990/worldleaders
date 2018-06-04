@@ -55,13 +55,15 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
   //   throw new HttpError(400, 'error in for loop');
   // }
 
-  let bordering = geographyInfo.land_boundaries.border_countries;
-  if (!bordering.length) {
+  // if no border countries, assign value of empty array
+  let bordering;
+  if (!geographyInfo.land_boundaries.border_countries) {
     bordering = [];
   } else {
     bordering = geographyInfo.land_boundaries.border_countries.map(border => border.country);
   }
 
+  // parse government type for simpler sorting purposes
   const govSys = governmentInfo.government_type;
   let sys;
   if (govSys.indexOf('dictatorship') > -1) {
@@ -139,10 +141,10 @@ countryRouter.put('/countries/:id', (request, response, next) => {
         country.save();
         
         logger.log(logger.INFO, `${country.countryName} updated with latest data`);
-        return response.json(country);
+        return response.status(201).json(country);
       }
       logger.log(logger.INFO, `${country.countryName} already up to date`);
-      return response.json(country);
+      return response.status(200).json(country);
     })
     .catch(next);
 });

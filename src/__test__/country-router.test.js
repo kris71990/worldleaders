@@ -112,15 +112,24 @@ describe('Test country-router', () => {
 
   describe('PUT to countries/:id', () => {
     test('PUT should return 200 and updated json', () => {
-      return superagent.post(`${API_URL}/countries`)
-        .send({
-          countryName: 'togo',
-        })
+      return createCountryMock()
         .then((response) => {
-          return superagent.put(`${API_URL}/countries/${response.body._id}`)
+          console.log(response);
+          return superagent.put(`${API_URL}/countries/${response.country._id}`)
             .then((res) => {
-              expect(res.status).toEqual(200);
+              expect(res.status).toEqual(201);
               expect(res.body).toBeTruthy();
+            });
+        });
+    });
+
+    test('PUT with incorrect country id will return 404', () => {
+      return createCountryMock()
+        .then(() => {
+          return superagent.put(`${API_URL}/countries/1234`)
+            .then(() => {})
+            .catch((error) => {
+              expect(error.status).toEqual(404);
             });
         });
     });

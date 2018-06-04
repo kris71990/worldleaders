@@ -11,6 +11,7 @@ const createCountryMock = () => {
   return Country.create(mock.request.countryName)
     .then((created) => {
       mock.country = created;
+      mock.lastUpdated = 'test';
       return mock;
     });
 };
