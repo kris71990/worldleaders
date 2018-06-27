@@ -65,7 +65,7 @@ describe('Test country-router', () => {
         .send({
           countryName: 'ecuador',
           typeOfGovernment: 'democracy',
-          headOfStae: 'Donald Trump',
+          headOfState: 'Donald Trump',
         })
         .then(() => {})
         .catch((error) => {

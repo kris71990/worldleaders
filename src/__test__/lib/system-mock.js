@@ -7,8 +7,6 @@ const createSystemMock = () => {
   const systemMock = {};
   return createCountryMock()
     .then((response) => {
-      // const { id, countryName } = countryMock;
-      // systemMock.country = countryMock;
       return System.create(response.country.countryName, response.country._id)
         .then((created) => {
           systemMock.system = created;
