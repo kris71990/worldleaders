@@ -28,16 +28,16 @@ app.use(errorMiddleware);
 const startServer = () => {
   return mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true })
     .then(() => {
-      getData();
-    })
-    .catch(() => {
-      logger.log(logger.ERROR, 'Server failed to start');
-      throw new HttpError(400, 'Error starting server');
-    })
-    .then(() => {
-      server = app.listen(process.env.PORT, () => {
-        logger.log(logger.INFO, `Server listening on port ${process.env.PORT}`);
-      });
+      return getData()
+        .then(() => {
+          server = app.listen(process.env.PORT, () => {
+            logger.log(logger.INFO, `Server listening on port ${process.env.PORT}`);
+          });
+        })
+        .catch(() => {
+          logger.log(logger.ERROR, 'Server failed to start');
+          throw new HttpError(400, 'Error starting server');
+        });
     });
 };
 
