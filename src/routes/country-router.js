@@ -120,6 +120,8 @@ countryRouter.get('/countries/:id', (request, response, next) => {
 countryRouter.put('/countries/:id', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
+  if (!request.params.id) throw new HttpError(400, 'no id');
+
   return Country.findById(request.params.id)
     .then((country) => {
       const dateDB = country.lastUpdated;
