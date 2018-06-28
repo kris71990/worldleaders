@@ -5,7 +5,7 @@ import { createCountryMock } from './country-mock';
 
 const createSystemMock = () => {
   const systemMock = {};
-  return createCountryMock()
+  return createCountryMock(false, true)
     .then((mock) => {
       systemMock.country = mock;
       return System.create(mock.country.countryName, mock.country._id)

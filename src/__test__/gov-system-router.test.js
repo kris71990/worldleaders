@@ -9,8 +9,8 @@ const API_URL = `http://localhost:${process.env.PORT}`;
 
 describe('Test system-router', () => {
   beforeAll(startServer);
-  // afterEach(removeCountryMock);
-  // afterEach(removeSystemMock);
+  afterEach(removeCountryMock);
+  afterEach(removeSystemMock);
   afterAll(stopServer);
 
   describe('POST to /system', () => {
@@ -99,11 +99,14 @@ describe('Test system-router', () => {
         });
     });
 
-    test.only('POST a system that already exists returns 400', () => {
+    test('POST a system that already exists returns 400', () => {
       return createSystemMock()
-        .then((system) => {
-          console.log(system);
+        .then((mock) => {
           return superagent.post(`${API_URL}/system`)
+            .send({
+              countryId: mock.country.country._id,
+              countryName: mock.country.country.countryName,
+            })
             .then(() => {})
             .catch((error) => {
               expect(error.status).toEqual(400);

@@ -3,7 +3,7 @@
 import Country from '../../models/country';
 import data from '../../../data.json';
 
-const createCountryMock = (update) => {
+const createCountryMock = (update, linked) => {
   const mock = {};
   mock.request = {
     countryName: 'benin',
@@ -16,6 +16,10 @@ const createCountryMock = (update) => {
 
       if (update) {
         mock.country.lastUpdated = 'test';
+      }
+
+      if (linked) {
+        mock.country.hasLinkedSystem = true;
       }
 
       created.save();
