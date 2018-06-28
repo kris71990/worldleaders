@@ -15,6 +15,9 @@ export default () => {
     .then((file) => {
       const newestDate = file.body[0].name.split('_')[0];
       let CIA_DATE;
+      console.log(newestDate);
+      console.log(CIA_DATE);
+      console.log(date);
 
       if (newestDate !== date) {
         CIA_DATE = newestDate;

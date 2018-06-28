@@ -32,6 +32,43 @@ describe('Test country-router', () => {
         });
     });
 
+    test('POST a country without bordering countries should return empty array for border countries', () => {
+      return superagent.post(`${API_URL}/countries`)
+        .send({
+          countryName: 'japan',
+        })
+        .then((response) => {
+          expect(response.status).toEqual(201);
+          expect(response.body.countryName).toEqual('japan');
+          expect(response.body.borderCountries).toBeInstanceOf(Array);
+          expect(response.body.borderCountries).toHaveLength(0);
+        });
+    });
+
+    test('POST a country that is a dictatorship, govSys should be dictatorship', () => {
+      return superagent.post(`${API_URL}/countries`)
+        .send({
+          countryName: 'belarus',
+        })
+        .then((response) => {
+          expect(response.status).toEqual(201);
+          expect(response.body.countryName).toEqual('belarus');
+          expect(response.body.typeOfGovernment).toEqual('dictatorship');
+        });
+    });
+
+    test('POST a country that is a democracy, govSys should be democracy', () => {
+      return superagent.post(`${API_URL}/countries`)
+        .send({
+          countryName: 'belgium',
+        })
+        .then((response) => {
+          expect(response.status).toEqual(201);
+          expect(response.body.countryName).toEqual('belgium');
+          expect(response.body.typeOfGovernment).toEqual('democracy');
+        });
+    });
+
     test('POST a country that does not exist returns 404', () => {
       return superagent.post(`${API_URL}/countries`)
         .send({
@@ -111,14 +148,27 @@ describe('Test country-router', () => {
   });
 
   describe('PUT to countries/:id', () => {
-    test('PUT should return 200 and updated json', () => {
-      return createCountryMock()
+    test('PUT with old lastUpdated date should return updated data', () => {
+      return createCountryMock(true)
         .then((response) => {
-          console.log(response);
           return superagent.put(`${API_URL}/countries/${response.country._id}`)
             .then((res) => {
               expect(res.status).toEqual(201);
               expect(res.body).toBeTruthy();
+              expect(res.lastUpdated).not.toEqual(response.country.lastUpdated);
+            });
+        });
+    });
+
+    test('PUT should with current lastUpdated date should return same data', () => {
+      return createCountryMock(false)
+        .then((response) => {
+          console.log(response);
+          return superagent.put(`${API_URL}/countries/${response.country._id}`)
+            .then((res) => {
+              expect(res.status).toEqual(200);
+              expect(res.body).toBeTruthy();
+              expect(res.body.lastUpdated).toEqual(response.country.lastUpdated);
             });
         });
     });
@@ -130,6 +180,20 @@ describe('Test country-router', () => {
             .then(() => {})
             .catch((error) => {
               expect(error.status).toEqual(404);
+            });
+        });
+    });
+
+    test('PUT with incorrect arguments will return 400', () => {
+      return createCountryMock()
+        .then((mock) => {
+          return superagent.put(`${API_URL}/countries/${mock.country._id}`)
+            .send({
+              ocean: 'Atlantic',
+            })
+            .then(() => {})
+            .catch((err) => {
+              expect(err.status).toEqual(400);
             });
         });
     });

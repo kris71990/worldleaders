@@ -10,6 +10,7 @@ import data from '../../data.json';
 const jsonParser = json();
 const countryRouter = new Router();
 
+// returns posted country json
 countryRouter.post('/countries', jsonParser, (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
@@ -65,10 +66,13 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
 
   // parse government type for simpler sorting purposes
   const govSys = governmentInfo.government_type;
+  // switch (govSys) {
+  //   case govSys
+  // }
   let sys;
-  if (govSys.indexOf('dictatorship') > -1) {
+  if (govSys.indexOf('dictatorship') !== -1 || govSys.includes('single-party state')) {
     sys = 'dictatorship';
-  } else if (govSys.indexOf('democracy') > -1 || govSys.indexOf('democracy;') > -1) {
+  } else if (govSys.includes('democracy') || govSys.includes('democracy;')) {
     sys = 'democracy';
   } else if (govSys.indexOf('republic') > -1) {
     sys = 'republic';
@@ -106,6 +110,7 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
     .catch(next);
 });
 
+// returns request country json
 countryRouter.get('/countries/:id', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
@@ -117,10 +122,11 @@ countryRouter.get('/countries/:id', (request, response, next) => {
     .catch(next);
 });
 
-countryRouter.put('/countries/:id', (request, response, next) => {
+// returns updated country json
+countryRouter.put('/countries/:id', jsonParser, (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
-  if (!request.params.id) throw new HttpError(400, 'no id');
+  if (Object.keys(request.body).length !== 0) throw new HttpError(400, 'bad request');
 
   return Country.findById(request.params.id)
     .then((country) => {
