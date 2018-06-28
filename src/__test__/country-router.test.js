@@ -6,6 +6,13 @@ import { createCountryMock, removeCountryMock } from './lib/country-mock';
 
 const API_URL = `http://localhost:${process.env.PORT}`;
 
+/* 
+Tests for the following (13):
+  - POST /countries (201 x 4, 400, 404, 409)
+  - GET /countries/:id (201, 404)
+  - PUT /countries/:id (200, 201, 400, 404)
+*/
+
 describe('Test country-router', () => {
   beforeAll(startServer);
   afterEach(removeCountryMock);

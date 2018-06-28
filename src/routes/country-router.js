@@ -6,6 +6,7 @@ import HttpError from 'http-errors';
 import Country from '../models/country';
 import logger from '../../src/lib/logger';
 import data from '../../data.json';
+import getData from '../lib/get-data';
 
 const jsonParser = json();
 const countryRouter = new Router();
@@ -128,6 +129,9 @@ countryRouter.put('/countries/:id', jsonParser, (request, response, next) => {
 
   if (Object.keys(request.body).length !== 0) throw new HttpError(400, 'bad request');
 
+  // return getData()
+  //   .then((res) => {
+  //     console.log(res);
   return Country.findById(request.params.id)
     .then((country) => {
       const dateDB = country.lastUpdated;

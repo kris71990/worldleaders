@@ -7,6 +7,12 @@ import { createSystemMock, removeSystemMock } from './lib/system-mock';
 
 const API_URL = `http://localhost:${process.env.PORT}`;
 
+/* 
+Tests for the following (7):
+  - POST /system (201, 404, 400 x 3)
+  - GET /system/:country (201, 404)
+*/
+
 describe('Test system-router', () => {
   beforeAll(startServer);
   afterEach(removeCountryMock);
@@ -115,7 +121,7 @@ describe('Test system-router', () => {
     });
   });
 
-  describe('GET from /system', () => {
+  describe('GET from /system/:country', () => {
     test('GET under normal circumstances should return 201 and system', () => {
       return createSystemMock()
         .then((sysResponse) => {
