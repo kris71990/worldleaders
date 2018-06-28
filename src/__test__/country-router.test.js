@@ -158,11 +158,12 @@ describe('Test country-router', () => {
     test('PUT with old lastUpdated date should return updated data', () => {
       return createCountryMock(true)
         .then((response) => {
+          expect(response.country.lastUpdated).toEqual('test');
           return superagent.put(`${API_URL}/countries/${response.country._id}`)
             .then((res) => {
               expect(res.status).toEqual(201);
               expect(res.body).toBeTruthy();
-              expect(res.lastUpdated).not.toEqual(response.country.lastUpdated);
+              expect(res.body.lastUpdated).not.toEqual('test');
             });
         });
     });
@@ -205,4 +206,8 @@ describe('Test country-router', () => {
         });
     });
   });
+
+  // describe('DELETE /countries', () => {
+  //   test()
+  // }); 
 });

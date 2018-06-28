@@ -15,10 +15,12 @@ const createCountryMock = (update, linked) => {
       mock.country.lastUpdated = data.countries[mock.request.countryName].metadata.date;
 
       if (update) {
+        created.lastUpdated = 'test';
         mock.country.lastUpdated = 'test';
       }
 
       if (linked) {
+        created.hasLinkedSystem = true;
         mock.country.hasLinkedSystem = true;
       }
 

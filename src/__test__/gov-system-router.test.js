@@ -11,6 +11,7 @@ const API_URL = `http://localhost:${process.env.PORT}`;
 Tests for the following (7):
   - POST /system (201, 404, 400 x 3)
   - GET /system/:country (201, 404)
+  - PUT /system/:country (200, 201)
 */
 
 describe('Test system-router', () => {
@@ -144,6 +145,35 @@ describe('Test system-router', () => {
         .then(() => {})
         .catch((error) => {
           expect(error.status).toEqual(404);
+        });
+    });
+  });
+
+  describe('PUT to /system/:country', () => {
+    test('PUT with old lastUpdated date should return updated data', () => {
+      return createSystemMock(true)
+        .then((response) => {
+          console.log(response);
+          expect(response.system.lastUpdated).toEqual('test');
+          return superagent.put(`${API_URL}/system/${response.country.request.countryName}`)
+            .then((res) => {
+              expect(res.status).toEqual(201);
+              expect(res.body).toBeTruthy();
+              expect(res.body.lastUpdated).not.toEqual('test');
+              expect(res.body.lastUpdated).toEqual(response.country.country.lastUpdated.toString());
+            });
+        });
+    });
+
+    test('PUT with current lastUpdated date should return same data', () => {
+      return createSystemMock()
+        .then((response) => {
+          return superagent.put(`${API_URL}/system/${response.country.request.countryName}`)
+            .then((res) => {
+              expect(res.status).toEqual(200);
+              expect(res.body).toBeTruthy();
+              expect(res.body.lastUpdated).toEqual(response.system.lastUpdated);
+            });
         });
     });
   });

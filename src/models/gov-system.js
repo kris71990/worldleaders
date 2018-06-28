@@ -20,6 +20,7 @@ const systemSchema = mongoose.Schema({
   electionsLeg: { type: String },
   electionResultsLeg: { type: String },
   typeOfGovernment: { type: String },
+  lastUpdated: { type: String },
 });
 
 const System = mongoose.model('system', systemSchema);
