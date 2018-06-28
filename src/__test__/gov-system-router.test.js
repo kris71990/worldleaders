@@ -37,67 +37,82 @@ describe('Test system-router', () => {
             });
         });
     });
-  });
 
-  test('POST a system with wrong country id returns 404', () => {
-    let mock = null;
-    return createCountryMock()
-      .then((countryResponse) => {
-        mock = countryResponse;
-        return superagent.post(`${API_URL}/system`)
-          .send({
-            countryId: 1234,
-            countryName: mock.country.countryName,
-          })
-          .then(() => {})
-          .catch((error) => {
-            expect(error.status).toEqual(404);
-          });   
-      });
-  });
+    test('POST a system with wrong country id returns 404', () => {
+      let mock = null;
+      return createCountryMock()
+        .then((countryResponse) => {
+          mock = countryResponse;
+          return superagent.post(`${API_URL}/system`)
+            .send({
+              countryId: 1234,
+              countryName: mock.country.countryName,
+            })
+            .then(() => {})
+            .catch((error) => {
+              expect(error.status).toEqual(404);
+            });   
+        });
+    });
 
-  test('POST a system with wrong country returns 400', () => {
-    let mock = null;
-    return createCountryMock()
-      .then((countryResponse) => {
-        mock = countryResponse;
-        return superagent.post(`${API_URL}/system`)
-          .send({
-            countryId: mock.country._id,
-            countryName: 'togo',
-          })
-          .then(() => {})
-          .catch((error) => {
-            expect(error.status).toEqual(400);
-          });   
-      });
-  });
+    test('POST a system with wrong country returns 400', () => {
+      let mock = null;
+      return createCountryMock()
+        .then((countryResponse) => {
+          mock = countryResponse;
+          return superagent.post(`${API_URL}/system`)
+            .send({
+              countryId: mock.country._id,
+              countryName: 'togo',
+            })
+            .then(() => {})
+            .catch((error) => {
+              expect(error.status).toEqual(400);
+            });   
+        });
+    });
 
-  test('POST a system without specifying country', () => {
-    let mock = null;
-    return createCountryMock()
-      .then((countryResponse) => {
-        mock = countryResponse;
-        return superagent.post(`${API_URL}/system`)
-          .send({
-            countryId: mock.country._id,
-          })
-          .then(() => {})
-          .catch((error) => {
-            expect(error.status).toEqual(400);
-          });   
-      });
-  });
+    test('POST a system without specifying country', () => {
+      let mock = null;
+      return createCountryMock()
+        .then((countryResponse) => {
+          mock = countryResponse;
+          return superagent.post(`${API_URL}/system`)
+            .send({
+              countryId: mock.country._id,
+            })
+            .then(() => {})
+            .catch((error) => {
+              expect(error.status).toEqual(400);
+            });   
+        });
+    });
 
-  test('POST a system without any parameters', () => {
-    return createCountryMock()
-      .then(() => {
-        return superagent.post(`${API_URL}/system`)
-          .then(() => {})
-          .catch((error) => {
-            expect(error.status).toEqual(400);
-          });   
-      });
+    test('POST a system without any parameters', () => {
+      return createCountryMock()
+        .then(() => {
+          return superagent.post(`${API_URL}/system`)
+            .then(() => {})
+            .catch((error) => {
+              expect(error.status).toEqual(400);
+            });   
+        });
+    });
+
+    test('POST a system that already exists returns 400', () => {
+      return createSystemMock()
+        .then((mock) => {
+          return superagent.post(`${API_URL}/system`)
+            .send({
+              countryId: mock.country.country._id,
+              countryName: mock.country.country.countryName,
+            })
+            .then(() => {})
+            .catch((error) => {
+              expect(error.status).toEqual(400);
+            });   
+        });
+    });
   });
 
   describe('GET from /system', () => {

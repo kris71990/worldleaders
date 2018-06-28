@@ -1,8 +1,9 @@
 'use strict';
 
 import Country from '../../models/country';
+import data from '../../../data.json';
 
-const createCountryMock = () => {
+const createCountryMock = (update, linked) => {
   const mock = {};
   mock.request = {
     countryName: 'benin',
@@ -11,7 +12,17 @@ const createCountryMock = () => {
   return Country.create(mock.request.countryName)
     .then((created) => {
       mock.country = created;
-      mock.lastUpdated = 'test';
+      mock.country.lastUpdated = data.countries[mock.request.countryName].metadata.date;
+
+      if (update) {
+        mock.country.lastUpdated = 'test';
+      }
+
+      if (linked) {
+        mock.country.hasLinkedSystem = true;
+      }
+
+      created.save();
       return mock;
     });
 };
