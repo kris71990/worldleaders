@@ -129,36 +129,38 @@ countryRouter.put('/countries/:id', jsonParser, (request, response, next) => {
 
   if (Object.keys(request.body).length !== 0) throw new HttpError(400, 'bad request');
 
-  // return getData()
-  //   .then((res) => {
-  //     console.log(res);
-  return Country.findById(request.params.id)
-    .then((country) => {
-      const dateDB = country.lastUpdated;
-      const dateData = data.countries[country.countryName].metadata.date;
+  return getData()
+    .then((updatedDate) => {
+      logger.log(logger.INFO, `Most recent update - ${updatedDate}`);
       
-      if (dateDB !== dateData) {
-        const peopleInfo = data.countries[country.countryName].data.people;
-        const economyInfo = data.countries[country.countryName].data.economy;
-
-        country.population = peopleInfo.population.total;
-        country.populationRank = peopleInfo.population.global_rank;
-        country.lifeExpectancy = peopleInfo.life_expectancy_at_birth.total_population.value;
-        country.lifeExpectancyRank = economyInfo.gdp.purchasing_power_parity.global_rank;
-        country.ethnicities = peopleInfo.ethnic_groups.ethnicity;
-        country.languages = peopleInfo.languages.language;
-        country.religions = peopleInfo.religions.religion;
-        country.lastUpdated = data.countries[country.countryName].metadata.date;
-
-        country.save();
-        
-        logger.log(logger.INFO, `${country.countryName} updated with latest data`);
-        return response.status(201).json(country);
-      }
-      logger.log(logger.INFO, `${country.countryName} already up to date`);
-      return response.status(200).json(country);
-    })
-    .catch(next);
+      return Country.findById(request.params.id)
+        .then((country) => {
+          const dateDB = country.lastUpdated;
+          const dateData = data.countries[country.countryName].metadata.date;
+          
+          if (dateDB !== dateData) {
+            const peopleInfo = data.countries[country.countryName].data.people;
+            const economyInfo = data.countries[country.countryName].data.economy;
+    
+            country.population = peopleInfo.population.total;
+            country.populationRank = peopleInfo.population.global_rank;
+            country.lifeExpectancy = peopleInfo.life_expectancy_at_birth.total_population.value;
+            country.lifeExpectancyRank = economyInfo.gdp.purchasing_power_parity.global_rank;
+            country.ethnicities = peopleInfo.ethnic_groups.ethnicity;
+            country.languages = peopleInfo.languages.language;
+            country.religions = peopleInfo.religions.religion;
+            country.lastUpdated = data.countries[country.countryName].metadata.date;
+    
+            country.save();
+            
+            logger.log(logger.INFO, `${country.countryName} updated with latest data`);
+            return response.status(201).json(country);
+          }
+          logger.log(logger.INFO, `${country.countryName} already up to date`);
+          return response.status(200).json(country);
+        })
+        .catch(next);
+    });
 });
 
 export default countryRouter;

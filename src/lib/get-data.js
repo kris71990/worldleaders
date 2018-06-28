@@ -25,10 +25,10 @@ export default () => {
 
         return superagent.get(`https://raw.githubusercontent.com/iancoleman/cia_world_factbook_api/master/data/${CIA_DATE}_factbook.json`)
           .then((newData) => {
-            fs.writeFile('data.json', newData.text, (err) => {
+            fs.writeFileSync('data.json', newData.text, (err) => {
               if (err) throw new HttpError(400, 'problem accessing data');
-              logger.log(logger.INFO, 'Updated with new data');
-              return newData.text;
+              logger.log(logger.INFO, `Updated with new data - ${CIA_DATE}`);
+              return CIA_DATE;
             });
           })
           .catch(() => {
@@ -36,9 +36,10 @@ export default () => {
           });
       } 
 
-      logger.log(logger.INFO, 'Data already up to date');
-      return null;
+      logger.log(logger.INFO, `Data already up to date - ${newestDate}`);
+      return newestDate;
     })
+    .then(Promise.resolve())
     .catch(() => {
       throw new HttpError(400, 'error getting data');
     });
