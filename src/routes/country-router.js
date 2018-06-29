@@ -26,36 +26,7 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
   const geographyInfo = data.countries[searchableCountry].data.geography;
   const peopleInfo = data.countries[searchableCountry].data.people;
   const economyInfo = data.countries[searchableCountry].data.economy;
-
-  // const countryList = data.countries;
-  // const keys = Object.keys(countryList);
-  // const systems = [];
-
-  // trying to parse the long and unpredictable strings of the government_type to make it more uniform for the government system model
-
-  // try {
-  //   for (let i = 0; i < keys.length; i++) {
-  //     if (countryList[keys[i]].data.government.government_type) {
-  //       systems.push(countryList[keys[i]].data.government.government_type);
-  //     }
-  //   }
-  //   const democracies = systems.filter(country => country.includes('democracy')).map((x) => {
-  //     const split = x.split(' ');
-  //     return split;
-  //   }).map((y) => {
-  //     let index = 0;
-  //     y.forEach((z, i) => {
-  //       if (z.includes('democracy')) {
-  //         index = i + 1;
-  //         return index;
-  //       }  
-  //     }, 0);
-  //     return y.slice(0, index);
-  //   });
-  //   // const dictatorships = systems.filter(country => country.includes('dictatorship'));
-  // } catch (error) {
-  //   throw new HttpError(400, 'error in for loop');
-  // }
+  const govSys = governmentInfo.government_type;
 
   // if no border countries, assign value of empty array
   let bordering;
@@ -66,20 +37,19 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
   }
 
   // parse government type for simpler sorting purposes
-  const govSys = governmentInfo.government_type;
   // switch (govSys) {
   //   case govSys
   // }
-  let sys;
-  if (govSys.indexOf('dictatorship') !== -1 || govSys.includes('single-party state')) {
-    sys = 'dictatorship';
-  } else if (govSys.includes('democracy') || govSys.includes('democracy;')) {
-    sys = 'democracy';
-  } else if (govSys.indexOf('republic') > -1) {
-    sys = 'republic';
-  } else {
-    sys = 'unknown';
-  }
+  // let sys;
+  // if (govSys.indexOf('dictatorship') !== -1 || govSys.includes('single-party state')) {
+  //   sys = 'dictatorship';
+  // } else if (govSys.includes('democracy') || govSys.includes('democracy;')) {
+  //   sys = 'democracy';
+  // } else if (govSys.indexOf('republic') > -1) {
+  //   sys = 'republic';
+  // } else {
+  //   sys = 'unknown';
+  // }
 
   return new Country({
     countryName: searchableCountry,
@@ -100,7 +70,7 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
     exportPartners: economyInfo.exports.partners.by_country,
     imports: economyInfo.imports.commodities.by_commodity,
     importPartners: economyInfo.imports.partners.by_country,
-    typeOfGovernment: sys,
+    typeOfGovernment: govSys,
     hasLinkedSystem: false,
     lastUpdated: data.countries[searchableCountry].metadata.date,
   }).save()

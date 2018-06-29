@@ -54,30 +54,6 @@ describe('Test country-router', () => {
         });
     });
 
-    test('POST a country that is a dictatorship, govSys should be dictatorship', () => {
-      return superagent.post(`${API_URL}/countries`)
-        .send({
-          countryName: 'belarus',
-        })
-        .then((response) => {
-          expect(response.status).toEqual(201);
-          expect(response.body.countryName).toEqual('belarus');
-          expect(response.body.typeOfGovernment).toEqual('dictatorship');
-        });
-    });
-
-    test('POST a country that is a democracy, govSys should be democracy', () => {
-      return superagent.post(`${API_URL}/countries`)
-        .send({
-          countryName: 'belgium',
-        })
-        .then((response) => {
-          expect(response.status).toEqual(201);
-          expect(response.body.countryName).toEqual('belgium');
-          expect(response.body.typeOfGovernment).toEqual('democracy');
-        });
-    });
-
     test('POST a country that does not exist returns 404', () => {
       return superagent.post(`${API_URL}/countries`)
         .send({
