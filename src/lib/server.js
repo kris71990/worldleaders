@@ -8,7 +8,6 @@ import logger from './logger';
 import countryRouter from '../routes/country-router';
 import govSystemRouter from '../routes/gov-system-router';
 import errorMiddleware from './error-middleware';
-import getData from './get-data';
 
 mongoose.Promise = bluebird;
 
@@ -28,8 +27,6 @@ app.use(errorMiddleware);
 const startServer = () => {
   return mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true })
     .then(() => {
-      // return getData()
-      // .then(() => {
       server = app.listen(process.env.PORT, () => {
         logger.log(logger.INFO, `Server listening on port ${process.env.PORT}`);
       });
@@ -38,7 +35,6 @@ const startServer = () => {
       logger.log(logger.ERROR, 'Server failed to start');
       throw new HttpError(400, 'Error starting server');
     });
-  // });
 };
 
 const stopServer = () => {

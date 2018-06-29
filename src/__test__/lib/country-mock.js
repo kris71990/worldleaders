@@ -15,10 +15,12 @@ const createCountryMock = (update, linked) => {
       mock.country.lastUpdated = data.countries[mock.request.countryName].metadata.date;
 
       if (update) {
+        created.lastUpdated = 'test';
         mock.country.lastUpdated = 'test';
       }
 
       if (linked) {
+        created.hasLinkedSystem = true;
         mock.country.hasLinkedSystem = true;
       }
 
@@ -27,7 +29,20 @@ const createCountryMock = (update, linked) => {
     });
 };
 
+const createFakeMock = () => {
+  const mock = {};
+  mock.request = {
+    countryName: 'fake country',
+  };
+
+  return Country.create(mock.request.countryName)
+    .then((created) => {
+      mock.country = created;
+      return mock;
+    });
+};
+
 const removeCountryMock = () => Country.remove({});
 
-export { createCountryMock, removeCountryMock };
+export { createCountryMock, createFakeMock, removeCountryMock };
 
