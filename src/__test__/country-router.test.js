@@ -156,6 +156,30 @@ describe('Test country-router', () => {
     });
   });
 
+  describe('GET from /countries/all', () => {
+    test('GET all should return 200 and return all countries in database', () => {
+      const arr = ['benin', 'togo', 'belgium'];
+      for (let i = 0; i < arr.length; i++) {
+        createFakeMock(arr[i]);
+      }
+      return superagent.get(`${API_URL}/countries/all`)
+        .then((response) => {
+          expect(response.status).toEqual(200);
+          expect(response.body).toBeInstanceOf(Array);
+          expect(response.body).toHaveLength(3);
+        });
+    });
+
+    test('GET all should return 200 and return no countries if none exist', () => {
+      return superagent.get(`${API_URL}/countries/all`)
+        .then((response) => {
+          expect(response.status).toEqual(200);
+          expect(response.body).toBeInstanceOf(Array);
+          expect(response.body).toHaveLength(0);
+        });
+    });
+  });
+
   describe('PUT to countries/:id', () => {
     test('PUT with old lastUpdated date should return updated data', () => {
       return createCountryMock(true)
@@ -210,7 +234,7 @@ describe('Test country-router', () => {
 
   describe('DELETE /countries/:id', () => {
     test('Delete a country that no longer exists in the world should return 204', () => {
-      return createFakeMock()
+      return createFakeMock('fake country')
         .then((mock) => {
           return superagent.delete(`${API_URL}/countries/${mock.country._id}`)
             .then((response) => {
@@ -220,7 +244,7 @@ describe('Test country-router', () => {
     });
 
     test('Delete a country that no longer exists returns 204, system is also deleted', () => {
-      return createFakeMockSystem()
+      return createFakeMockSystem('fake country')
         .then((mock) => {
           return superagent.delete(`${API_URL}/countries/${mock.country._id}`)
             .then((response) => {
