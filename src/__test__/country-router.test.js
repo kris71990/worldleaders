@@ -2,7 +2,8 @@
 
 import superagent from 'superagent';
 import { startServer, stopServer } from '../lib/server';
-import { createCountryMock, removeCountryMock } from './lib/country-mock';
+import { createCountryMock, createFakeMock, removeCountryMock } from './lib/country-mock';
+import { createFakeMockSystem } from './lib/system-mock';
 
 const API_URL = `http://localhost:${process.env.PORT}`;
 
@@ -11,6 +12,7 @@ Tests for the following (13):
   - POST /countries (201 x 4, 400, 404, 409)
   - GET /countries/:id (201, 404)
   - PUT /countries/:id (200, 201, 400, 404)
+  - DELETE /countries/:id (204, 400 x 2)
 */
 
 describe('Test country-router', () => {
@@ -171,7 +173,6 @@ describe('Test country-router', () => {
     test('PUT should with current lastUpdated date should return same data', () => {
       return createCountryMock(false)
         .then((response) => {
-          console.log(response);
           return superagent.put(`${API_URL}/countries/${response.country._id}`)
             .then((res) => {
               expect(res.status).toEqual(200);
@@ -207,7 +208,47 @@ describe('Test country-router', () => {
     });
   });
 
-  // describe('DELETE /countries', () => {
-  //   test()
-  // }); 
+  describe('DELETE /countries/:id', () => {
+    test('Delete a country that no longer exists in the world should return 204', () => {
+      return createFakeMock()
+        .then((mock) => {
+          return superagent.delete(`${API_URL}/countries/${mock.country._id}`)
+            .then((response) => {
+              expect(response.status).toEqual(204);
+            });
+        });
+    });
+
+    test('Delete a country that no longer exists returns 204, system is also deleted', () => {
+      return createFakeMockSystem()
+        .then((mock) => {
+          return superagent.delete(`${API_URL}/countries/${mock.country._id}`)
+            .then((response) => {
+              expect(response.status).toEqual(204);
+            });
+        });
+    });
+
+    test('Delete a country that still exists returns 400', () => {
+      return createCountryMock()
+        .then((mock) => {
+          return superagent.delete(`${API_URL}/countries/${mock.country._id}`)
+            .then(() => {})
+            .catch((err) => {
+              expect(err.status).toEqual(400);
+            });
+        });
+    });
+
+    test('Delete with bad id returns 400', () => {
+      return createCountryMock()
+        .then(() => {
+          return superagent.delete(`${API_URL}/countries/1234`)
+            .then(() => {})
+            .catch((err) => {
+              expect(err.status).toEqual(400);
+            });
+        });
+    });
+  }); 
 });

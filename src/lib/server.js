@@ -8,7 +8,6 @@ import logger from './logger';
 import countryRouter from '../routes/country-router';
 import govSystemRouter from '../routes/gov-system-router';
 import errorMiddleware from './error-middleware';
-// import getData from './get-data';
 
 mongoose.Promise = bluebird;
 

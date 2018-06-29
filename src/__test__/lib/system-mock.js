@@ -1,7 +1,7 @@
 'use strict';
 
 import System from '../../models/gov-system';
-import { createCountryMock } from './country-mock';
+import { createCountryMock, createFakeMock } from './country-mock';
 import data from '../../../data.json';
 
 const createSystemMock = (update) => {
@@ -9,6 +9,7 @@ const createSystemMock = (update) => {
   return createCountryMock(!update, true)
     .then((mock) => {
       systemMock.country = mock;
+
       return System.create(mock.country.countryName, mock.country._id)
         .then((created) => {
           systemMock.system = created;
@@ -28,6 +29,20 @@ const createSystemMock = (update) => {
     });
 };
 
+const createFakeMockSystem = () => {
+  const systemMock = {};
+  return createFakeMock()
+    .then((mock) => {
+      systemMock.country = mock;
+    
+      return System.create(mock.country.countryName, mock.country._id)
+        .then((created) => {
+          systemMock.system = created;
+          return mock;
+        });
+    });
+};
+
 const removeSystemMock = () => System.remove({});
 
-export { createSystemMock, removeSystemMock };
+export { createSystemMock, createFakeMockSystem, removeSystemMock };

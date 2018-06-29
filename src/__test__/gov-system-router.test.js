@@ -9,7 +9,7 @@ const API_URL = `http://localhost:${process.env.PORT}`;
 
 /* 
 Tests for the following (7):
-  - POST /system (201, 404, 400 x 3)
+  - POST /system (201, 404, 400 x 4)
   - GET /system/:country (201, 404)
   - PUT /system/:country (200, 201)
 */

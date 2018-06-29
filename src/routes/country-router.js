@@ -4,9 +4,9 @@ import { Router } from 'express';
 import { json } from 'body-parser';
 import HttpError from 'http-errors';
 import Country from '../models/country';
+import System from '../models/gov-system';
 import logger from '../../src/lib/logger';
 import data from '../../data.json';
-// import getData from '../lib/get-data';
 
 const jsonParser = json();
 const countryRouter = new Router();
@@ -156,6 +156,36 @@ countryRouter.put('/countries/:id', jsonParser, (request, response, next) => {
       return response.status(200).json(country);
     })
     .catch(next);
+});
+
+countryRouter.delete('/countries/:id', (request, response, next) => {
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  return Country.findById(request.params.id)
+    .then((country) => {
+      const countryExists = Object.keys(data.countries).filter(key => key === country.countryName);
+
+      if (countryExists.length === 1) {
+        return next(new HttpError(400, 'Cannot delete existing country'));
+      }
+
+      return Country.findByIdAndRemove(request.params.id)
+        .then((countryToDelete) => {
+          return System.findOneAndRemove({ countryId: countryToDelete._id })
+            .then((system) => {
+              if (!system) {
+                logger.log(logger.INFO, `Delete ${countryToDelete.countryName} successful, returning 204`);
+                return response.status(204).send('Country Deleted');
+              }
+              logger.log(logger.INFO, `Delete ${countryToDelete.countryName} and system successful, returning 204`);
+              return response.status(204).send('Country Deleted');
+            });
+        })
+        .catch(next);
+    })
+    .catch(() => {
+      return next(new HttpError(400, 'bad request'));
+    });
 });
 
 export default countryRouter;

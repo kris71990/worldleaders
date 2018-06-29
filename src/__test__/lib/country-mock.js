@@ -29,7 +29,20 @@ const createCountryMock = (update, linked) => {
     });
 };
 
+const createFakeMock = () => {
+  const mock = {};
+  mock.request = {
+    countryName: 'fake country',
+  };
+
+  return Country.create(mock.request.countryName)
+    .then((created) => {
+      mock.country = created;
+      return mock;
+    });
+};
+
 const removeCountryMock = () => Country.remove({});
 
-export { createCountryMock, removeCountryMock };
+export { createCountryMock, createFakeMock, removeCountryMock };
 
