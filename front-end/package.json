@@ -4,7 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "eslint . && jest --coverage",
+    "watch": "webpack-dev-server --config webpack.dev.js"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.scss$": "<rootDir>/src/__test__/mock-asset.js"
+    },
+    "setupFiles": [
+      "<rootDir>/src/__test__/test.env.js"
+    ]
   },
   "keywords": [],
   "author": "",
