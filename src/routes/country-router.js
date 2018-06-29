@@ -111,6 +111,17 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
     .catch(next);
 });
 
+// returns all countries in database
+countryRouter.get('/countries/all', (request, response, next) => {
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  return Country.find()
+    .then((countries) => {
+      logger.log(logger.INFO, 'GET /country/all successful, getting all countries, returning 200');
+      return response.json(countries);
+    });
+});
+
 // returns request country json
 countryRouter.get('/countries/:id', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
@@ -122,6 +133,7 @@ countryRouter.get('/countries/:id', (request, response, next) => {
     })
     .catch(next);
 });
+
 
 // returns updated country json
 countryRouter.put('/countries/:id', jsonParser, (request, response, next) => {

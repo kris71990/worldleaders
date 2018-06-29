@@ -29,10 +29,10 @@ const createCountryMock = (update, linked) => {
     });
 };
 
-const createFakeMock = () => {
+const createFakeMock = (country) => {
   const mock = {};
   mock.request = {
-    countryName: 'fake country',
+    countryName: country,
   };
 
   return Country.create(mock.request.countryName)
