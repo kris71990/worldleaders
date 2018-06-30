@@ -23,7 +23,7 @@ class Landing extends React.Component {
             { countryList ?
               countryList.map((country) => {
                 return (
-                  <option value={country}>{country}</option>
+                  <option value={country} key={country}>{country}</option>
                 )
               })
               : null
