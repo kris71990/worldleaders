@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "bluebird": "^3.5.1",
+    "cors": "^2.8.4",
     "dotenv": "^5.0.1",
     "faker": "^4.1.0",
     "fs-extra": "^6.0.1",

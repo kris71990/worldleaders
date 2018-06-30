@@ -1,6 +1,7 @@
 'use strict';
 
 import express from 'express';
+import cors from 'cors';
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 import HttpError from 'http-errors';
@@ -13,6 +14,8 @@ mongoose.Promise = bluebird;
 
 const app = express();
 let server = null;
+
+app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
 
 app.use(countryRouter);
 app.use(govSystemRouter);

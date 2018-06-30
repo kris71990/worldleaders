@@ -92,6 +92,23 @@ countryRouter.get('/countries/all', (request, response, next) => {
     });
 });
 
+// returns a clean array of all countries in database
+countryRouter.get('/countries/list', (request, response, next) => {
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  return Country.find()
+    .then((countries) => {
+      const countryNames = countries.map(country => {
+        if (country.countryName.includes('_')) {
+          return country.countryName.split('_').map((x) => x.charAt(0).toUpperCase() + x.slice(1)).join(' ');
+        }
+        return country.countryName.charAt(0).toUpperCase() + country.countryName.slice(1);
+      });
+      logger.log(logger.INFO, 'GET /country/list successful, getting list of all countries, returning 200');
+      return response.json(countryNames.sort((x, y) => x > y));
+    });
+});
+
 // returns request country json
 countryRouter.get('/countries/:id', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
@@ -103,7 +120,6 @@ countryRouter.get('/countries/:id', (request, response, next) => {
     })
     .catch(next);
 });
-
 
 // returns updated country json
 countryRouter.put('/countries/:id', jsonParser, (request, response, next) => {
