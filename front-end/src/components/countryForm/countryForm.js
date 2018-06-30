@@ -6,6 +6,8 @@ import './countryForm.scss';
 
 const defaultState = {
   countryName: '',
+  countryNameDirty: false,
+  countryNameError: 'Country already on list',
 }
 
 class CountryForm extends React.Component {
@@ -19,28 +21,41 @@ class CountryForm extends React.Component {
     const { name, value } = e.target;
     this.setState({
       [name]: value,
+      countryNameDirty: false,
     })
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.onComplete(this.state);
-    this.setState(defaultState);
+    const { countries } = this.props;
+
+    if (countries.includes(this.state.countryName.charAt(0).toUpperCase() + this.state.countryName.slice(1))) {
+      this.setState({ countryNameDirty: true })
+    } else {
+      this.props.onComplete(this.state);
+      this.setState(defaultState);
+    }
   }
 
   render() {
-    const { countries } = this.props;
     return (
-      <form className="country-form" onSubmit={this.handleSubmit}>
-        <input
-          name="countryName"
-          placeholder="Enter a country"
-          type="text"
-          value={this.state.countryName}
-          onChange={this.handleChange}
-        />
-        <button type="submit">Add country</button>
-      </form>
+      <div className="country-container">
+        <h4>Don't see a country? Add it here:</h4>
+        <form className="country-form" onSubmit={this.handleSubmit}>
+          <input
+            name="countryName"
+            placeholder="Enter a country"
+            type="text"
+            value={this.state.countryName}
+            onChange={this.handleChange}
+          />
+          <button type="submit">Submit</button>
+          { this.state.countryNameDirty ? 
+              <p>{ this.state.countryNameError }</p>
+            : null
+          }
+        </form>
+      </div>
     );
   }
 }

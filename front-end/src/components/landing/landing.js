@@ -30,7 +30,7 @@ class Landing extends React.Component {
 
     return (
       <div>
-        <h3>Choose a country</h3>
+        <h2>Choose a country</h2>
         <div className="country-list">
           <select className="country-select">
             <option value="empty">Select</option>
