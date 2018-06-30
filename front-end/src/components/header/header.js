@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import * as routes from '../../utils/routes';
+import './header.scss';
 
 class Header extends React.Component {
   render() {

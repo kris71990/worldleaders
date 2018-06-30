@@ -2,6 +2,8 @@ export default (state = [], { type, payload }) => {
   switch (type) {
     case 'COUNTRIES_FETCH':
       return payload;
+    case 'COUNTRY_LIST_GET':
+      return payload;
     case 'COUNTRY_GET':
       return payload;
     case 'COUNTRY_CREATE':
