@@ -36,21 +36,6 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
     bordering = geographyInfo.land_boundaries.border_countries.map(border => border.country);
   }
 
-  // parse government type for simpler sorting purposes
-  // switch (govSys) {
-  //   case govSys
-  // }
-  // let sys;
-  // if (govSys.indexOf('dictatorship') !== -1 || govSys.includes('single-party state')) {
-  //   sys = 'dictatorship';
-  // } else if (govSys.includes('democracy') || govSys.includes('democracy;')) {
-  //   sys = 'democracy';
-  // } else if (govSys.indexOf('republic') > -1) {
-  //   sys = 'republic';
-  // } else {
-  //   sys = 'unknown';
-  // }
-
   return new Country({
     countryName: searchableCountry,
     location: geographyInfo.map_references,
@@ -76,14 +61,8 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
   }).save()
     .then((country) => {
       logger.log(logger.INFO, 'POST /country successful, returning 201');
-
-      let returnedCountry = null;
-      if (country.countryName.includes('_')) {
-        returnedCountry = country.countryName.split('_').map((x) => x.charAt(0).toUpperCase() + x.slice(1)).join(' ');
-      }
-      returnedCountry = country.countryName.charAt(0).toUpperCase() + country.countryName.slice(1);
-
-      return response.status(201).json(returnedCountry);
+      console.log(country);
+      return response.status(201).json(country);
     })
     .catch(next);
 });
@@ -106,7 +85,7 @@ countryRouter.get('/countries/list', (request, response, next) => {
   return Country.find()
     .then((countries) => {
       logger.log(logger.INFO, 'GET /country/list successful, getting list of all countries, returning 200');
-      
+
       const countryObjs = countries.map((x) => { 
         return { countryName: x.countryName, id: x._id }
       });
