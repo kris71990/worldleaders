@@ -105,15 +105,13 @@ countryRouter.get('/countries/list', (request, response, next) => {
 
   return Country.find()
     .then((countries) => {
-      let countryNames = countries.map(country => country.countryName).sort();
-      countryNames = countryNames.map(country => {
-        if (country.includes('_')) {
-          return country.split('_').map((x) => x.charAt(0).toUpperCase() + x.slice(1)).join(' ');
-        }
-        return country.charAt(0).toUpperCase() + country.slice(1);
-      });
       logger.log(logger.INFO, 'GET /country/list successful, getting list of all countries, returning 200');
-      return response.json(countryNames);
+      
+      const countryObjs = countries.map((x) => { 
+        return { countryName: x.countryName, id: x._id }
+      });
+
+      return response.json(countryObjs);
     });
 });
 
