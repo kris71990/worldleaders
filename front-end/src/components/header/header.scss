@@ -1,4 +1,15 @@
-.header ul {
-  list-style: none;
-  padding: 0;
+@import url('https://fonts.googleapis.com/css?family=Courgette');
+
+.header {
+  border: 10px groove #9B2120;
+  background-color: #0781D6;
+
+  h1 {
+    font-family: 'Courgette', cursive;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
 }

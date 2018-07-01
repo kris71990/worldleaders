@@ -7,7 +7,8 @@ export default (state = [], { type, payload }) => {
     case 'COUNTRY_GET':
       return payload;
     case 'COUNTRY_CREATE':
-      return payload;
+      payload = { countryName: payload.countryName, id: payload._id }
+      return [payload, ...state];
     case 'COUNTRY_UPDATE':
       return state.map(country => (country._id === payload._id ? payload : country));
     case 'COUNTRY_DELETE':

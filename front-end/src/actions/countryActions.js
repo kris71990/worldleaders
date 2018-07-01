@@ -69,6 +69,8 @@ const countryGetRequest = country => (store) => {
 
 
 const countryCreateRequest = country => (store) => {
+  delete country.countryNameDirty;
+  delete country.countryNameError;
   return superagent.post(`${API_URL}${routes.COUNTRY_ROUTE}`)
     .send(country)
     .then((response) => {
