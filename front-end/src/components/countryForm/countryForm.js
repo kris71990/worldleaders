@@ -22,14 +22,17 @@ class CountryForm extends React.Component {
     this.setState({
       [name]: value,
       countryNameDirty: false,
-    })
+    });
   }
 
   handleSubmit(e) {
     e.preventDefault();
     const { countries } = this.props;
+    const countryNames = countries.map((x) => {
+      return x.countryName;
+    });
 
-    if (countries.includes(this.state.countryName.charAt(0).toUpperCase() + this.state.countryName.slice(1))) {
+    if (countryNames.includes(this.state.countryName)) {
       this.setState({ countryNameDirty: true })
     } else {
       this.props.onComplete(this.state);
