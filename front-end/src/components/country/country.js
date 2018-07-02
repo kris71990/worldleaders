@@ -3,6 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import autoBind from '../../utils/autoBind';
 
+import CountryBasic from '../country-basic/country-basic';
+import CountryCulture from '../country-culture/country-culture';
+import CountryEconomy from '../country-economy/country-economy';
+
 import * as countryActions from '../../actions/countryActions';
 import * as routes from '../../utils/routes';
 import './country.scss';
@@ -30,66 +34,14 @@ class Country extends React.Component {
   render() {
     const { selected } = this.props;
 
-    let countryNameJSX = null;
-    let populationJSX = null;
-    let areaJSX = null;
-    let borderingJSX = null;
-    
-    if (selected) {
-      countryNameJSX = 
-        <span>
-          {
-            selected.countryName ?
-            selected.countryName.toUpperCase()
-            : null
-          }
-        </span>;
-
-      populationJSX = 
-        <span>
-          {
-            Number(selected.population).toLocaleString()
-          }
-        </span>
-
-      areaJSX = 
-        <span>
-          {
-            Number(selected.area).toLocaleString()
-          }
-        </span>;
-
-      borderingJSX = 
-        <span>
-          {
-            selected.borderCountries ? 
-            selected.borderCountries.map((x) => {
-              return `- ${x} -`
-            })
-            : null
-          }
-        </span>
-    }
-
     return (
       <div className="country-info">
         {
           selected ? 
-            <div className="basic-info">
-              <h1>{countryNameJSX}</h1>
-              <h3>{selected.location}</h3>
-              <p>Bordering<br/>{borderingJSX}</p>
-              <p>-------------------</p>
-              <p>Population: {populationJSX} million 
-              <br/>Rank: {selected.populationRank}</p>
-              <p>-------------------</p>
-              <p>Area: {areaJSX} km<sup>2</sup>
-              <br/>Rank: {selected.areaRank}</p>
-              <p>-------------------</p>
-              <p>Life Expectancy: {selected.lifeExpectancy} years
-              <br/>Rank: {selected.lifeExpectancyRank}</p>
-              <div>
-              </div>
+            <div>
+              <CountryBasic selected={selected}/>
+              <CountryCulture selected={selected}/>
+              <CountryEconomy selected={selected}/>
             </div>
         : null
         }

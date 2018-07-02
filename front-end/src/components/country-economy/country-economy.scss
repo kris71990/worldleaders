@@ -1,0 +1,33 @@
+.economy {
+  border: 10px groove #9B2120;
+
+  .export-partners {
+    li {
+      background: linear-gradient(rgba(128, 177, 135, 0.2), rgba(0, 155, 67, 1));
+      padding: 1.5%;
+    }
+  }
+
+  .export-goods, .import-goods {
+    li {
+      background: linear-gradient(rgba(152, 200, 200, 0.2), rgba(0, 140, 140, 1));
+      // border: 2px solid black;
+      padding: 1%;
+    }
+  }
+
+  .import-partners {
+    
+    li {
+      background: linear-gradient(rgba(128, 177, 135, 0.2), rgba(0, 155, 67, 1));
+      padding: 1.5%;
+    }
+  }
+
+  .resources {
+    li {
+      background: linear-gradient(rgba(233, 204, 157, 0.2), rgba(151, 95, 3, 1));
+      padding: 1%;
+    }
+  }
+}
