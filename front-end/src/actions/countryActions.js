@@ -60,7 +60,7 @@ const countryListGetRequest = () => (store) => {
 }
 
 const countryGetRequest = country => (store) => {
-  return superagent.get(`${API_URL}${routes.COUNTRY_ROUTE}/${country._id}`)
+  return superagent.get(`${API_URL}${routes.COUNTRY_ROUTE}/${country.selected}`)
     .then((response) => {
       store.dispatch(countryGet(response.body));
       return response;
