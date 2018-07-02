@@ -19,6 +19,7 @@ class Country extends React.Component {
   }
 
   componentDidMount() {
+    this.setState({ selected: this.state.selected })
     console.log(this.state);
     this.props.countryGet(this.state)
       .then((response) => {
@@ -35,6 +36,15 @@ class Country extends React.Component {
     let borderingJSX = null;
     
     if (selected) {
+      countryNameJSX = 
+        <span>
+          {
+            selected.countryName ?
+            selected.countryName.toUpperCase()
+            : null
+          }
+        </span>;
+
       populationJSX = 
         <span>
           {
@@ -52,8 +62,10 @@ class Country extends React.Component {
       borderingJSX = 
         <span>
           {
-            selected.borderCountres ? 
-            selected.borderCountries.map((x) => x)
+            selected.borderCountries ? 
+            selected.borderCountries.map((x) => {
+              return `- ${x} -`
+            })
             : null
           }
         </span>
@@ -64,9 +76,9 @@ class Country extends React.Component {
         {
           selected ? 
             <div className="basic-info">
-              <h1>{selected.countryName}</h1>
+              <h1>{countryNameJSX}</h1>
               <h3>{selected.location}</h3>
-              <p>Bordering - {borderingJSX}</p>
+              <p>Bordering<br/>{borderingJSX}</p>
               <p>-------------------</p>
               <p>Population: {populationJSX} million 
               <br/>Rank: {selected.populationRank}</p>
