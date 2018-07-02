@@ -41,7 +41,6 @@ class Landing extends React.Component {
 
   handleSearch() {
     this.setState({ selected: this.state.selected, redirect: true })
-    // this.props.countryGet(this.state.selected);
     console.log(this.state.selected);
   }
 
@@ -85,9 +84,9 @@ class Landing extends React.Component {
           <button onClick={this.handleSearch}>Get info</button>
         </div>
         <CountryForm onComplete={this.handleCreateCountry} countries={countryList}/>
-        
+
         { redirect ? 
-            <Redirect to={{ pathname: '/countries', state:  this.state.selected }}
+            <Redirect to={{ pathname: '/countries', state: { selected: this.state.selected }}}
             /> 
           : null 
         }
@@ -109,8 +108,6 @@ Landing.propTypes = {
 const mapStateToProps = (state) => {
   return {
     countryList: state.countries,
-    selected: state.selected,
-    redirect: state.redirect,
   };
 };
 

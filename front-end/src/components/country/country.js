@@ -14,27 +14,71 @@ const defaultState = {
 class Country extends React.Component {
   constructor(props) {
     super(props);
-    this.state = defaultState;
+    this.state = this.props.location.state;
     autoBind.call(this, Country);
   }
 
   componentDidMount() {
-    this.setState({ selected: this.props.location.state });
-    this.props.countryGet(this.props.location.state);
+    console.log(this.state);
+    this.props.countryGet(this.state)
+      .then((response) => {
+        this.setState({ selected: response.body })
+      })
   }
 
   render() {
     const { selected } = this.props;
-    console.log(this.props);
+
+    let countryNameJSX = null;
+    let populationJSX = null;
+    let areaJSX = null;
+    let borderingJSX = null;
+    
+    if (selected) {
+      populationJSX = 
+        <span>
+          {
+            Number(selected.population).toLocaleString()
+          }
+        </span>
+
+      areaJSX = 
+        <span>
+          {
+            Number(selected.area).toLocaleString()
+          }
+        </span>;
+
+      borderingJSX = 
+        <span>
+          {
+            selected.borderCountres ? 
+            selected.borderCountries.map((x) => x)
+            : null
+          }
+        </span>
+    }
 
     return (
-      <div className="country">
+      <div className="country-info">
         {
           selected ? 
-          <div>
-        <h1>{selected.countryName}</h1>
-        <h3>{selected.location}</h3>
-        </div>
+            <div className="basic-info">
+              <h1>{selected.countryName}</h1>
+              <h3>{selected.location}</h3>
+              <p>Bordering - {borderingJSX}</p>
+              <p>-------------------</p>
+              <p>Population: {populationJSX} million 
+              <br/>Rank: {selected.populationRank}</p>
+              <p>-------------------</p>
+              <p>Area: {areaJSX} km<sup>2</sup>
+              <br/>Rank: {selected.areaRank}</p>
+              <p>-------------------</p>
+              <p>Life Expectancy: {selected.lifeExpectancy} years
+              <br/>Rank: {selected.lifeExpectancyRank}</p>
+              <div>
+              </div>
+            </div>
         : null
         }
       </div>
@@ -54,7 +98,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  countryGet: country => dispatch(countryActions.countryGetRequest(country)),
+  countryGet: country => dispatch(countryActions.countryGetRequest(country.selected)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Country);
