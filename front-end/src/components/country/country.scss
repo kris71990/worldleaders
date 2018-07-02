@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Crimson+Text');
+
 .country-info {
   border: 5px solid black;
   width: 75%;
@@ -6,5 +8,16 @@
   ul {
     list-style: none;
     padding: 0;
+  }
+
+  h5 {
+    font-size: 1.2em;
+    text-decoration: underline;
+    line-height: 0;
+  }
+
+  li, p {
+    font-family: 'Crimson Text', serif;
+    font-size: 1.2em;
   }
 }

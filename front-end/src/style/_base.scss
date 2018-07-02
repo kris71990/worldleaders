@@ -3,6 +3,12 @@
 html,body {
   background: $background-color;
   text-align: center;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
 }
 
 h1, h2, p {

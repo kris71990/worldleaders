@@ -55,7 +55,7 @@ class Landing extends React.Component {
     });
 
     return (
-      <div>
+      <div className="landing">
         <h2>Choose a country</h2>
         <div className="country-list">
           <select 
