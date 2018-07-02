@@ -8,7 +8,7 @@ import * as routes from '../../utils/routes';
 import './country.scss';
 
 const defaultState = {
-  selected: {},
+  selected: null,
 }
 
 class Country extends React.Component {
@@ -19,7 +19,8 @@ class Country extends React.Component {
   }
 
   componentDidMount() {
-    this.props.countryGet();
+    this.setState({ selected: this.props.location.state });
+    this.props.countryGet(this.props.location.state);
   }
 
   render() {
@@ -53,8 +54,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  // countryListFetch: () => dispatch(countryActions.countryListGetRequest()),
-  // countryCreate: country => dispatch(countryActions.countryCreateRequest(country)),
   countryGet: country => dispatch(countryActions.countryGetRequest(country)),
 });
 

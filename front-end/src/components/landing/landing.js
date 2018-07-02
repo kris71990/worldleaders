@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import autoBind from '../../utils/autoBind';
 
@@ -40,8 +40,9 @@ class Landing extends React.Component {
   }
 
   handleSearch() {
-    this.setState({ selected: this.state.selected, redirect: true });
-    console.log(this.state);
+    this.setState({ selected: this.state.selected, redirect: true })
+    // this.props.countryGet(this.state.selected);
+    console.log(this.state.selected);
   }
 
   render() {
@@ -82,9 +83,14 @@ class Landing extends React.Component {
             }
           </select>
           <button onClick={this.handleSearch}>Get info</button>
-          { redirect ? <Redirect to={{ pathname: '/countries', state: this.state.selected }}/> : null }
         </div>
         <CountryForm onComplete={this.handleCreateCountry} countries={countryList}/>
+        
+        { redirect ? 
+            <Redirect to={{ pathname: '/countries', state:  this.state.selected }}
+            /> 
+          : null 
+        }
       </div>
     );
   }
