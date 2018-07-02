@@ -34,6 +34,9 @@ class Country extends React.Component {
     let populationJSX = null;
     let areaJSX = null;
     let borderingJSX = null;
+    let languagesJSX = null;
+    let ethnicitiesJSX = null;
+    let religionsJSX = null;
     
     if (selected) {
       countryNameJSX = 
@@ -68,7 +71,56 @@ class Country extends React.Component {
             })
             : null
           }
-        </span>
+        </span>;
+      
+      languagesJSX = 
+          <ul>
+            {
+              selected.languages ?
+              selected.languages.map((x) => {
+                let note = null;
+                if (x.note) note = x.note;
+                return (
+                  <li key={x.name}>{`${x.name} - ${note}`}</li>
+                )
+              })
+              : null
+            }
+          </ul>;
+
+        ethnicitiesJSX = 
+          <ul>
+            {
+              selected.ethnicities ?
+              selected.ethnicities.map((x) => {
+                return (
+                  <li key={x.name}>{`${x.name} - ${x.percent}%`}</li>
+                )
+              })
+              : null
+            }
+          </ul>;
+
+        religionsJSX = 
+          <ul>
+            {
+              selected.religions ?
+              selected.religions.map((x) => {
+                let breakdown = null;
+                if (x.breakdown) {
+                  breakdown = x.breakdown.map((y) => {
+                    return `${y.name} - ${y.percent}% `;
+                  });
+                }
+                return (
+                  <li key={x.name}>{`${x.name} - ${x.percent}%`}
+                    <p>{breakdown}</p>
+                  </li>
+                )
+              })
+              : null
+            }
+          </ul>;
     }
 
     return (
@@ -88,7 +140,15 @@ class Country extends React.Component {
               <p>-------------------</p>
               <p>Life Expectancy: {selected.lifeExpectancy} years
               <br/>Rank: {selected.lifeExpectancyRank}</p>
-              <div>
+
+              <div className="culture">
+                <h3>Culture</h3>
+                <h5>Languages</h5>
+                {languagesJSX}
+                <h5>Ethnic Groups</h5>
+                {ethnicitiesJSX}
+                <h5>Religions</h5>
+                {religionsJSX}
               </div>
             </div>
         : null
