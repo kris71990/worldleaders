@@ -4,8 +4,6 @@ export default (state = [], { type, payload }) => {
       return payload;
     case 'COUNTRY_LIST_GET':
       return payload;
-    case 'COUNTRY_GET':
-      return payload;
     case 'COUNTRY_CREATE':
       payload = { countryName: payload.countryName, id: payload._id }
       return [payload, ...state];

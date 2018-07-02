@@ -1,10 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
 
 import Header from '../header/header';
 import Landing from '../landing/landing';
+import Country from '../country/country';
 
 class App extends React.Component {
   render() {
@@ -14,6 +13,7 @@ class App extends React.Component {
           <div>
             <Header/>
             <Route exact path="/" component={Landing}/>
+            <Route path='/countries' component={Country}/>
           </div>
         </BrowserRouter>
       </div>

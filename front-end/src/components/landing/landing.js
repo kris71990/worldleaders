@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import autoBind from '../../utils/autoBind';
 
+import Country from '../country/country';
 import CountryForm from '../countryForm/countryForm';
 import * as countryActions from '../../actions/countryActions';
 import * as routes from '../../utils/routes';
@@ -10,6 +12,7 @@ import './landing.scss';
 
 const defaultState = {
   selected: '',
+  redirect: false,
 }
 
 class Landing extends React.Component {
@@ -18,6 +21,7 @@ class Landing extends React.Component {
     this.state = defaultState;
     autoBind.call(this, Landing);
   }
+
   componentDidMount() {
     this.props.countryListFetch();
   }
@@ -36,11 +40,12 @@ class Landing extends React.Component {
   }
 
   handleSearch() {
-    console.log(this.state);
-    this.props.countryGet(this.state);
+    this.setState({ selected: this.state.selected, redirect: true })
+    console.log(this.state.selected);
   }
 
   render() {
+    const { redirect } = this.state;
     const { countryList } = this.props;
 
     countryList.sort((x, y) => {
@@ -79,6 +84,12 @@ class Landing extends React.Component {
           <button onClick={this.handleSearch}>Get info</button>
         </div>
         <CountryForm onComplete={this.handleCreateCountry} countries={countryList}/>
+
+        { redirect ? 
+            <Redirect to={{ pathname: '/countries', state: { selected: this.state.selected }}}
+            /> 
+          : null 
+        }
       </div>
     );
   }
@@ -91,12 +102,12 @@ Landing.propTypes = {
   countryGet: PropTypes.func,
   history: PropTypes.object,
   selected: PropTypes.string,
+  redirect: PropTypes.bool,
 }
 
 const mapStateToProps = (state) => {
   return {
     countryList: state.countries,
-    selected: state.selected,
   };
 };
 
