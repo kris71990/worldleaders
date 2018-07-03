@@ -58,12 +58,12 @@ class CountryCulture extends React.Component {
               let breakdown = null;
               if (x.breakdown) {
                 breakdown = x.breakdown.map((y) => {
-                  return `${y.name} - ${y.percent}% `;
+                  return ` ${y.name} - ${y.percent}% `;
                 });
               }
               return (
                 <li key={x.name}>{`${x.name} - ${x.percent}%`}
-                  <p>{breakdown}</p>
+                  <span>{breakdown}</span>
                 </li>
               )
             })

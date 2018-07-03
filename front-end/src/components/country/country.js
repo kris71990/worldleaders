@@ -24,7 +24,6 @@ class Country extends React.Component {
 
   componentDidMount() {
     this.setState({ selected: this.state.selected })
-    console.log(this.state);
     this.props.countryGet(this.state)
       .then((response) => {
         this.setState({ selected: response.body })

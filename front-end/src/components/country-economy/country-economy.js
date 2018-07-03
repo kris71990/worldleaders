@@ -86,7 +86,7 @@ class CountryEconomy extends React.Component {
 
     return (
       <div className="economy">
-        <h3>Economy</h3>
+        <h2>Economy</h2>
         <p>GDP PPP Rank: {selected.gdpPPPRank}</p>
         <div className="resources">
           <h5>Natural Resources</h5>

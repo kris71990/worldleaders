@@ -153,7 +153,6 @@ describe('Test system-router', () => {
     test('PUT with old lastUpdated date should return updated data', () => {
       return createSystemMock(true)
         .then((response) => {
-          console.log(response);
           expect(response.system.lastUpdated).toEqual('test');
           return superagent.put(`${API_URL}/system/${response.country.request.countryName}`)
             .then((res) => {
