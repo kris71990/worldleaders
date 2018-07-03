@@ -156,6 +156,28 @@ describe('Test country-router', () => {
     });
   });
 
+  describe('GET from /countries/list', () => {
+    test('GET all should return a 200 and an array of objects', () => {
+      const arr = ['benin', 'togo', 'belgium'];
+      for (let i = 0; i < arr.length; i++) {
+        createFakeMock(arr[i]);
+      }
+      return superagent.get(`${API_URL}/countries/list`)
+        .then((response) => {
+          expect(response.status).toEqual(200);
+          expect(response.body).toBeInstanceOf(Array);
+          expect(response.body).toHaveLength(3);
+          expect(response.body[0]).toBeInstanceOf(Object);
+          expect(Object.keys(response.body[0])).toBeInstanceOf(Array);
+          expect(Object.keys(response.body[0])).toHaveLength(2);
+          expect(response.body[0].id).toBeTruthy();
+          expect(response.body[0].countryName).toEqual('benin');
+          expect(response.body[1].countryName).toEqual('togo');
+          expect(response.body[2].countryName).toEqual('belgium');
+        });
+    });
+  });
+
   describe('PUT to countries/:id', () => {
     test('PUT with old lastUpdated date should return updated data', () => {
       return createCountryMock(true)

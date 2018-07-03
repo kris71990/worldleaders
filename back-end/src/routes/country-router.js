@@ -61,7 +61,6 @@ countryRouter.post('/countries', jsonParser, (request, response, next) => {
   }).save()
     .then((country) => {
       logger.log(logger.INFO, 'POST /country successful, returning 201');
-      console.log(country);
       return response.status(201).json(country);
     })
     .catch(next);
