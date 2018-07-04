@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
 import './country-culture.scss';
 
 class CountryCulture extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { selected } = this.props;
 
@@ -20,20 +16,20 @@ class CountryCulture extends React.Component {
         <ul>
           {
             selected.languages ?
-            selected.languages.map((x) => {
-              let note = null;
-              let percent = null;
-              if (x.note) note = x.note;
-              if (x.percent) percent = x.percent
-              return (
+              selected.languages.map((x) => {
+                let note = null;
+                let percent = null;
+                if (x.note) note = { note };
+                if (x.percent) percent = { percent };
+                return (
                 <li key={x.name}>
                   {
-                    `${x.name}${percent || note ? `${percent ? ' - ' + percent + '%' : ''}${ note ? ' - ' + note : ''}` : ''}`
+                    `${x.name}${percent || note ? `${percent ? ` - ${percent}%` : ''}${note ? ` - ${note}` : ''}` : ''}`
                   }
                 </li>
-              )
-            })
-            : null
+                );
+              })
+              : null
           }
         </ul>;
 
@@ -41,12 +37,12 @@ class CountryCulture extends React.Component {
         <ul>
           {
             selected.ethnicities ?
-            selected.ethnicities.map((x) => {
-              return (
+              selected.ethnicities.map((x) => {
+                return (
                 <li key={x.name}>{`${x.name} - ${x.percent}%`}</li>
-              )
-            })
-            : null
+                );
+              })
+              : null
           }
         </ul>;
 
@@ -54,20 +50,20 @@ class CountryCulture extends React.Component {
         <ul>
           {
             selected.religions ?
-            selected.religions.map((x) => {
-              let breakdown = null;
-              if (x.breakdown) {
-                breakdown = x.breakdown.map((y) => {
-                  return ` ${y.name} - ${y.percent}% `;
-                });
-              }
-              return (
+              selected.religions.map((x) => {
+                let breakdown = null;
+                if (x.breakdown) {
+                  breakdown = x.breakdown.map((y) => {
+                    return ` ${y.name} - ${y.percent}% `;
+                  });
+                }
+                return (
                 <li key={x.name}>{`${x.name} - ${x.percent}%`}
                   <span>{breakdown}</span>
                 </li>
-              )
-            })
-            : null
+                );
+              })
+              : null
           }
         </ul>;
     }
@@ -88,6 +84,6 @@ class CountryCulture extends React.Component {
 
 CountryCulture.propTypes = {
   selected: PropTypes.object,
-}
+};
 
 export default CountryCulture;

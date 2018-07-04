@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import autoBind from '../../utils/autoBind';
 
@@ -12,7 +12,7 @@ import './landing.scss';
 const defaultState = {
   selected: '',
   redirect: false,
-}
+};
 
 class Landing extends React.Component {
   constructor(props) {
@@ -35,11 +35,11 @@ class Landing extends React.Component {
   handleChange(e) {
     this.setState({
       selected: e.target.value,
-    })
+    });
   }
 
   handleSearch() {
-    this.setState({ selected: this.state.selected, redirect: true })
+    this.setState({ selected: this.state.selected, redirect: true });
   }
 
   render() {
@@ -47,8 +47,8 @@ class Landing extends React.Component {
     const { countryList } = this.props;
 
     countryList.sort((x, y) => {
-      let countryA = x.countryName;
-      let countryB = y.countryName;
+      const countryA = x.countryName;
+      const countryB = y.countryName;
       return ((countryA < countryB) ? -1 : ((countryA > countryB) ? 1 : 0));
     });
 
@@ -62,19 +62,17 @@ class Landing extends React.Component {
             onChange={this.handleChange}>
 
             <option value="empty">Select</option>
-            { countryList ?
-              countryList.map((country) => {
+            { countryList
+              ? countryList.map((country) => {
                 return (
                   <option name={country.countryName} value={country.id} key={country.id}>
                     {
                       country.countryName.includes('_') 
-                        ? 
-                        country.countryName.split('_').map((x) => x.charAt(0).toUpperCase() + x.slice(1)).join()
-                        :
-                        country.countryName.charAt(0).toUpperCase() + country.countryName.slice(1)
+                        ? country.countryName.split('_').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join()
+                        : country.countryName.charAt(0).toUpperCase() + country.countryName.slice(1)
                     }
                   </option>
-                )
+                );
               })
               : null
             }
@@ -83,9 +81,8 @@ class Landing extends React.Component {
         </div>
         <CountryForm onComplete={this.handleCreateCountry} countries={countryList}/>
 
-        { redirect ? 
-            <Redirect to={{ pathname: '/countries', state: { selected: this.state.selected }}}
-            /> 
+        { redirect 
+          ? <Redirect to={{ pathname: '/countries', state: { selected: this.state.selected } }}/> 
           : null 
         }
       </div>
@@ -100,7 +97,7 @@ Landing.propTypes = {
   history: PropTypes.object,
   selected: PropTypes.string,
   redirect: PropTypes.bool,
-}
+};
 
 const mapStateToProps = (state) => {
   return {

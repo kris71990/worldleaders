@@ -8,7 +8,7 @@ class Footer extends React.Component {
         <p>- All information courtesy of the CIA World Factbook -</p>
         <p>&copy; {new Date().getFullYear()} - Kris</p>
       </footer>
-    )
+    );
   }
 }
 

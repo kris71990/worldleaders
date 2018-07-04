@@ -8,7 +8,7 @@ const defaultState = {
   countryName: '',
   countryNameDirty: false,
   countryNameError: 'Country already on list',
-}
+};
 
 class CountryForm extends React.Component {
   constructor(props) {
@@ -33,7 +33,7 @@ class CountryForm extends React.Component {
     });
 
     if (countryNames.includes(this.state.countryName)) {
-      this.setState({ countryNameDirty: true })
+      this.setState({ countryNameDirty: true });
     } else {
       this.props.onComplete(this.state);
       this.setState(defaultState);
@@ -43,7 +43,7 @@ class CountryForm extends React.Component {
   render() {
     return (
       <div className="country-container">
-        <h4>Don't see a country? Add it here:</h4>
+        <h4>{'Don\'t see a country? Add it here:'}</h4>
         <form className="country-form" onSubmit={this.handleSubmit}>
           <input
             name="countryName"
@@ -66,6 +66,6 @@ class CountryForm extends React.Component {
 CountryForm.propTypes = {
   onComplete: PropTypes.func,
   countries: PropTypes.array,
-}
+};
 
 export default CountryForm;

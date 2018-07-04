@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
 import './country-economy.scss';
 
 class CountryEconomy extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { selected } = this.props;
 
@@ -22,12 +18,12 @@ class CountryEconomy extends React.Component {
         <ul>
           {
             selected.naturalResources ?
-            selected.naturalResources.map((x) => {
-              return (
-                <li key={x}>{x}</li>
-              )
-            })
-            : null
+              selected.naturalResources.map((x) => {
+                return (
+                  <li key={x}>{x}</li>
+                );
+              })
+              : null
           }
         </ul>;
 
@@ -35,12 +31,12 @@ class CountryEconomy extends React.Component {
         <ul>
           {
             selected.imports ?
-            selected.imports.map((x) => {
-              return (
-                <li key={x}>{x}</li>
-              )
-            })
-            : null
+              selected.imports.map((x) => {
+                return (
+                  <li key={x}>{x}</li>
+                );
+              })
+              : null
           }
         </ul>;
 
@@ -48,12 +44,12 @@ class CountryEconomy extends React.Component {
         <ul>
           {
             selected.exports ?
-            selected.exports.map((x) => {
-              return (
-                <li key={x}>{x}</li>
-              )
-            })
-            : null
+              selected.exports.map((x) => {
+                return (
+                  <li key={x}>{x}</li>
+                );
+              })
+              : null
           }
         </ul>;
 
@@ -61,12 +57,12 @@ class CountryEconomy extends React.Component {
         <ul>
           {
             selected.importPartners ?
-            selected.importPartners.map((x) => {
-              return (
-                <li key={x.name}>{`${x.name} - ${x.percent}%`}</li>
-              )
-            })
-            : null
+              selected.importPartners.map((x) => {
+                return (
+                  <li key={x.name}>{`${x.name} - ${x.percent}%`}</li>
+                );
+              })
+              : null
           }
         </ul>;
 
@@ -74,12 +70,12 @@ class CountryEconomy extends React.Component {
         <ul>
           {
             selected.exportPartners ?
-            selected.exportPartners.map((x) => {
-              return (
-                <li key={x.name}>{`${x.name} - ${x.percent}%`}</li>
-              )
-            })
-            : null
+              selected.exportPartners.map((x) => {
+                return (
+                  <li key={x.name}>{`${x.name} - ${x.percent}%`}</li>
+                );
+              })
+              : null
           }
         </ul>;
     }
@@ -119,6 +115,6 @@ class CountryEconomy extends React.Component {
 
 CountryEconomy.propTypes = {
   selected: PropTypes.object,
-}
+};
 
 export default CountryEconomy;
