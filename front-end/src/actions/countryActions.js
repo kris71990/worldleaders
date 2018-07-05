@@ -96,6 +96,12 @@ const countryDeleteRequest = country => (store) => {
 };
 
 export { 
+  countriesFetch,
+  countryGet,
+  countryListGet,
+  countryCreate,
+  countryUpdate,
+  countryDelete,
   countriesFetchRequest, 
   countryGetRequest, 
   countryCreateRequest, 

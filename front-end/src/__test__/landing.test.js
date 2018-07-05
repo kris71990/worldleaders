@@ -22,15 +22,20 @@ describe('Testing of Landing Component (homepage)', () => {
         countryName: 'Togo',
         id: '67890',
       },
+      {
+        countryName: 'united_states',
+        id: '2783628316',
+      },
     ],
   };
 
   test('testing landing and store', () => {
-    const middleare = [thunk, reporter, session];
-    const mockStore = configureStore(middleare);
+    const middleware = [thunk, reporter, session];
+    const mockStore = configureStore(middleware);
     const mountedLanding = mount(<Provider store={mockStore(testState)}><Landing/></Provider>);
 
-    expect(mountedLanding).find('h2').toBeTruthy();
-    expect(mountedLanding).find('CountryForm').toBeTruthy();
+    expect(mountedLanding.find('h2')).toBeTruthy();
+    expect(mountedLanding.find('option')).toHaveLength(4);
+    expect(mountedLanding.find('CountryForm')).toBeTruthy();
   });
 });

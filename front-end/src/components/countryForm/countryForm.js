@@ -46,6 +46,7 @@ class CountryForm extends React.Component {
         <h4>{'Don\'t see a country? Add it here:'}</h4>
         <form className="country-form" onSubmit={this.handleSubmit}>
           <input
+            className="country-name"
             name="countryName"
             placeholder="Enter a country"
             type="text"
