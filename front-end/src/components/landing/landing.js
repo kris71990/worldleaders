@@ -68,7 +68,7 @@ class Landing extends React.Component {
                   <option name={country.countryName} value={country.id} key={country.id}>
                     {
                       country.countryName.includes('_') 
-                        ? country.countryName.split('_').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join()
+                        ? country.countryName.split('_').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join(' ')
                         : country.countryName.charAt(0).toUpperCase() + country.countryName.slice(1)
                     }
                   </option>

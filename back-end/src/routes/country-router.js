@@ -86,7 +86,7 @@ countryRouter.get('/countries/list', (request, response, next) => {
       logger.log(logger.INFO, 'GET /country/list successful, getting list of all countries, returning 200');
 
       const countryObjs = countries.map((x) => { 
-        return { countryName: x.countryName, id: x._id }
+        return { countryName: x.countryName, id: x._id };
       });
 
       return response.json(countryObjs);
