@@ -19,8 +19,8 @@ class CountryCulture extends React.Component {
               selected.languages.map((x) => {
                 let note = null;
                 let percent = null;
-                if (x.note) note = { note };
-                if (x.percent) percent = { percent };
+                if (x.note) note = x.note;
+                if (x.percent) percent = x.percent;
                 return (
                 <li key={x.name}>
                   {
