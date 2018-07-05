@@ -8,6 +8,7 @@ import HttpError from 'http-errors';
 import logger from './logger';
 import countryRouter from '../routes/country-router';
 import govSystemRouter from '../routes/gov-system-router';
+import gdpRouter from '../routes/gdp-route';
 import errorMiddleware from './error-middleware';
 
 mongoose.Promise = bluebird;
@@ -17,6 +18,7 @@ let server = null;
 
 app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
 
+app.use(gdpRouter);
 app.use(countryRouter);
 app.use(govSystemRouter);
 
