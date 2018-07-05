@@ -12,10 +12,10 @@ class GDPRank extends React.Component {
   }
 
   componentDidMount() {
-    this.props.gdpGet();
-      // .then((response) => {
-      //   this.setState({ rank: response.body });
-      // });
+    this.props.gdpGet()
+      .then((response) => {
+        this.setState({ rank: response.body });
+      });
   }
 
   render() {
