@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "eslint . && jest --coverage",
+    "test-nolint": "jest --coverage",
     "watch": "webpack-dev-server --config webpack.dev.js"
   },
   "jest": {
@@ -13,7 +14,10 @@
     },
     "setupFiles": [
       "<rootDir>/src/__test__/test.env.js"
-    ]
+    ],
+    "globals": {
+      "API_URL": true
+    }
   },
   "keywords": [],
   "author": "",

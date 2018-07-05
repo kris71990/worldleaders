@@ -8,12 +8,8 @@ import CountryCulture from '../country-culture/country-culture';
 import CountryEconomy from '../country-economy/country-economy';
 
 import * as countryActions from '../../actions/countryActions';
-import * as routes from '../../utils/routes';
+// import * as routes from '../../utils/routes';
 import './country.scss';
-
-const defaultState = {
-  selected: null,
-}
 
 class Country extends React.Component {
   constructor(props) {
@@ -23,11 +19,11 @@ class Country extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ selected: this.state.selected })
+    this.setState({ selected: this.state.selected });
     this.props.countryGet(this.state)
       .then((response) => {
-        this.setState({ selected: response.body })
-      })
+        this.setState({ selected: response.body });
+      });
   }
 
   render() {
@@ -36,23 +32,25 @@ class Country extends React.Component {
     return (
       <div className="country-info">
         {
-          selected ? 
-            <div>
-              <CountryBasic selected={selected}/>
-              <CountryCulture selected={selected}/>
-              <CountryEconomy selected={selected}/>
-            </div>
-        : null
+          selected 
+            ? <div>
+                <CountryBasic selected={selected}/>
+                <CountryCulture selected={selected}/>
+                <CountryEconomy selected={selected}/>
+              </div>
+            : null
         }
       </div>
-    )
+    );
   }
 }
 
 Country.propTypes = {
   history: PropTypes.object,
   selected: PropTypes.object,
-}
+  location: PropTypes.object,
+  countryGet: PropTypes.func,
+};
 
 const mapStateToProps = (state) => {
   return {

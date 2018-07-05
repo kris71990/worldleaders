@@ -4,9 +4,13 @@ export default (state = [], { type, payload }) => {
       return payload;
     case 'COUNTRY_LIST_GET':
       return payload;
-    case 'COUNTRY_CREATE':
-      payload = { countryName: payload.countryName, id: payload._id }
-      return [payload, ...state];
+    case 'COUNTRY_CREATE': {
+      const destructuredPayload = { 
+        countryName: payload.countryName, 
+        id: payload._id,
+      };
+      return [destructuredPayload, ...state];
+    }
     case 'COUNTRY_UPDATE':
       return state.map(country => (country._id === payload._id ? payload : country));
     case 'COUNTRY_DELETE':
@@ -14,4 +18,4 @@ export default (state = [], { type, payload }) => {
     default:
       return state;
   }
-}
+};

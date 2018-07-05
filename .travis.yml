@@ -3,4 +3,7 @@ node_js:
   - "node"
 services: 
   - mongodb
-script: cd back-end && npm install && npm test
+env:
+  - TEST_DIR=back-end
+  - TEST_DIR=front-end
+script: cd $TEST_DIR && npm install && npm test

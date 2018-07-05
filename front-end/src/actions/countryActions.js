@@ -48,16 +48,15 @@ const countriesFetchRequest = () => (store) => {
       store.dispatch(countriesFetch(response.body));
       return response;
     }); 
-}
+};
 
 const countryListGetRequest = () => (store) => {
   return superagent.get(`${API_URL}${routes.COUNTRY_ROUTE}/list`)
     .then((response) => {
-      console.log(response);
       store.dispatch(countryListGet(response.body));
       return response;
-    })
-}
+    });
+};
 
 const countryGetRequest = country => (store) => {
   return superagent.get(`${API_URL}${routes.COUNTRY_ROUTE}/${country}`)
@@ -65,7 +64,7 @@ const countryGetRequest = country => (store) => {
       store.dispatch(countryGet(response.body));
       return response;
     }); 
-}
+};
 
 
 const countryCreateRequest = country => (store) => {
@@ -77,7 +76,7 @@ const countryCreateRequest = country => (store) => {
       store.dispatch(countryCreate(response.body));
       return response;
     });
-}
+};
 
 const countryUpdateRequest = country => (store) => {
   return superagent.put(`${API_URL}${routes.COUNTRY_ROUTE}/${country._id}`)
@@ -86,7 +85,7 @@ const countryUpdateRequest = country => (store) => {
       store.dispatch(countryUpdate(response.body));
       return response;
     });
-}
+};
 
 const countryDeleteRequest = country => (store) => {
   return superagent.post(`${API_URL}${routes.COUNTRY_ROUTE}/${country._id}`)
@@ -94,13 +93,19 @@ const countryDeleteRequest = country => (store) => {
       store.dispatch(countryDelete(country));
       return response;
     });
-}
+};
 
 export { 
+  countriesFetch,
+  countryGet,
+  countryListGet,
+  countryCreate,
+  countryUpdate,
+  countryDelete,
   countriesFetchRequest, 
   countryGetRequest, 
   countryCreateRequest, 
   countryUpdateRequest, 
   countryDeleteRequest,
-  countryListGetRequest
+  countryListGetRequest,
 };

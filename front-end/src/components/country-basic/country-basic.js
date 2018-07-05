@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
 import './country-basic.scss';
 
 class CountryBasic extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { selected } = this.props;
 
@@ -17,12 +13,12 @@ class CountryBasic extends React.Component {
     let borderingJSX = null;
 
     if (selected) {
-      countryNameJSX = 
+      countryNameJSX =         
         <span>
           {
-            selected.countryName ?
-            selected.countryName.toUpperCase()
-            : null
+            selected.countryName
+              ? selected.countryName.toUpperCase()
+              : null
           }
         </span>;
 
@@ -31,7 +27,7 @@ class CountryBasic extends React.Component {
           {
             Number(selected.population).toLocaleString()
           }
-        </span>
+        </span>;
 
       areaJSX = 
         <span>
@@ -43,14 +39,14 @@ class CountryBasic extends React.Component {
       borderingJSX = 
         <span>
           {
-            selected.borderCountries ? 
-            selected.borderCountries.map((x, i) => {
-              if (i === 0 && selected.borderCountries.length > 2) return `${x}, `;
-              if (i === 0 && selected.borderCountries.length <= 2) return `${x} `;
-              if (i === selected.borderCountries.length - 1) return `and ${x}`
-              return `${x}, `
-            })
-            : null
+            selected.borderCountries 
+              ? selected.borderCountries.map((x, i) => {
+                if (i === 0 && selected.borderCountries.length > 2) return `${x}, `;
+                if (i === 0 && selected.borderCountries.length <= 2) return `${x} `;
+                if (i === selected.borderCountries.length - 1) return `and ${x}`;
+                return `${x}, `;
+              })
+              : null
           }
         </span>;
     }
@@ -76,6 +72,6 @@ class CountryBasic extends React.Component {
 
 CountryBasic.propTypes = {
   selected: PropTypes.object,
-}
+};
 
 export default CountryBasic;
