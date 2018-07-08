@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import countries from './countries';
 import country from './country';
-import gdp from './gdp';
+import rankings from './rankings';
 
 export default combineReducers({ 
-  countries, country, gdp,
+  countries, country, rankings,
 });

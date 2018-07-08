@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import autoBind from '../../utils/autoBind';
 
 import CountryBasic from '../country-basic/country-basic';
 import CountryCulture from '../country-culture/country-culture';
@@ -15,11 +14,9 @@ class Country extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.props.location.state;
-    autoBind.call(this, Country);
   }
 
   componentDidMount() {
-    this.setState({ selected: this.state.selected });
     this.props.countryGet(this.state)
       .then((response) => {
         this.setState({ selected: response.body });
