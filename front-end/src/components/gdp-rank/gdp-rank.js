@@ -2,14 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import * as gdpActions from '../../actions/gdp-action';
+import * as rankingActions from '../../actions/rankingActions';
 import './gdp-rank.scss';
 
 
 class GDPRank extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.state || {};
+    this.state = null;
   }
 
   componentDidMount() {
@@ -20,14 +20,14 @@ class GDPRank extends React.Component {
   }
 
   render() {
-    const { rank } = this.props;
+    const { gdpRank } = this.props;
     let gdpJSX = null;
 
-    if (rank) {
+    if (gdpRank) {
       gdpJSX = 
         <ul>
           {
-            rank.map((x) => {
+            gdpRank.map((x) => {
               return (
                 <li key={x.id}>
                   {
@@ -46,7 +46,7 @@ class GDPRank extends React.Component {
       <div className="gdp-rank"> 
         <h1>GDP PPP Rankings</h1>
         {
-          rank ? gdpJSX : null
+          gdpRank ? gdpJSX : null
         }
       </div>
     );
@@ -55,18 +55,18 @@ class GDPRank extends React.Component {
 
 GDPRank.propTypes = {
   history: PropTypes.object,
-  rank: PropTypes.array,
+  gdpRank: PropTypes.array,
   gdpGet: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {
   return {
-    rank: state.gdp,
+    gdpRank: state.rankings,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  gdpGet: () => dispatch(gdpActions.gdpFetchRequest()),
+  gdpGet: () => dispatch(rankingActions.gdpFetchRequest()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GDPRank);
