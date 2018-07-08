@@ -16,6 +16,7 @@ describe('RANKINGS ROUTER', () => {
     createFakeGDPMock('togo', '55');
     createFakeGDPMock('australia', '8');
     createFakeGDPMock('russia', '33');
+    setTimeout(2000);
 
     return superagent.get(`${API_URL}/rankings-gdp`)
       .then((response) => {
@@ -33,6 +34,7 @@ describe('RANKINGS ROUTER', () => {
     createFakePopulationMock('denmark', '99');
     createFakePopulationMock('luxembourg', '180');
     createFakePopulationMock('china', '1');
+    setTimeout(2000);
 
     return superagent.get(`${API_URL}/rankings-population`)
       .then((response) => {
@@ -50,6 +52,7 @@ describe('RANKINGS ROUTER', () => {
     createFakeAreaMock('canada', '2');
     createFakeAreaMock('el salvador', '130');
     createFakeAreaMock('russia', '1');
+    setTimeout(2000);
 
     return superagent.get(`${API_URL}/rankings-area`)
       .then((response) => {
