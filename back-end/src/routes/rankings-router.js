@@ -45,7 +45,7 @@ rankingsRouter.get('/rankings-population', (request, response, next) => {
         };
       });
       
-      logger.log(logger.INFO, 'Returning countries in order of GDP PPP');
+      logger.log(logger.INFO, 'Returning countries in order of population');
       return response.json(filtered);
     })
     .catch(next);
@@ -70,7 +70,7 @@ rankingsRouter.get('/rankings-area', (request, response, next) => {
         };
       });
       
-      logger.log(logger.INFO, 'Returning countries in order of GDP PPP');
+      logger.log(logger.INFO, 'Returning countries in order of area');
       return response.json(filtered);
     })
     .catch(next);
