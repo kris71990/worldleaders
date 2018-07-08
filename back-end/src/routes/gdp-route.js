@@ -6,7 +6,7 @@ import logger from '../../src/lib/logger';
 
 const gdpRouter = new Router();
 
-gdpRouter.get('/rankings/gdp', (request, response, next) => {
+gdpRouter.get('/rankings-gdp', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return Country.find()
