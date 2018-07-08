@@ -43,7 +43,7 @@ class GDPRank extends React.Component {
     }
 
     return (
-      <div className="gdp-rank"> 
+      <div className="rankings"> 
         <h1>GDP PPP Rankings</h1>
         {
           gdpRank ? gdpJSX : null

@@ -45,7 +45,7 @@ class PopulationRank extends React.Component {
     }
 
     return (
-      <div className="gdp-rank"> 
+      <div className="rankings"> 
         <h1>Population Rankings</h1>
         {
           popRank ? popJSX : null

@@ -51,4 +51,29 @@ rankingsRouter.get('/rankings-population', (request, response, next) => {
     .catch(next);
 });
 
+rankingsRouter.get('/rankings-area', (request, response, next) => {
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  return Country.find()
+    .then((countries) => {
+      logger.log(logger.INFO, 'GET /countries-area, preparing to sort');
+
+      const sorted = countries.sort((x, y) => {
+        return x.areaRank - y.areaRank;
+      });
+      const filtered = sorted.map((x) => {
+        return { 
+          countryName: x.countryName, 
+          id: x.id, 
+          area: x.area, 
+          areaRank: x.areaRank,
+        };
+      });
+      
+      logger.log(logger.INFO, 'Returning countries in order of GDP PPP');
+      return response.json(filtered);
+    })
+    .catch(next);
+});
+
 export default rankingsRouter;

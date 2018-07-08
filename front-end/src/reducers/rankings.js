@@ -4,6 +4,8 @@ export default (state = [], { type, payload }) => {
       return payload;
     case 'POPULATION_FETCH':
       return payload;
+    case 'AREA_FETCH':
+      return payload;
     case 'COUNTRY_LIST_GET':
       return null;
     default:

@@ -11,6 +11,11 @@ const populationFetch = countries => ({
   payload: countries,
 });
 
+const areaFetch = countries => ({
+  type: 'AREA_FETCH',
+  payload: countries,
+});
+
 const gdpFetchRequest = () => (store) => {
   return superagent.get(`${API_URL}${routes.GDP_ROUTE}`)
     .then((response) => {
@@ -22,7 +27,15 @@ const gdpFetchRequest = () => (store) => {
 const populationFetchRequest = () => (store) => {
   return superagent.get(`${API_URL}${routes.POPULATION_ROUTE}`)
     .then((response) => {
-      store.dispatch(gdpFetch(response.body));
+      store.dispatch(populationFetch(response.body));
+      return response;
+    }); 
+};
+
+const areaFetchRequest = () => (store) => {
+  return superagent.get(`${API_URL}${routes.AREA_ROUTE}`)
+    .then((response) => {
+      store.dispatch(areaFetch(response.body));
       return response;
     }); 
 };
@@ -32,4 +45,6 @@ export {
   gdpFetchRequest,
   populationFetch,
   populationFetchRequest,
+  areaFetch,
+  areaFetchRequest,
 };
