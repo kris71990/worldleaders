@@ -13,7 +13,7 @@ class Header extends React.Component {
         <nav>
           <ul>
             <li><Link to={routes.ROOT_ROUTE}>Home</Link></li>
-            <li><Link to={`${routes.COUNTRY_ROUTE}/gdp`}>GDP PPP</Link></li>
+            <li><Link to={`${routes.GDP_ROUTE}`}>GDP PPP</Link></li>
           </ul>
         </nav>
       </header>

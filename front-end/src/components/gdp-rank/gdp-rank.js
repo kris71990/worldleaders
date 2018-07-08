@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 import * as gdpActions from '../../actions/gdp-action';
 import './gdp-rank.scss';
 
+
 class GDPRank extends React.Component {
   constructor(props) {
     super(props);
-    this.state = '';
+    this.state = this.props.rank || {};
   }
 
   componentDidMount() {
@@ -31,8 +32,8 @@ class GDPRank extends React.Component {
                 <li key={x.id}>
                   {
                     x.countryName.includes('_') ? 
-                      x.countryName.split('_').map(y => y.charAt(0).toUpperCase() + y.slice(1)).join(' ') + ' - ' + x.gdpPPPRank
-                      : x.countryName.charAt(0).toUpperCase() + x.countryName.slice(1) + ' - ' + x.gdpPPPRank
+                      x.countryName.split('_').map(y => y.charAt(0).toUpperCase() + y.slice(1)).join(' ') + ' -- ' + x.gdpPPPRank
+                      : x.countryName.charAt(0).toUpperCase() + x.countryName.slice(1) + ' -- ' + x.gdpPPPRank
                   }
                 </li>
               );
@@ -44,13 +45,16 @@ class GDPRank extends React.Component {
     return (
       <div className="gdp-rank"> 
         <h1>GDP PPP Rankings</h1>
-        {gdpJSX}
+        {
+          rank ? gdpJSX : null
+        }
       </div>
     );
   }
 }
 
 GDPRank.propTypes = {
+  history: PropTypes.object,
   rank: PropTypes.array,
   gdpGet: PropTypes.func,
 };

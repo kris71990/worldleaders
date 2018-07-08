@@ -15,7 +15,7 @@ class App extends React.Component {
           <div>
             <Header/>
             <Route exact path="/" component={Landing}/>
-            <Route exact path="/countries/gdp" component={GDPRank}/>
+            <Route exact path="/rankings/gdp" component={GDPRank}/>
             <Route exact path="/countries" component={Country}/>
             <Footer/>
           </div>

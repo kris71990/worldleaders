@@ -18,7 +18,6 @@ webpackConfig.output = {
   publicPath: process.env.CDN_URL,
 };
 
-
 webpackConfig.plugins = [
   new HtmlWebpackPlugin({
     title: 'World Leaders',

@@ -7,7 +7,7 @@ const gdpFetch = countries => ({
 });
 
 const gdpFetchRequest = () => (store) => {
-  return superagent.get(`${API_URL}${routes.COUNTRY_ROUTE}/gdp`)
+  return superagent.get(`${API_URL}${routes.GDP_ROUTE}`)
     .then((response) => {
       store.dispatch(gdpFetch(response.body));
       return response;
