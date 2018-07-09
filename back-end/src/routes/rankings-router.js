@@ -3,8 +3,6 @@
 import { Router } from 'express';
 import Country from '../models/country';
 import logger from '../../src/lib/logger';
-import { Z_ASCII } from 'zlib';
-import { ENGINE_METHOD_ALL } from 'constants';
 
 const rankingsRouter = new Router();
 
