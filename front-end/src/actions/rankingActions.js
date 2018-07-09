@@ -48,7 +48,7 @@ const areaFetchRequest = () => (store) => {
 const languagePrevalenceFetchRequest = () => (store) => {
   return superagent.get(`${API_URL}${routes.LANGUAGE_PREVALENCE_ROUTE}`)
     .then((response) => {
-      store.dispatch(areaFetch(response.body));
+      store.dispatch(languagePrevalenceFetch(response.body));
       return response;
     }); 
 };

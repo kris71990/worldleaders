@@ -15,12 +15,12 @@ class PopulationRank extends React.Component {
   componentDidMount() {
     this.props.populationGet()
       .then((response) => {
-        this.setState({ rank: response.body });
+        this.setState({ popRank: response.body });
       });
   }
 
   render() {
-    const { popRank } = this.props;
+    const { popRank } = this.state;
     let popJSX = null;
 
     if (popRank) {

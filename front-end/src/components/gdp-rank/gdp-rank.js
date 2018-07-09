@@ -9,18 +9,18 @@ import './gdp-rank.scss';
 class GDPRank extends React.Component {
   constructor(props) {
     super(props);
-    this.state = null;
+    this.state = {};
   }
 
   componentDidMount() {
     this.props.gdpGet()
       .then((response) => {
-        this.setState({ rank: response.body });
+        this.setState({ gdpRank: response.body });
       });
   }
 
   render() {
-    const { gdpRank } = this.props;
+    const { gdpRank } = this.state;
     let gdpJSX = null;
 
     if (gdpRank) {

@@ -9,47 +9,49 @@ import './language-rank.scss';
 class LanguageRank extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.state || {};
+    this.state = {};
   }
 
   componentDidMount() {
     this.props.languageRankGet()
       .then((response) => {
-        this.setState({ rank: response.body });
+        this.setState({ languageRank: response.body });
       });
   }
 
   render() {
-    const { languageRank } = this.props;
-    console.log(languageRank);
-    // let languageRankJSX = null;
+    const { languageRank } = this.state;
+    let languageRankJSX = null;
 
-    // if (languageRank) {
-    //   languageRankJSX = 
-    //     <ul>
-    //       {
-    //         languageRank.map((x) => {
-    //           const area = Number(x.area).toLocaleString();
-    //           return (
-    //             <li key={x.id}>
-    //               {
-    //                 x.countryName.includes('_') ? 
-    //                   x.countryName.split('_').map(y => y.charAt(0).toUpperCase() + y.slice(1)).join(' ') + ' -- ' + area + ' sq km -- (' + x.areaRank + ')'
-    //                   : x.countryName.charAt(0).toUpperCase() + x.countryName.slice(1) + ' -- ' + area + ' sq km -- (' + x.areaRank + ')'
-    //               }
-    //             </li>
-    //           );
-    //         })
-    //       }
-    //     </ul>;
-    // }
+    if (languageRank) {
+      languageRankJSX = 
+        <ul>
+          {
+            languageRank.map((x) => {
+              let plural = 'countries';
+              if (x[1] === 1) plural = 'country';
+              if (x[0].toLowerCase() === 'other' || x[0].toLowerCase() === 'unspecified') {
+                return null;
+              }
+
+              return (
+                <li key={x[0]}>
+                  {
+                    `${x[0]} -- Spoken in ${x[1]} ${plural}`
+                  }
+                </li>
+              );
+            })
+          }
+        </ul>;
+    }
 
     return (
       <div className="rankings"> 
-        <h1>Area Rankings</h1>
-        {/* {
-          areaRank ? areaJSX : null
-        } */}
+        <h1>Most Widely Spoken Languages</h1>
+        {
+          languageRank ? languageRankJSX : null
+        }
       </div>
     );
   }

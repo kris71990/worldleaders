@@ -9,18 +9,18 @@ import './area-rank.scss';
 class AreaRank extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.state || {};
+    this.state = {};
   }
 
   componentDidMount() {
     this.props.areaGet()
       .then((response) => {
-        this.setState({ rank: response.body });
+        this.setState({ areaRank: response.body });
       });
   }
 
   render() {
-    const { areaRank } = this.props;
+    const { areaRank } = this.state;
     let areaJSX = null;
 
     if (areaRank) {
