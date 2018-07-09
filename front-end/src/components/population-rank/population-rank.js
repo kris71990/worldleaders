@@ -25,7 +25,7 @@ class PopulationRank extends React.Component {
 
     if (popRank) {
       popJSX = 
-        <ul>
+        <ul className="pop-list">
           {
             popRank.map((x) => {
               const population = Number(x.population).toLocaleString();
@@ -52,7 +52,8 @@ class PopulationRank extends React.Component {
 
     return (
       <div className="rankings"> 
-        <h1>Population Rankings</h1>
+        <h1>Population</h1>
+        <p>Most populated (in millions)</p>
         {
           popRank ? popJSX : null
         }

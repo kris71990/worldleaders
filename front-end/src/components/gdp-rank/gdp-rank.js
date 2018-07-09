@@ -29,7 +29,7 @@ class GDPRank extends React.Component {
 
     if (gdpRank) {
       gdpJSX = 
-        <ul>
+        <ul className="gdp-list">
           {
             gdpRank.map((x) => {
               return (

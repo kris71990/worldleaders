@@ -20,33 +20,34 @@ input {
 }
 
 .rankings {
-  width: 65%;
+  width: 60%;
   margin: 0 auto;
   font-weight: bold;
 
   .country-ranking {
+    width: 18%;
     letter-spacing: normal;
     text-align: left;
     display: inline-block;
-    padding-right: 1.5%;
-    border: 2px solid black;
+    text-align: center;
+    border-right: 2px solid black;
   }
 
   .country-ranking-data {
+    width: 18%;
     letter-spacing: 0.05em;
-    text-align: right;
+    text-align: center;
     display: inline-block;
     padding-right: 1.5%;
     padding-left: 1.5%;
-    border: 2px solid black;
+    border-left: 2px solid black;
   }
 
   .country-name {
-    width: 80%;
+    width: 60%;
     margin: 0 auto;
     display: inline-block;
     text-align: center;
-    border: 2px solid black;
   }
 
   ul {

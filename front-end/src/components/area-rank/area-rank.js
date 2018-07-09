@@ -25,7 +25,7 @@ class AreaRank extends React.Component {
 
     if (areaRank) {
       areaJSX = 
-        <ul>
+        <ul className="area-list">
           {
             areaRank.map((x) => {
               const area = Number(x.area).toLocaleString();

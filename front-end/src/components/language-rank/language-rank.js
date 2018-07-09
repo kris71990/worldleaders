@@ -25,23 +25,21 @@ class LanguageRank extends React.Component {
 
     if (languageRank) {
       languageRankJSX = 
-        <ul>
+        <ul className="language-list">
           {
-            languageRank.map((x) => {
-              let plural = 'countries';
-              if (x[1] === 1) plural = 'country';
-              if (x[0].toLowerCase() === 'other' || x[0].toLowerCase() === 'unspecified') {
-                return null;
-              }
+            languageRank.filter(x => x[0].toLowerCase() !== 'other' && x[0].toLowerCase() !== 'unspecified')
+              .map((x, index) => {
+                let plural = 'countries';
+                if (x[1] === 1) plural = 'country';
 
-              return (
-                <li key={x[0]}>
-                  {
-                    `${x[0]} -- Spoken in ${x[1]} ${plural}`
-                  }
-                </li>
-              );
-            })
+                return (
+                  <li key={x[0]}>
+                    <p className="country-ranking">{index + 1}</p>
+                    <p className="country-name">{x[0]}</p>
+                    <p className="country-ranking-data">{`${x[1]} ${plural}`}</p>
+                  </li>
+                );
+              })
           }
         </ul>;
     }
