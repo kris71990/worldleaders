@@ -1,0 +1,11 @@
+.language-list {
+  li {
+    background: linear-gradient(rgba(146, 113, 155, 0.5), rgba(73, 13, 90, 1));
+    padding-right: 4%;
+  }
+
+  li:hover {
+    background-color: rgb(73, 13, 90);
+    transform: scale(1.01);
+  }
+}

@@ -1,0 +1,11 @@
+.pop-list {
+  li {
+    background: linear-gradient(rgba(241, 214, 178, 0.5), rgba(126, 83, 25, 1));
+    padding-right: 4%;
+  }
+
+  li:hover {
+    background-color: rgb(126, 83, 25);
+    transform: scale(1.01);
+  }
+}

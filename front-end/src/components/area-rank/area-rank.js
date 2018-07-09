@@ -9,33 +9,39 @@ import './area-rank.scss';
 class AreaRank extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.state || {};
+    this.state = {};
   }
 
   componentDidMount() {
     this.props.areaGet()
       .then((response) => {
-        this.setState({ rank: response.body });
+        this.setState({ areaRank: response.body });
       });
   }
 
   render() {
-    const { areaRank } = this.props;
+    const { areaRank } = this.state;
     let areaJSX = null;
 
     if (areaRank) {
       areaJSX = 
-        <ul>
+        <ul className="area-list">
           {
             areaRank.map((x) => {
               const area = Number(x.area).toLocaleString();
               return (
                 <li key={x.id}>
+                  <p className="country-ranking">{x.areaRank}</p>
                   {
-                    x.countryName.includes('_') ? 
-                      x.countryName.split('_').map(y => y.charAt(0).toUpperCase() + y.slice(1)).join(' ') + ' -- ' + area + ' sq km -- (' + x.areaRank + ')'
-                      : x.countryName.charAt(0).toUpperCase() + x.countryName.slice(1) + ' -- ' + area + ' sq km -- (' + x.areaRank + ')'
+                    <p className="country-name">
+                    {
+                      x.countryName.includes('_') ? 
+                        x.countryName.split('_').map(y => y.charAt(0).toUpperCase() + y.slice(1)).join(' ')
+                        : x.countryName.charAt(0).toUpperCase() + x.countryName.slice(1)
+                      }
+                    </p>
                   }
+                  <p className="country-ranking-data">{area}</p>
                 </li>
               );
             })
@@ -45,7 +51,8 @@ class AreaRank extends React.Component {
 
     return (
       <div className="rankings"> 
-        <h1>Area Rankings</h1>
+        <h1>Area</h1>
+        <p>Countries ranked by area in square kilometers</p>
         {
           areaRank ? areaJSX : null
         }

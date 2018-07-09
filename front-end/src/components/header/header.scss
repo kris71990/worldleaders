@@ -3,7 +3,6 @@
 .header {
   border: 10px groove #9B2120;
   background-color: #0781D6;
-  // height: 10em;
 
   h1 {
     font-family: 'Courgette', cursive;
@@ -12,5 +11,10 @@
   ul {
     list-style: none;
     padding: 0;
+
+    li {
+      display: inline;
+      margin: 10px;
+    }
   }
 }

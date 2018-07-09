@@ -16,6 +16,11 @@ const areaFetch = countries => ({
   payload: countries,
 });
 
+const languagePrevalenceFetch = countries => ({
+  type: 'LANGUAGE_PREVALENCE_FETCH',
+  payload: countries,
+});
+
 const gdpFetchRequest = () => (store) => {
   return superagent.get(`${API_URL}${routes.GDP_ROUTE}`)
     .then((response) => {
@@ -40,6 +45,14 @@ const areaFetchRequest = () => (store) => {
     }); 
 };
 
+const languagePrevalenceFetchRequest = () => (store) => {
+  return superagent.get(`${API_URL}${routes.LANGUAGE_PREVALENCE_ROUTE}`)
+    .then((response) => {
+      store.dispatch(languagePrevalenceFetch(response.body));
+      return response;
+    }); 
+};
+
 export { 
   gdpFetch, 
   gdpFetchRequest,
@@ -47,4 +60,6 @@ export {
   populationFetchRequest,
   areaFetch,
   areaFetchRequest,
+  languagePrevalenceFetch,
+  languagePrevalenceFetchRequest,
 };

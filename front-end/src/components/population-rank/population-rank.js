@@ -15,28 +15,34 @@ class PopulationRank extends React.Component {
   componentDidMount() {
     this.props.populationGet()
       .then((response) => {
-        this.setState({ rank: response.body });
+        this.setState({ popRank: response.body });
       });
   }
 
   render() {
-    const { popRank } = this.props;
+    const { popRank } = this.state;
     let popJSX = null;
 
     if (popRank) {
       popJSX = 
-        <ul>
+        <ul className="pop-list">
           {
             popRank.map((x) => {
               const population = Number(x.population).toLocaleString();
+
               return (
                 <li key={x.id}>
-                  
+                  <p className="country-ranking">{x.populationRank}</p>
                   {
-                    x.countryName.includes('_') ? 
-                      x.countryName.split('_').map(y => y.charAt(0).toUpperCase() + y.slice(1)).join(' ') + ' -- ' + population + ' -- (' + x.populationRank + ')'
-                      : x.countryName.charAt(0).toUpperCase() + x.countryName.slice(1) + ' -- ' + population + ' -- (' + x.populationRank + ')'
+                    <p className="country-name">
+                    {
+                      x.countryName.includes('_') ? 
+                        x.countryName.split('_').map(y => y.charAt(0).toUpperCase() + y.slice(1)).join(' ')
+                        : x.countryName.charAt(0).toUpperCase() + x.countryName.slice(1)
+                      }
+                    </p>
                   }
+                  <p className="country-ranking-data">{population}</p>
                 </li>
               );
             })
@@ -46,7 +52,8 @@ class PopulationRank extends React.Component {
 
     return (
       <div className="rankings"> 
-        <h1>Population Rankings</h1>
+        <h1>Population</h1>
+        <p>Most populated (in millions)</p>
         {
           popRank ? popJSX : null
         }

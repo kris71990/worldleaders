@@ -1,0 +1,11 @@
+.area-list {
+  li {
+    background: linear-gradient(rgba(118, 139, 177, 0.5), rgba(23, 76, 177, 1));
+    padding-right: 4%;
+  }
+
+  li:hover {
+    background-color: rgb(23, 76, 177);
+    transform: scale(1.01);
+  }
+}
