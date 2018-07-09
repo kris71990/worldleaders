@@ -24,10 +24,40 @@ input {
   margin: 0 auto;
   font-weight: bold;
 
+  .country-ranking {
+    letter-spacing: normal;
+    text-align: left;
+    display: inline-block;
+    padding-right: 1.5%;
+    border: 2px solid black;
+  }
+
+  .country-ranking-data {
+    letter-spacing: 0.05em;
+    text-align: right;
+    display: inline-block;
+    padding-right: 1.5%;
+    padding-left: 1.5%;
+    border: 2px solid black;
+  }
+
+  .country-name {
+    width: 80%;
+    margin: 0 auto;
+    display: inline-block;
+    text-align: center;
+    border: 2px solid black;
+  }
+
   ul {
     list-style: none;
     padding: 0;
-    font-size: 150%;
+    font-size: 100%;
     letter-spacing: 0.2em;
+
+    a {
+      text-decoration: none;
+      color: #000000;
+    }
   }
 } 

@@ -1,25 +1,11 @@
 .rankings {
-  span {
-    letter-spacing: normal;
-    float: left;
-    padding-left: 1.5%;
-    padding-right: 1.5%;
-    border-right: 2px solid black;
-  }
-
   li {
     background: linear-gradient(rgba(254, 61, 61, 0.2), rgba(102, 7, 7, 1));
-    padding: 1%;
     padding-right: 4%;
   }
 
   li:hover {
     background-color: rgb(254, 61, 61);
     transform: scale(1.01);
-  }
-
-  a {
-    text-decoration: none;
-    color: #000000;
   }
 }

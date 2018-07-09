@@ -29,14 +29,20 @@ class PopulationRank extends React.Component {
           {
             popRank.map((x) => {
               const population = Number(x.population).toLocaleString();
+
               return (
                 <li key={x.id}>
-                  
+                  <p className="country-ranking">{x.populationRank}</p>
                   {
-                    x.countryName.includes('_') ? 
-                      x.countryName.split('_').map(y => y.charAt(0).toUpperCase() + y.slice(1)).join(' ') + ' -- ' + population + ' -- (' + x.populationRank + ')'
-                      : x.countryName.charAt(0).toUpperCase() + x.countryName.slice(1) + ' -- ' + population + ' -- (' + x.populationRank + ')'
+                    <p className="country-name">
+                    {
+                      x.countryName.includes('_') ? 
+                        x.countryName.split('_').map(y => y.charAt(0).toUpperCase() + y.slice(1)).join(' ')
+                        : x.countryName.charAt(0).toUpperCase() + x.countryName.slice(1)
+                      }
+                    </p>
                   }
+                  <p className="country-ranking-data">{population}</p>
                 </li>
               );
             })
