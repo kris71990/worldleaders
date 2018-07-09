@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import autoBind from '../../utils/autoBind';
+import * as routes from '../../utils/routes';
 
 import * as rankingActions from '../../actions/rankingActions';
 import './gdp-rank.scss';
@@ -10,6 +13,7 @@ class GDPRank extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    autoBind.call(this, GDPRank);
   }
 
   componentDidMount() {
@@ -18,6 +22,10 @@ class GDPRank extends React.Component {
         this.setState({ gdpRank: response.body });
       });
   }
+
+  // handleClick(id) {
+
+  // }
 
   render() {
     const { gdpRank } = this.state;
@@ -30,12 +38,18 @@ class GDPRank extends React.Component {
             gdpRank.map((x) => {
               return (
                 <li key={x.id}>
-                  {
-                    x.countryName.includes('_') ? 
-                      x.countryName.split('_').map(y => y.charAt(0).toUpperCase() + y.slice(1)).join(' ') + ' -- ' + x.gdpPPPRank
-                      : x.countryName.charAt(0).toUpperCase() + x.countryName.slice(1) + ' -- ' + x.gdpPPPRank
-                  }
-                </li>
+                  <span>{x.gdpPPPRank}</span>
+                    {
+                      x.countryName.includes('_') ?
+                        <Link to={{ pathname: routes.COUNTRY_ROUTE, state: { selected: x.id } }}>
+                          {x.countryName.split('_').map(y => y.charAt(0).toUpperCase() + y.slice(1)).join(' ')}
+                        </Link>
+                        : 
+                        <Link to={{ pathname: routes.COUNTRY_ROUTE, state: { selected: x.id } }}>
+                          {x.countryName.charAt(0).toUpperCase() + x.countryName.slice(1)}
+                        </Link>
+                    }
+                  </li>
               );
             })
           }
@@ -48,6 +62,10 @@ class GDPRank extends React.Component {
         {
           gdpRank ? gdpJSX : null
         }
+        {/* { redirect 
+          ? <Redirect to={{ pathname: '/countries', state: { selected: this.state.selected } }}/> 
+          : null 
+        } */}
       </div>
     );
   }
