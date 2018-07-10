@@ -29,13 +29,14 @@ class LanguageRank extends React.Component {
           {
             languageRank.filter(x => x[0].toLowerCase() !== 'other' && x[0].toLowerCase() !== 'unspecified')
               .map((x, index) => {
+                const langUrl = `https://en.wikipedia.org/wiki/${x[0]}_language`;
                 let plural = 'countries';
                 if (x[1] === 1) plural = 'country';
 
                 return (
                   <li key={x[0]}>
                     <p className="country-ranking">{index + 1}</p>
-                    <p className="country-name">{x[0]}</p>
+                    <p className="country-name"><a target="_blank" rel="noopener noreferrer" href={langUrl}>{x[0]}</a></p>
                     <p className="country-ranking-data">{`${x[1]} ${plural}`}</p>
                   </li>
                 );
