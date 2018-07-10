@@ -1,0 +1,12 @@
+## GET from /rankings-gdp
+## This parses and returns a list of all countries in order of GDP, found by appropriate link in header
+
+config:
+  target: 'http://localhost:3000'
+  phases:
+    - duration: 60
+      arrivalRate: 30
+scenarios:
+  - flow:
+    - get:
+        url: '/rankings-gdp'
