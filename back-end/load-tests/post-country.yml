@@ -1,0 +1,14 @@
+## POST to /countries countryName="country"
+## This resolves the submission of the form on the homepage to add a country
+
+config:
+  target: 'http://localhost:3000'
+  phases:
+    - duration: 60
+      arrivalRate: 30
+scenarios:
+  - flow:
+    - post:
+        url: "/countries"
+        json: 
+          countryName: "belize"

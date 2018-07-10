@@ -1,0 +1,12 @@
+## GET from /countries/list
+## This is the list of countries that renders in the dropdown menu on the homepage
+
+config:
+  target: 'http://localhost:3000'
+  phases:
+    - duration: 60
+      arrivalRate: 30
+scenarios:
+  - flow:
+    - get:
+        url: "/countries/list"

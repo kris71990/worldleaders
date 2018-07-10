@@ -1,0 +1,12 @@
+## GET from /countries/:id
+## This simulates a selection from the dropdown list and receiving the country's info page
+
+config:
+  target: 'http://localhost:3000'
+  phases:
+    - duration: 60
+      arrivalRate: 30
+scenarios:
+  - flow:
+    - get:
+        url: '/countries/5b381013c9c6be328b6bdb07'
