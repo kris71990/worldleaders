@@ -7,7 +7,7 @@ import System from '../models/gov-system';
 import Country from '../models/country';
 import logger from '../../src/lib/logger';
 import data from '../../data.json';
-import { filterDemocracies, filterDictatorships, filterCommunism } from '../lib/filter-govs';
+import { filterDemocracies, filterRepublics, filterDictatorships, filterCommunism, filterMonarchies } from '../lib/filter-govs';
 // import getData from '../lib/get-data';
 
 const jsonParser = json();
@@ -88,7 +88,11 @@ govSystemRouter.get('/systems/all', (request, response, next) => {
       const democracies = filterDemocracies(systems);
       const dictatorships = filterDictatorships(systems);
       const communism = filterCommunism(systems);
+      const republics = filterRepublics(systems);
+      const monarchies = filterMonarchies(systems);
 
+      console.log(monarchies);
+      console.log(republics);
       console.log(communism);
       console.log(democracies);
       console.log(dictatorships);

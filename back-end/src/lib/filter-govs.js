@@ -4,6 +4,7 @@ import logger from './logger';
 
 const filterDemocracies = (systems) => {
   logger.log(logger.INFO, 'Filtering system data for democracies');
+
   const democracies = systems.filter(country => country.includes('democracy'))
     .map((x) => {
       const split = x.split(' ');
@@ -26,6 +27,7 @@ const filterDemocracies = (systems) => {
     });
 
   const parsedDemocracies = {};
+
   democracies.forEach((x) => {
     const parliamentary = x.includes('parliamentary');
     const presidential = x.includes('presidential');
@@ -49,7 +51,108 @@ const filterDemocracies = (systems) => {
   return parsedDemocracies;
 };
 
+const filterRepublics = (systems) => {
+  logger.log(logger.INFO, 'Filtering system data for republics');
+
+  const republics = systems.filter(country => country.includes('republic'))
+    .map((x) => {
+      const split = x.split(' ');
+      return split;
+    }).map((y) => {
+      let index = 0;
+      y.forEach((z, i) => {
+        switch (z) {
+          case 'republic':
+            index = i + 1;
+            return index;
+          case 'republic;':
+            index = i + 1;
+            return index;
+          default: 
+            return null;
+        }
+      }, 0);
+      return y.slice(0, index).join(' ');
+    });
+
+  const parsedRepublics = {};
+
+  republics.forEach((x) => {
+    const parliamentary = x.includes('parliamentary');
+    const presidential = x.includes('presidential');
+    const theocratic = x.includes('theocratic');
+
+    if (parliamentary) {
+      if (!parsedRepublics['parliamentary republic']) {
+        parsedRepublics['parliamentary republic'] = 1;
+      } else {
+        parsedRepublics['parliamentary republic'] += 1;
+      }
+    }
+      
+    if (presidential) {
+      if (!parsedRepublics['presidential republic']) {
+        parsedRepublics['presidential republic'] = 1;
+      } else {
+        parsedRepublics['presidential republic'] += 1;
+      }
+    }
+
+    if (theocratic) {
+      if (!parsedRepublics['theocratic republic']) {
+        parsedRepublics['theocratic republic'] = 1;
+      } else {
+        parsedRepublics['theocratic republic'] += 1;
+      }
+    }
+  });
+  return parsedRepublics;
+};
+
+const filterMonarchies = (systems) => {
+  logger.log(logger.INFO, 'Filtering system data for monarchies');
+
+  const monarchies = systems.filter(country => country.includes('monarchy') && !country.includes('democracy')).map((x) => {
+    const split = x.split(' ');
+    return split;
+  }).map((y) => {
+    let index = 0;
+    y.forEach((z, i) => {
+      if (z.includes('monarchy')) {
+        index = i + 1;
+        return index;
+      }
+      return null;  
+    }, 0);
+    return y.slice(0, index).join(' ');
+  });
+
+  const parsedMonarchies = {};
+
+  monarchies.forEach((x) => {
+    const parliamentary = x.includes('parliamentary');
+
+    if (parliamentary && !x.includes('democracy')) {
+      if (!parsedMonarchies['parliamentary monarchy']) {
+        parsedMonarchies['parliamentary monarchy'] = 1;
+      } else {
+        parsedMonarchies['parliamentary monarchy'] += 1;
+      }
+      return;
+    }
+
+    if (!parsedMonarchies['constitutional monarchy']) {
+      parsedMonarchies['constitutional monarchy'] = 1;
+    } else {
+      parsedMonarchies['constitutional monarchy'] += 1;
+    }
+  });
+  return parsedMonarchies;
+};
+
 const filterDictatorships = (systems) => {
+  logger.log(logger.INFO, 'Filtering system data for dictatorships');
+
   const dictatorships = systems.filter(country => country.includes('dictatorship')).map((x) => {
     const split = x.split(' ');
     return split;
@@ -66,6 +169,7 @@ const filterDictatorships = (systems) => {
   });
 
   const parsedDictatorships = {};
+
   dictatorships.forEach(() => {
     if (!parsedDictatorships.dictatorship) {
       parsedDictatorships.dictatorship = 1;
@@ -77,6 +181,8 @@ const filterDictatorships = (systems) => {
 };
 
 const filterCommunism = (systems) => {
+  logger.log(logger.INFO, 'Filtering system data for communism');
+
   const communism = systems.filter(country => country.includes('communist')).map((x) => {
     const split = x.split(' ');
     return split;
@@ -93,14 +199,21 @@ const filterCommunism = (systems) => {
   });
 
   const parsedCommunists = {};
+  
   communism.forEach(() => {
-    if (!parsedCommunists.communism) {
-      parsedCommunists.communism = 1;
+    if (!parsedCommunists['communist state']) {
+      parsedCommunists['communist state'] = 1;
     } else {
-      parsedCommunists.communism += 1;
+      parsedCommunists['communist state'] += 1;
     }
   });
   return parsedCommunists;
 };
 
-export { filterDemocracies, filterDictatorships, filterCommunism };
+export { 
+  filterDemocracies, 
+  filterRepublics, 
+  filterMonarchies, 
+  filterDictatorships, 
+  filterCommunism,
+};
