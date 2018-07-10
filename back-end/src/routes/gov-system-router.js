@@ -7,6 +7,7 @@ import System from '../models/gov-system';
 import Country from '../models/country';
 import logger from '../../src/lib/logger';
 import data from '../../data.json';
+import { filterDemocracies, filterDictatorships, filterCommunism } from '../lib/filter-govs';
 // import getData from '../lib/get-data';
 
 const jsonParser = json();
@@ -73,6 +74,25 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
           })
           .catch(next);
       }
+    })
+    .catch(next);
+});
+
+govSystemRouter.get('/systems/all', (request, response, next) => {
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  return Country.find()
+    .then((countries) => {
+      const systems = countries.map(x => x.typeOfGovernment);
+
+      const democracies = filterDemocracies(systems);
+      const dictatorships = filterDictatorships(systems);
+      const communism = filterCommunism(systems);
+
+      console.log(communism);
+      console.log(democracies);
+      console.log(dictatorships);
+      return response.json(systems);
     })
     .catch(next);
 });

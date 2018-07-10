@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import * as rankingActions from '../../actions/rankingActions';
+import * as routes from '../../utils/routes';
 import './area-rank.scss';
 
 
@@ -36,8 +38,17 @@ class AreaRank extends React.Component {
                     <p className="country-name">
                     {
                       x.countryName.includes('_') ? 
-                        x.countryName.split('_').map(y => y.charAt(0).toUpperCase() + y.slice(1)).join(' ')
-                        : x.countryName.charAt(0).toUpperCase() + x.countryName.slice(1)
+                        <Link to={{ pathname: routes.COUNTRY_ROUTE, state: { selected: x.id } }}>
+                          {
+                            x.countryName.split('_').map(y => y.charAt(0).toUpperCase() + y.slice(1)).join(' ')
+                          }
+                        </Link>
+                        : 
+                        <Link to={{ pathname: routes.COUNTRY_ROUTE, state: { selected: x.id } }}>
+                          {
+                            x.countryName.charAt(0).toUpperCase() + x.countryName.slice(1)
+                          }
+                        </Link>
                       }
                     </p>
                   }
