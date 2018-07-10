@@ -6,6 +6,6 @@ import { startServer } from './lib/server';
 
 // getData()
 //   .then(() => {
-//     logger.log(logger.INFO, 'Newest data received - starting server');
+// logger.log(logger.INFO, 'Newest data received - starting server');
 startServer();
 // });
