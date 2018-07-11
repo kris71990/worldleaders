@@ -24,6 +24,16 @@ The current functionality for the backend is described below. More features are 
 
 ## Documentation
 
+**Create an .env file**
+Include these environment variables to run the application
+
+```
+NODE_ENV=development
+PORT=3000
+MONGODB_URI=mongodb://localhost/worldleaders
+CLIENT_URL=http://localhost:8080
+```
+
 **Starting the Server**:
 
 `git clone https://github.com/kris71990/worldleaders.git`
@@ -52,6 +62,8 @@ Any country in the world can be stored in the country collection of the Country 
 
 
 **Back-end Functionality**:
+
+*Country Router*
 
 1. POST to /countries
     - Required Parameters
@@ -93,7 +105,10 @@ Any country in the world can be stored in the country collection of the Country 
       - `http DELETE localhost:${PORT}/countries/5b130b049fe61724b1d83609`
     - This endpoint is rarely needed and validation for it will not succeed unless the country requested to be deleted has also been deleted from the CIA world factbook. 
 
-7. A POST to /system
+
+*System Router*
+
+1. A POST to /system
     - Required Parameters
       - `countryName` - the name of some country in the database
       - `countryId` - the Mongo ObjectId of the country in the database
@@ -101,22 +116,51 @@ Any country in the world can be stored in the country collection of the Country 
       - `http POST localhost:${PORT}/system countryName=benin countryId=5b130b049fe61724b1d83609`
     - The above request will verify that the Benin currently exists in the 'country' collection in the database, and that it does not already reference an existing governmental system. If Benin exists without reference to a system, the post will retrieve and parse Benin's governmental system data and save it to the database, with reference to Benin's entry in the 'country' collection.
 
-8. A GET from /system/:country
+2. A GET from /systems/all
+    - No required parameters
+    - Example Request
+      - `http POST localhost:${PORT}/systems/all`
+    - The above request filters and parses the typeOfGovernment property on every country in the database, and returns a single object that holds the final tallies for each type of governmental system in existence. 
+
+3. A GET from /system/:country
     - Required Parameters
        - `country` - the name of some country currently in the database
     - Example request 
        - `http GET localhost:${PORT}/system/benin`
     - The above request will return the governmental system data for Benin.
 
-9. A PUT to /system/:country
+4. A PUT to /system/:country
     - Required Parameters
        - `country` - the name of some country currently in the database
     - Example request 
        - `http PUT localhost:${PORT}/system/benin`
     - The above request will check if what exists in the database is the most current data from the CIA World Factbook. If so, it merely returns the same data. If not, it updates and returns the newest data.
 
+
+*Rankings Router*
+
+1. A GET from /rankings-gdp
+    - Example Request
+      - `http GET localhost:${PORT}/rankings-gdp`
+    - The above request will filter, sort, and return an array of all countries in the database in descending order of GDP PPP.
+
+2. A GET from /rankings-population
+    - Example Request
+      - `http GET localhost:${PORT}/rankings-population`
+    - The above request will filter, sort, and return an array of all countries in the database in descending order of population.
+
+3. A GET from /rankings-language-prevalence
+    - Example Request
+      - `http GET localhost:${PORT}/rankings-language-prevalence`
+    - The above request will filter, sort, and return an array of all languages spoken in countries in the database, with the number of countries each is spoken in, in descending order. 
+
+4. A GET from /rankings-area
+    - Example Request
+      - `http GET localhost:${PORT}/rankings-area`
+    - The above request will filter, sort, and return an array of all countries in the database in descending order of area.
+
 ## Testing
 
-All the functionality in the app is tested using the Jest library. 
+All the functionality in the app is tested using the Jest library. 98% of server-side code is covered with these unit tests. 
 
 To run tests: `npm run test`

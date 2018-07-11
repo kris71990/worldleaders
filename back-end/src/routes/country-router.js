@@ -74,7 +74,8 @@ countryRouter.get('/countries/all', (request, response, next) => {
     .then((countries) => {
       logger.log(logger.INFO, 'GET /country/all successful, getting all countries, returning 200');
       return response.json(countries);
-    });
+    })
+    .catch(next);
 });
 
 // returns a clean array of all countries in database
@@ -90,7 +91,8 @@ countryRouter.get('/countries/list', (request, response, next) => {
       });
 
       return response.json(countryObjs);
-    });
+    })
+    .catch(next);
 });
 
 // returns request country json
