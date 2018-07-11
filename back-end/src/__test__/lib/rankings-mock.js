@@ -23,11 +23,19 @@ const createFakeAreaMock = (country, area) => {
   }).save();
 };
 
+const createFakeLanguageMock = (country, langArray) => {
+  return new Country({
+    countryName: country,
+    languages: langArray,
+  }).save();
+};
+
 const removeFakeMock = () => Country.remove({});
 
 export { 
   createFakeGDPMock, 
   createFakePopulationMock,
   createFakeAreaMock,
+  createFakeLanguageMock,
   removeFakeMock,
 };

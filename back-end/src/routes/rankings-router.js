@@ -118,7 +118,7 @@ rankingsRouter.get('/rankings-language-prevalence', (request, response, next) =>
         return x[1] > y[1];
       });
 
-      logger.log(logger.INFO, 'Returning object of most spoken languages in order of area');
+      logger.log(logger.INFO, 'Returning object of most spoken languages in order');
       return response.json(reallySorted.reverse());
     })
     .catch(next);

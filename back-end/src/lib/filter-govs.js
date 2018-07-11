@@ -19,6 +19,9 @@ const filterDemocracies = (systems) => {
           case 'democracy;':
             index = i + 1;
             return index;
+          case 'democracy,':
+            index = i + 1;
+            return index;
           default: 
             return null;
         }
@@ -112,7 +115,7 @@ const filterRepublics = (systems) => {
 const filterMonarchies = (systems) => {
   logger.log(logger.INFO, 'Filtering system data for monarchies');
 
-  const monarchies = systems.filter(country => country.includes('monarchy') && !country.includes('democracy')).map((x) => {
+  const monarchies = systems.filter(country => country.includes('monarchy')).map((x) => {
     const split = x.split(' ');
     return split;
   }).map((y) => {
@@ -132,19 +135,18 @@ const filterMonarchies = (systems) => {
   monarchies.forEach((x) => {
     const parliamentary = x.includes('parliamentary');
 
-    if (parliamentary && !x.includes('democracy')) {
+    if (parliamentary) {
       if (!parsedMonarchies['parliamentary monarchy']) {
         parsedMonarchies['parliamentary monarchy'] = 1;
       } else {
         parsedMonarchies['parliamentary monarchy'] += 1;
       }
-      return;
-    }
-
-    if (!parsedMonarchies['constitutional monarchy']) {
-      parsedMonarchies['constitutional monarchy'] = 1;
-    } else {
-      parsedMonarchies['constitutional monarchy'] += 1;
+    } else if (!parliamentary) {
+      if (!parsedMonarchies['constitutional monarchy']) {
+        parsedMonarchies['constitutional monarchy'] = 1;
+      } else {
+        parsedMonarchies['constitutional monarchy'] += 1;
+      }
     }
   });
   return parsedMonarchies;
@@ -199,7 +201,7 @@ const filterCommunism = (systems) => {
   });
 
   const parsedCommunists = {};
-  
+
   communism.forEach(() => {
     if (!parsedCommunists['communist state']) {
       parsedCommunists['communist state'] = 1;
