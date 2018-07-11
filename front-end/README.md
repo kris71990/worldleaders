@@ -60,6 +60,8 @@ App
       CountryCulture
 ```
 
+*Components*
+
 1. App
     - The main wrapper component. This component is rendered in main within the Provider component, which is integrated with Redux and connects to the Redux store.
     - This component directly renders `Header`, `Footer`, and `Landing`
@@ -115,6 +117,20 @@ App
         - A list of the primary goods the country exports
       - Export Partners
         - The countries to which most of the country's exports go
+
+*Ranking Components*
+
+1. GDPRank
+    - This component renders a list of all countries in the database in descending order of GDP Purchasing Power Parity (richest country first)
+
+2. AreaRank
+    - This component renders a list of all countries in the database in descending order of area (largest country first)
+
+3. PopulationRank
+    - This component renders a list of all countries in the database in descending order of population (most populous country first)
+
+4. LanguageRank
+    - This component renders a list of all languages spoken in the world, in descending order of how many countries they are spoken in.
 
 ### Testing
 
