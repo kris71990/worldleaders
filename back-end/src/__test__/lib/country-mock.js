@@ -29,13 +29,17 @@ const createCountryMock = (update, linked) => {
     });
 };
 
-const createFakeMock = (country) => {
+const createFakeMock = (country, typeGov) => {
   const mock = {};
   mock.request = {
     countryName: country,
+    typeOfGovernment: typeGov,
   };
 
-  return Country.create(mock.request.countryName)
+  return new Country({
+    countryName: mock.request.countryName,
+    typeOfGovernment: mock.request.typeOfGovernment,
+  }).save()
     .then((created) => {
       mock.country = created;
       return mock;
