@@ -228,7 +228,7 @@ describe('Test country-router', () => {
 
   describe('DELETE /countries/:id', () => {
     test('Delete a country that no longer exists in the world should return 204', () => {
-      return createFakeMock('fake country')
+      return createFakeMock('fake country', 'fake system')
         .then((mock) => {
           return superagent.delete(`${API_URL}/countries/${mock.country._id}`)
             .then((response) => {

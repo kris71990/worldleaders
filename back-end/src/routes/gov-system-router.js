@@ -91,12 +91,15 @@ govSystemRouter.get('/systems/all', (request, response, next) => {
       const republics = filterRepublics(systems);
       const monarchies = filterMonarchies(systems);
 
-      console.log(monarchies);
-      console.log(republics);
-      console.log(communism);
-      console.log(democracies);
-      console.log(dictatorships);
-      return response.json(systems);
+      const combinedSystems = { 
+        ...democracies, 
+        ...dictatorships, 
+        ...communism, 
+        ...republics, 
+        ...monarchies, 
+      };
+
+      return response.json(combinedSystems);
     })
     .catch(next);
 });
