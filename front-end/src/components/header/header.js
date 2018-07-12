@@ -17,6 +17,7 @@ class Header extends React.Component {
             <li><Link to={routes.POPULATION_ROUTE}>Population</Link></li>
             <li><Link to={routes.AREA_ROUTE}>Area</Link></li>
             <li><Link to={routes.LANGUAGE_PREVALENCE_ROUTE}>Most Spoken Languages</Link></li>
+            <li><Link to={routes.SYSTEMS_ROUTE}>Systems</Link></li>
           </ul>
         </nav>
       </header>
