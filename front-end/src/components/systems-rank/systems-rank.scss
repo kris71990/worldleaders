@@ -1,0 +1,82 @@
+.systems-list {
+  .dictatorship {
+    background: linear-gradient(rgba(61, 60, 62, 0.8), rgba(61, 60, 62, 1));
+    padding-right: 4%;
+  }
+  .dictatorship:hover {
+    background-color: rgb(61, 60, 62);
+    transform: scale(1.01);
+  }
+
+  .communist-state {
+    background: linear-gradient(rgba(231, 37, 21, 0.8), rgba(231, 37, 21, 1));
+    padding-right: 4%;
+  }
+  .communist-state:hover {
+    background-color: rgb(231, 37, 21);
+    transform: scale(1.01);
+  }
+
+  .theocratic-republic {
+    background: linear-gradient(rgba(129, 17, 17, 0.8), rgba(129, 17, 17, 1));
+    padding-right: 4%;
+  }
+  .theocratic-republic:hover {
+    background-color: rgb(129, 17, 17);
+    transform: scale(1.01);
+  }
+
+  .constitutional-monarchy {
+    background: linear-gradient(rgba(202, 45, 45, 0.8), rgba(202, 45, 45, 1));
+    padding-right: 4%;
+  }
+  .constitutional-monarchy:hover {
+    background-color: rgb(202, 45, 45);
+    transform: scale(1.01);
+  }
+
+  .presidential-republic {
+    background: linear-gradient(rgba(117, 19, 144, 0.8), rgba(117, 19, 144, 1));
+    padding-right: 4%;
+  }
+  .presidential-republic:hover {
+    background-color: rgb(117, 19, 144);
+    transform: scale(1.01);
+  }
+
+  .parliamentary-monarchy {
+    background: linear-gradient(rgba(158, 45, 223, 0.8), rgba(158, 45, 223, 1));
+    padding-right: 4%;
+  }
+  .parliamentary-monarchy:hover {
+    background-color: rgb(158, 45, 223);
+    transform: scale(1.01);
+  }
+
+  .presidential-democracy {
+    background: linear-gradient(rgba(107, 36, 210, 0.8), rgba(107, 36, 210, 1));
+    padding-right: 4%;
+  }
+  .presidential-democracy:hover {
+    background-color: rgb(107, 36, 210);
+    transform: scale(1.01);
+  }
+
+  .parliamentary-republic {
+    background: linear-gradient(rgba(81, 36, 210, 0.8), rgba(81, 36, 210, 1));
+    padding-right: 4%;
+  }
+  .parliamentary-republic:hover {
+    background-color: rgb(81, 36, 210);
+    transform: scale(1.01);
+  }
+
+  .parliamentary-democracy {
+    background: linear-gradient(rgba(35, 16, 222, 0.8), rgba(35, 16, 222, 1));
+    padding-right: 4%;
+  }
+  .parliamentary-democracy:hover {
+    background-color: rgb(35, 16, 222);
+    transform: scale(1.01);
+  }
+}

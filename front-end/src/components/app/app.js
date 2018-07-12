@@ -9,6 +9,7 @@ import GDPRank from '../gdp-rank/gdp-rank';
 import PopulationRank from '../population-rank/population-rank';
 import AreaRank from '../area-rank/area-rank';
 import LanguageRank from '../language-rank/language-rank';
+import SystemRank from '../systems-rank/systems-rank';
 
 class App extends React.Component {
   render() {
@@ -23,6 +24,7 @@ class App extends React.Component {
             <Route exact path="/rankings-area" component={AreaRank}/>
             <Route exact path="/rankings-language-prevalence" component={LanguageRank}/>
             <Route exact path="/countries" component={Country}/>
+            <Route exact path="/systems-all" component={SystemRank}/>
             <Footer/>
           </div>
         </BrowserRouter>

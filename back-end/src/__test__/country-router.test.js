@@ -133,11 +133,11 @@ describe('Test country-router', () => {
   });
 
   describe('GET from /countries/all', () => {
+    beforeEach(() => createFakeMock('benin'));
+    beforeEach(() => createFakeMock('togo'));
+    beforeEach(() => createFakeMock('belgium'));
+
     test('GET all should return 200 and return all countries in database', () => {
-      const arr = ['benin', 'togo', 'belgium'];
-      for (let i = 0; i < arr.length; i++) {
-        createFakeMock(arr[i]);
-      }
       return superagent.get(`${API_URL}/countries/all`)
         .then((response) => {
           expect(response.status).toEqual(200);
@@ -145,15 +145,15 @@ describe('Test country-router', () => {
           expect(response.body).toHaveLength(3);
         });
     });
+  });
 
-    test('GET all should return 200 and return no countries if none exist', () => {
-      return superagent.get(`${API_URL}/countries/all`)
-        .then((response) => {
-          expect(response.status).toEqual(200);
-          expect(response.body).toBeInstanceOf(Array);
-          expect(response.body).toHaveLength(0);
-        });
-    });
+  test('GET all should return 200 and return no countries if none exist', () => {
+    return superagent.get(`${API_URL}/countries/all`)
+      .then((response) => {
+        expect(response.status).toEqual(200);
+        expect(response.body).toBeInstanceOf(Array);
+        expect(response.body).toHaveLength(0);
+      });
   });
 
   describe('GET from /countries/list', () => {
