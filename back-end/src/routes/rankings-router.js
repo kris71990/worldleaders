@@ -2,7 +2,7 @@
 
 import { Router } from 'express';
 import Country from '../models/country';
-import logger from '../../src/lib/logger';
+import logger from '../lib/logger';
 
 const rankingsRouter = new Router();
 

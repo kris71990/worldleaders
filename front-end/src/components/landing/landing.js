@@ -46,11 +46,13 @@ class Landing extends React.Component {
     const { redirect } = this.state;
     const { countryList } = this.props;
 
-    countryList.sort((x, y) => {
-      const countryA = x.countryName;
-      const countryB = y.countryName;
-      return ((countryA < countryB) ? -1 : ((countryA > countryB) ? 1 : 0));
-    });
+    if (countryList) {
+      countryList.sort((x, y) => {
+        const countryA = x.countryName;
+        const countryB = y.countryName;
+        return ((countryA < countryB) ? -1 : ((countryA > countryB) ? 1 : 0));
+      });
+    }
 
     return (
       <div className="landing">

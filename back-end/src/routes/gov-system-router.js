@@ -5,7 +5,7 @@ import { json } from 'body-parser';
 import HttpError from 'http-errors';
 import System from '../models/gov-system';
 import Country from '../models/country';
-import logger from '../../src/lib/logger';
+import logger from '../lib/logger';
 import data from '../../data.json';
 import { filterDemocracies, filterRepublics, filterDictatorships, filterCommunism, filterMonarchies } from '../lib/filter-govs';
 // import getData from '../lib/get-data';
