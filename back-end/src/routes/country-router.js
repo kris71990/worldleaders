@@ -5,7 +5,7 @@ import { json } from 'body-parser';
 import HttpError from 'http-errors';
 import Country from '../models/country';
 import System from '../models/gov-system';
-import logger from '../../src/lib/logger';
+import logger from '../lib/logger';
 import data from '../../data.json';
 
 const jsonParser = json();
