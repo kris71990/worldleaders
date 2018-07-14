@@ -25,7 +25,18 @@ class System extends React.Component {
     console.log(selected);
 
     return (
-      <div className="country-info">
+      <div className="system-info">
+      {selected.fullName}
+      <br/>
+      {selected.typeOfGovernment}
+      <br/>
+      {selected.capital}
+      <br/>
+      {selected.chiefOfState}
+      <br/>
+      {selected.headOfGovernment}
+      <br/>
+      {selected.independence}
       </div>
     );
   }
