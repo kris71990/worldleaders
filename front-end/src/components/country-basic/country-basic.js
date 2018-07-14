@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import * as routes from '../../utils/routes';
 
 import './country-basic.scss';
 
@@ -39,7 +41,7 @@ class CountryBasic extends React.Component {
       borderingJSX = 
         <span>
           {
-            selected.borderCountries 
+            selected.borderCountries
               ? selected.borderCountries.map((x, i) => {
                 if (i === 0 && selected.borderCountries.length > 2) return `${x}, `;
                 if (i === 0 && selected.borderCountries.length <= 2) return `${x} `;
@@ -55,6 +57,7 @@ class CountryBasic extends React.Component {
       <div className="basic-info">
         <h1>{countryNameJSX}</h1>
         <h3>{selected.location}</h3>
+        <Link to={{ pathname: `${routes.SYSTEM_ROUTE}-${selected.countryName}`, state: { selected: this.props.selected } }}>Political Information</Link>
         <p>Shares borders with: <br/>{borderingJSX}</p>
         <p>-------------------</p>
         <p>Population: {populationJSX} million 

@@ -104,7 +104,7 @@ govSystemRouter.get('/systems-all', (request, response, next) => {
     .catch(next);
 });
 
-govSystemRouter.get('/system/:country', (request, response, next) => {
+govSystemRouter.get('/system-:country', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return System.find({ countryName: request.params.country })

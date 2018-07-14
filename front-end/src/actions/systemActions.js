@@ -6,6 +6,11 @@ const systemsGetAll = systemsObj => ({
   payload: systemsObj,
 });
 
+const systemGet = system => ({
+  type: 'SYSTEM_GET',
+  payload: system,
+});
+
 const systemsGetAllRequest = () => (store) => {
   return superagent.get(`${API_URL}${routes.SYSTEMS_ROUTE}`)
     .then((response) => {
@@ -14,4 +19,18 @@ const systemsGetAllRequest = () => (store) => {
     });
 };
 
-export { systemsGetAll, systemsGetAllRequest };
+const systemGetRequest = country => (store) => {
+  console.log(country);
+  return superagent.get(`${API_URL}${routes.SYSTEM_ROUTE}-${country}`)
+    .then((response) => {
+      store.dispatch(systemGet(response.body));
+      return response;
+    }); 
+};
+
+export { 
+  systemsGetAll, 
+  systemsGetAllRequest, 
+  systemGetRequest, 
+  systemGet, 
+};
