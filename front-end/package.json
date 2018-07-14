@@ -1,9 +1,11 @@
 {
   "name": "front-end",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prestart": "npm run build",
+    "start": "node index.js",
     "test": "eslint . && jest --coverage",
     "test-nolint": "jest --coverage",
     "build": "webpack --config webpack.prod.js",
@@ -61,6 +63,7 @@
   },
   "dependencies": {
     "clean-webpack-plugin": "^0.1.19",
+    "express": "^4.16.3",
     "html-webpack-exclude-empty-assets-plugin": "^0.1.1",
     "superagent": "^3.8.3"
   }
