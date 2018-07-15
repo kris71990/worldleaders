@@ -52,13 +52,21 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
           }
         });
 
+        let independenceData = '';
+        if (governmentInfo.independence.date) {
+          if (governmentInfo.independence.note) {
+            independenceData = `${governmentInfo.independence.date} - ${governmentInfo.independence.note}`;
+          }
+          independenceData = governmentInfo.independence.date;
+        }
+
         return new System({
           countryId: request.body.countryId,
           countryName: request.body.countryName,
           fullName: governmentInfo.country_name.conventional_long_form,
           capital: governmentInfo.capital.name,
           capitalCoordinates: [latArr.join(' '), lonArr.join(' ')],
-          independence: `${governmentInfo.independence.date} ${governmentInfo.independence.note}`,
+          independence: independenceData,
           chiefOfState: governmentInfo.executive_branch.chief_of_state,
           headOfGovernment: governmentInfo.executive_branch.head_of_government,
           electionsExec: governmentInfo.executive_branch.elections_appointments,
