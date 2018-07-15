@@ -57,7 +57,13 @@ class CountryBasic extends React.Component {
       <div className="basic-info">
         <h1>{countryNameJSX}</h1>
         <h3>{selected.location}</h3>
-        <Link to={{ pathname: `${routes.SYSTEM_ROUTE}-${selected.countryName}`, state: { selected: this.props.selected } }}>Political Information</Link>
+        <p>
+          {
+            selected.hasLinkedSystem ?
+            <Link to={{ pathname: `${routes.SYSTEM_ROUTE}-${selected.countryName}`, state: { selected: this.props.selected } }}>Political Information</Link>
+              : <button>Add system</button>
+          }
+        </p>
         <p>Shares borders with: <br/>{borderingJSX}</p>
         <p>-------------------</p>
         <p>Population: {populationJSX} million 

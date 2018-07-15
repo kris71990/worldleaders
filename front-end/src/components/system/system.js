@@ -24,6 +24,19 @@ class System extends React.Component {
     const { selected } = this.props;
     console.log(selected);
 
+    if (selected.headOfGovernment && selected.chiefOfState) {
+      const hogs = selected.headOfGovernment.match(/\b[A-Z]+\b/g);
+      const hos = selected.chiefOfState.match(/\b[A-Z]+\b/g);
+      const split = selected.headOfGovernment.split(' ');
+      console.log(split);
+
+      const full = hogs.map((x) => {
+        console.log(x);
+        return split.indexOf(x);
+      });
+      console.log(full, hogs);
+    }
+
     return (
       <div className="system-info">
       {selected.fullName}
