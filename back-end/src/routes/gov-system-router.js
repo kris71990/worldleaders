@@ -7,7 +7,7 @@ import System from '../models/gov-system';
 import Country from '../models/country';
 import logger from '../lib/logger';
 import data from '../../data.json';
-import { filterDemocracies, filterRepublics, filterDictatorships, filterCommunism, filterMonarchies } from '../lib/filter-govs';
+import { filterDemocracies, filterRepublics, filterDictatorships, filterCommunism, filterMonarchies, parseFullGov } from '../lib/parse-govs';
 // import getData from '../lib/get-data';
 
 const jsonParser = json();
@@ -34,6 +34,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
         const governmentInfo = data.countries[searchableCountry].data.government;
         const coordinatesLat = governmentInfo.capital.geographic_coordinates.latitude;
         const coordinatesLon = governmentInfo.capital.geographic_coordinates.longitude;
+        const parsedGov = parseFullGov(country.typeOfGovernment);
 
         const latArr = [1, 2, 3];
         const lonArr = [1, 2, 3];
@@ -67,13 +68,14 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
           capital: governmentInfo.capital.name,
           capitalCoordinates: [latArr.join(' '), lonArr.join(' ')],
           independence: independenceData,
-          chiefOfState: governmentInfo.executive_branch.chief_of_state,
-          headOfGovernment: governmentInfo.executive_branch.head_of_government,
+          chiefOfStateFull: governmentInfo.executive_branch.chief_of_state,
+          headOfGovernmentFull: governmentInfo.executive_branch.head_of_government,
           electionsExec: governmentInfo.executive_branch.elections_appointments,
           electionResultsExec: governmentInfo.executive_branch.election_results,
           electionsLeg: governmentInfo.legislative_branch.elections,
           electionResultsLeg: governmentInfo.legislative_branch.election_results,
-          typeOfGovernment: country.typeOfGovernment,
+          typeOfGovernmentFull: country.typeOfGovernment,
+          typeOfGovernment: parsedGov,
           lastUpdated: data.countries[searchableCountry].metadata.date,
         }).save()
           .then((system) => {

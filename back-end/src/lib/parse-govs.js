@@ -2,6 +2,42 @@
 
 import logger from './logger';
 
+const parseFullGov = (string) => {
+  logger.log(logger.INFO, 'Parsing government string');
+
+  let type;
+  if (string.includes('dictatorship')) {
+    type = 'dictatorship';
+  } else if (string.includes('communist')) {
+    type = 'communist state';
+  } else if (string.includes('monarchy')) {
+    if (string.includes('parliamentary')) {
+      type = 'parliamentary monarchy';
+    } else if (string.includes('constitutional') && !string.includes('parliamentary')) {
+      type = 'constitutional monarchy';
+    }
+  } else if (string.includes('democracy')) {
+    if (string.includes('parliamentary')) {
+      type = 'parliamentary democracy';
+    } else if (string.includes('presidential')) {
+      type = 'presidential democracy';
+    } else {
+      type = 'democracy';
+    }
+  } else if (string.includes('republic')) {
+    if (string.includes('parliamentary')) {
+      type = 'parliamentary republic';
+    } else if (string.includes('presidential')) {
+      type = 'presidential republic';
+    } else {
+      type = 'republic';
+    }
+  } else {
+    type = 'unknown';
+  }
+  return type;
+};
+
 const filterDemocracies = (systems) => {
   logger.log(logger.INFO, 'Filtering system data for democracies');
 
@@ -218,4 +254,5 @@ export {
   filterMonarchies, 
   filterDictatorships, 
   filterCommunism,
+  parseFullGov,
 };
