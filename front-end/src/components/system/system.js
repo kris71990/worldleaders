@@ -66,13 +66,11 @@ class System extends React.Component {
         <h4>Capital: </h4>{capitalJSX}<br/>
         <p>{selected.chiefOfState}</p><br/>
         <p>{selected.headOfGovernment}</p><br/>
-        <p>
-          {
-            selected.independence ? 
-              <h4>Independence: <span>{selected.independence}</span></h4>
-              : null
-          }
-        </p>
+        {
+          selected.independence ? 
+            <h4>Independence: <span>{selected.independence}</span></h4>
+            : null
+        }
       </div>
     );
   }

@@ -1,11 +1,24 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import autoBind from '../../utils/autoBind';
 import * as routes from '../../utils/routes';
+import * as systemActions from '../../actions/systemActions';
 
 import './country-basic.scss';
 
 class CountryBasic extends React.Component {
+  constructor(props) {
+    super(props);
+    autoBind.call(this, CountryBasic);
+  }
+
+  handleCreateSystem() {
+    this.props.systemPost(this.props.selected)
+      .then(() => window.location.reload());
+  }
+
   render() {
     const { selected } = this.props;
 
@@ -61,7 +74,7 @@ class CountryBasic extends React.Component {
           {
             selected.hasLinkedSystem ?
             <Link to={{ pathname: `${routes.SYSTEM_ROUTE}-${selected.countryName}`, state: { selected: this.props.selected } }}>Political Information</Link>
-              : <button>Add system</button>
+              : <button onClick={this.handleCreateSystem}>Add system</button>
           }
         </p>
         <p>Shares borders with: <br/>{borderingJSX}</p>
@@ -80,7 +93,21 @@ class CountryBasic extends React.Component {
 }
 
 CountryBasic.propTypes = {
+  history: PropTypes.object,
   selected: PropTypes.object,
+  systemPost: PropTypes.func,
 };
 
-export default CountryBasic;
+const mapStateToProps = (state) => {
+  return {
+    selected: state.country,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  systemPost: country => dispatch(
+    systemActions.systemCreateRequest(country._id, country.countryName),
+  ),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CountryBasic);
