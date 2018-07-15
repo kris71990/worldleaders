@@ -63,10 +63,10 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
         }
 
         const hogk = findHOGKeywords(governmentInfo.executive_branch.head_of_government);
-        console.log(hogk);
+        console.log('hog- ', hogk);
 
-        // const cosk = findCOSKeywords(governmentInfo.executive_branch.chief_of_state);
-        // console.log(cosk);
+        const cosk = findCOSKeywords(governmentInfo.executive_branch.chief_of_state);
+        console.log('cos- ', cosk);
 
         return new System({
           countryId: request.body.countryId,
@@ -76,7 +76,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
           capitalCoordinates: [latArr.join(' '), lonArr.join(' ')],
           independence: independenceData,
           chiefOfStateFull: governmentInfo.executive_branch.chief_of_state,
-          // chiefOfStateKeywords: cosk,
+          chiefOfStateKeywords: cosk,
           headOfGovernmentFull: governmentInfo.executive_branch.head_of_government,
           headOfGovernmentKeywords: hogk,
           electionsExec: governmentInfo.executive_branch.elections_appointments,
