@@ -8,6 +8,7 @@ import Country from '../models/country';
 import logger from '../lib/logger';
 import data from '../../data.json';
 import { filterDemocracies, filterRepublics, filterDictatorships, filterCommunism, filterMonarchies, parseFullGov } from '../lib/parse-govs';
+import { findHOGKeywords, findCOSKeywords } from '../lib/parse-leaders';
 // import getData from '../lib/get-data';
 
 const jsonParser = json();
@@ -61,6 +62,12 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
           independenceData = governmentInfo.independence.date;
         }
 
+        const hogk = findHOGKeywords(governmentInfo.executive_branch.head_of_government);
+        console.log(hogk);
+
+        // const cosk = findCOSKeywords(governmentInfo.executive_branch.chief_of_state);
+        // console.log(cosk);
+
         return new System({
           countryId: request.body.countryId,
           countryName: request.body.countryName,
@@ -69,7 +76,9 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
           capitalCoordinates: [latArr.join(' '), lonArr.join(' ')],
           independence: independenceData,
           chiefOfStateFull: governmentInfo.executive_branch.chief_of_state,
+          // chiefOfStateKeywords: cosk,
           headOfGovernmentFull: governmentInfo.executive_branch.head_of_government,
+          headOfGovernmentKeywords: hogk,
           electionsExec: governmentInfo.executive_branch.elections_appointments,
           electionResultsExec: governmentInfo.executive_branch.election_results,
           electionsLeg: governmentInfo.legislative_branch.elections,

@@ -2,11 +2,11 @@
 
 import logger from './logger';
 
-if (selected.headOfGovernmentFull && selected.chiefOfStateFull) {
-  const fullGov = selected.headOfGovernmentFull;
-  const fullState = selected.chiefOfStateFull;
+const findHOGKeywords = (string) => {
+  logger.log(logger.info, 'finding keywords in head_of_government string');
+
+  const fullGov = string;
   const multsGov = fullGov.includes(';') ? fullGov.split('; ') : null;
-  const multsState = fullState.includes(';') ? fullState.split(';') : null;
   
   const keywordsGov = {};
   if (multsGov) {
@@ -18,9 +18,9 @@ if (selected.headOfGovernmentFull && selected.chiefOfStateFull) {
         const main = split.indexOf(root[0]);
         keywordsGov[i + 1] = split.slice(0, main + 1);
       } else {
-        root.forEach((y) => {
-          console.log(multsGov[i].split(' ').indexOf(y));
-        });
+        const arr = [];
+        root.forEach(y => arr.push(y)); 
+        keywordsGov[i + 1] = arr;
       }
       return null;
     });
@@ -33,13 +33,24 @@ if (selected.headOfGovernmentFull && selected.chiefOfStateFull) {
         const main = split.indexOf(root[0]);
         keywordsGov[1] = split.slice(0, main + 1);
       } else {
-        console.log('more than one capitalized word');
+        const arr = [];
+        root.forEach(y => arr.push(y)); 
+        keywordsGov.push(arr);
       }
     }
   }
+  
   console.log(keywordsGov);
+  return keywordsGov;
+};
 
-  // const keywordsState = {};
+const findCOSKeywords = (string) => {
+  logger.log(logger.info, 'finding keywords in chief_of_state string');
+
+  const fullState = string;
+  const multsState = fullState.includes(';') ? fullState.split(';') : null;
+
+// const keywordsState = {};
   // if (multsState) {
   //   multsState.map((x, i) => {
   //     keywordsState[i] = multsState[i].match(/\b[A-Z]+\b/g);
@@ -52,4 +63,6 @@ if (selected.headOfGovernmentFull && selected.chiefOfStateFull) {
   //   let ind = fullState.indexOf(keywordsState[1]);
   // console.log(ind);
   // }
-}
+};
+
+export { findHOGKeywords, findCOSKeywords };
