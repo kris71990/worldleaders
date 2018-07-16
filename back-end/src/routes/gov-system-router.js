@@ -7,7 +7,8 @@ import System from '../models/gov-system';
 import Country from '../models/country';
 import logger from '../lib/logger';
 import data from '../../data.json';
-import { filterDemocracies, filterRepublics, filterDictatorships, filterCommunism, filterMonarchies } from '../lib/filter-govs';
+import { filterDemocracies, filterRepublics, filterDictatorships, filterCommunism, filterMonarchies, parseFullGov } from '../lib/parse-govs';
+import { findHOGKeywords, findCOSKeywords } from '../lib/parse-leaders';
 // import getData from '../lib/get-data';
 
 const jsonParser = json();
@@ -34,6 +35,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
         const governmentInfo = data.countries[searchableCountry].data.government;
         const coordinatesLat = governmentInfo.capital.geographic_coordinates.latitude;
         const coordinatesLon = governmentInfo.capital.geographic_coordinates.longitude;
+        const parsedGov = parseFullGov(country.typeOfGovernment);
 
         const latArr = [1, 2, 3];
         const lonArr = [1, 2, 3];
@@ -52,20 +54,37 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
           }
         });
 
+        let independenceData = '';
+        if (governmentInfo.independence.date) {
+          if (governmentInfo.independence.note) {
+            independenceData = `${governmentInfo.independence.date} - ${governmentInfo.independence.note}`;
+          }
+          independenceData = governmentInfo.independence.date;
+        }
+
+        const hogk = findHOGKeywords(governmentInfo.executive_branch.head_of_government);
+        console.log('hog- ', hogk);
+
+        const cosk = findCOSKeywords(governmentInfo.executive_branch.chief_of_state);
+        console.log('cos- ', cosk);
+
         return new System({
           countryId: request.body.countryId,
           countryName: request.body.countryName,
           fullName: governmentInfo.country_name.conventional_long_form,
           capital: governmentInfo.capital.name,
           capitalCoordinates: [latArr.join(' '), lonArr.join(' ')],
-          independence: `${governmentInfo.independence.date} ${governmentInfo.independence.note}`,
-          chiefOfState: governmentInfo.executive_branch.chief_of_state,
-          headOfGovernment: governmentInfo.executive_branch.head_of_government,
+          independence: independenceData,
+          chiefOfStateFull: governmentInfo.executive_branch.chief_of_state,
+          chiefOfStateKeywords: cosk,
+          headOfGovernmentFull: governmentInfo.executive_branch.head_of_government,
+          headOfGovernmentKeywords: hogk,
           electionsExec: governmentInfo.executive_branch.elections_appointments,
           electionResultsExec: governmentInfo.executive_branch.election_results,
           electionsLeg: governmentInfo.legislative_branch.elections,
           electionResultsLeg: governmentInfo.legislative_branch.election_results,
-          typeOfGovernment: country.typeOfGovernment,
+          typeOfGovernmentFull: country.typeOfGovernment,
+          typeOfGovernment: parsedGov,
           lastUpdated: data.countries[searchableCountry].metadata.date,
         }).save()
           .then((system) => {
@@ -104,7 +123,7 @@ govSystemRouter.get('/systems-all', (request, response, next) => {
     .catch(next);
 });
 
-govSystemRouter.get('/system/:country', (request, response, next) => {
+govSystemRouter.get('/system-:country', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return System.find({ countryName: request.params.country })

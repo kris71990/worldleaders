@@ -13,13 +13,16 @@ const systemSchema = mongoose.Schema({
   capital: { type: String },
   capitalCoordinates: { type: Array },
   independence: { type: String },
-  chiefOfState: { type: String },
-  headOfGovernment: { type: String },
+  chiefOfStateFull: { type: String },
+  headOfGovernmentFull: { type: String },
+  chiefOfStateKeywords: { type: Object },
+  headOfGovernmentKeywords: { type: Object },
   electionsExec: { type: String },
   electionResultsExec: { type: String },
   electionsLeg: { type: String },
   electionResultsLeg: { type: String },
   typeOfGovernment: { type: String },
+  typeOfGovernmentFull: { type: String },
   lastUpdated: { type: String },
 });
 
