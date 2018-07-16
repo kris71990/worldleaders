@@ -1,9 +1,18 @@
 .system-info {
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin: 0.5em;
+    }
+  }
+
   span {
     font-weight: normal;
   }
-  .capitals {
-    list-style: none;
-    padding: 0;
+
+  h4 {
+    margin: 1%;
   }
 }

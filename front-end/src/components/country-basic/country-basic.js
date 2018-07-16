@@ -28,14 +28,16 @@ class CountryBasic extends React.Component {
     let borderingJSX = null;
 
     if (selected) {
-      countryNameJSX =         
-        <span>
-          {
-            selected.countryName
-              ? selected.countryName.toUpperCase()
-              : null
-          }
-        </span>;
+      if (selected.countryName) {
+        countryNameJSX =         
+          <span>
+            {
+              selected.countryName.includes('_') 
+                ? selected.countryName.split('_').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join(' ')
+                : selected.countryName.charAt(0).toUpperCase() + selected.countryName.slice(1)
+            }
+          </span>;
+      }
 
       populationJSX = 
         <span>

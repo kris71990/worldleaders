@@ -29,6 +29,8 @@ const parseFullGov = (string) => {
       type = 'parliamentary republic';
     } else if (string.includes('presidential')) {
       type = 'presidential republic';
+    } else if (string.includes('constitutional')) {
+      type = 'constitutional republic';
     } else {
       type = 'republic';
     }

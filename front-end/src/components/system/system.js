@@ -9,7 +9,6 @@ import './system.scss';
 class System extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = this.props.location.state;
   }
 
@@ -22,11 +21,28 @@ class System extends React.Component {
 
   render() {
     const { selected } = this.props;
-    // console.log(selected);
     let capitalJSX = null;
+    let nameJSX = null;
+    let hosJSX = null;
+    let hogJSX = null;
 
     if (selected) {
       let multipleCaps = null;
+
+      if (selected.fullName === 'none') {
+        nameJSX = 
+          <h1>
+            {
+              selected.countryName.includes('_') 
+                ? selected.countryName.split('_').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join(' ')
+                : selected.countryName.charAt(0).toUpperCase() + selected.countryName.slice(1)
+
+            }
+          </h1>;
+      } else {
+        nameJSX = <h1>{selected.fullName}</h1>;
+      }
+
       if (selected.capital && selected.capital.includes(';')) {
         multipleCaps = selected.capital.split(';');
       }
@@ -43,22 +59,66 @@ class System extends React.Component {
             }
           </ul>;
       } else {
-        capitalJSX = <p>{selected.capital}</p>;
+        capitalJSX = <span>{selected.capital}</span>;
+      }
+
+      if (selected.headOfGovernmentFull) {
+        let arr;
+        if (selected.headOfGovernmentFull.includes(';')) {
+          arr = selected.headOfGovernmentFull.split(';');
+        } else {
+          arr = [selected.headOfGovernmentFull];
+        }
+
+        hogJSX = 
+          <ul>
+            {
+              arr.map((x, i) => {
+                return (
+                  <li key={i}>{x}</li>
+                );
+              })
+            }
+          </ul>;
+      }
+
+      if (selected.chiefOfStateFull) {
+        let arr;
+        if (selected.chiefOfStateFull.includes(';')) {
+          arr = selected.chiefOfStateFull.split(';');
+        } else {
+          arr = [selected.chiefOfStateFull];
+        }
+
+        hosJSX = 
+          <ul>
+            {
+              arr.map((x, i) => {
+                return (
+                  <li key={i}>{x}</li>
+                );
+              })
+            }
+          </ul>;
       }
     }
 
+
     return (
       <div className="system-info">
-        <h1>{selected.fullName}</h1><br/>
-        <h4>Type of Government: <span>{selected.typeOfGovernment}</span></h4><br/>
-        <h4>Capital: </h4>{capitalJSX}<br/>
-        <p>{selected.chiefOfStateFull}</p><br/>
-        <p>{selected.headOfGovernmentFull}</p><br/>
+        {nameJSX}
+        <h4>Type of Government: <span>{selected.typeOfGovernment}</span></h4>
+        <h4>Capital: </h4>
+        {capitalJSX}
         {
           selected.independence ? 
             <h4>Independence: <span>{selected.independence}</span></h4>
             : null
         }
+        <h4>Head of State:</h4>
+        {hosJSX}
+        <h4>Head of Government:</h4>
+        {hogJSX}
       </div>
     );
   }
