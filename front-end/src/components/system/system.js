@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import SystemElections from '../system-elections/system-elections';
+import SystemLeaders from '../system-leaders/system-leaders';
+
 import * as systemActions from '../../actions/systemActions';
 import './system.scss';
 
@@ -20,10 +23,8 @@ class System extends React.Component {
 
   render() {
     const { selected } = this.props;
-    let capitalJSX = null;
     let nameJSX = null;
-    let hosJSX = null;
-    let hogJSX = null;
+    let capitalJSX = null;
 
     if (selected) {
       let multipleCaps = null;
@@ -60,48 +61,7 @@ class System extends React.Component {
       } else {
         capitalJSX = <span>{selected.capital}</span>;
       }
-
-      if (selected.headOfGovernmentFull) {
-        let arr;
-        if (selected.headOfGovernmentFull.includes(';')) {
-          arr = selected.headOfGovernmentFull.split(';');
-        } else {
-          arr = [selected.headOfGovernmentFull];
-        }
-
-        hogJSX = 
-          <ul>
-            {
-              arr.map((x, i) => {
-                return (
-                  <li key={i}>{x}</li>
-                );
-              })
-            }
-          </ul>;
-      }
-
-      if (selected.chiefOfStateFull) {
-        let arr;
-        if (selected.chiefOfStateFull.includes(';')) {
-          arr = selected.chiefOfStateFull.split(';');
-        } else {
-          arr = [selected.chiefOfStateFull];
-        }
-
-        hosJSX = 
-          <ul>
-            {
-              arr.map((x, i) => {
-                return (
-                  <li key={i}>{x}</li>
-                );
-              })
-            }
-          </ul>;
-      }
     }
-
 
     return (
       <div className="system-info">
@@ -114,10 +74,10 @@ class System extends React.Component {
             <h4>Independence: <span>{selected.independence}</span></h4>
             : null
         }
-        <h4>Head of State:</h4>
-        {hosJSX}
-        <h4>Head of Government:</h4>
-        {hogJSX}
+        <p>---------------------------------------</p>
+        <SystemLeaders selected={selected}/>
+        <p>---------------------------------------</p>
+        <SystemElections selected={selected}/>
       </div>
     );
   }
