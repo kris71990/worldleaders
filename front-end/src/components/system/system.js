@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import * as systemActions from '../../actions/systemActions';
-import * as routes from '../../utils/routes';
 import './system.scss';
 
 class System extends React.Component {
