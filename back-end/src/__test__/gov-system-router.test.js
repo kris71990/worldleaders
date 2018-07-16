@@ -1,7 +1,6 @@
 'use strict';
 
 import superagent from 'superagent';
-import Promise from 'bluebird';
 import { startServer, stopServer } from '../lib/server';
 import { createCountryMock, createFakeMock, removeCountryMock } from './lib/country-mock';
 import { createSystemMock, removeSystemMock } from './lib/system-mock';
@@ -26,6 +25,7 @@ describe('Test system-router', () => {
       let mock = null;
       return createCountryMock()
         .then((countryResponse) => {
+          console.log(countryResponse);
           mock = countryResponse;
           return superagent.post(`${API_URL}/system`)
             .send({
@@ -38,7 +38,10 @@ describe('Test system-router', () => {
               expect(response.body.countryId).toEqual(mock.country._id.toString());
               expect(response.body.countryName).toEqual(mock.country.countryName);
               expect(response.body.capitalCoordinates).toBeTruthy();
-              expect(response.body.chiefOfState).toBeTruthy();
+              expect(response.body.chiefOfStateFull).toBeTruthy();
+              expect(response.body.chiefOfStateKeywords).toBeInstanceOf(Object);
+              expect(response.body.headOfGovernmentFull).toBeTruthy();
+              expect(response.body.headOfGovernmentKeywords).toBeInstanceOf(Object);
               expect(response.body.electionsLeg).toBeTruthy();
               expect(response.body.electionResultsExec).toBeTruthy();
               expect(response.body.fullName).toBeTruthy();
@@ -162,11 +165,11 @@ describe('Test system-router', () => {
     });
   });
 
-  describe('GET from /system/:country', () => {
+  describe('GET from /system/-:country', () => {
     test('GET under normal circumstances should return 201 and system', () => {
       return createSystemMock()
         .then((sysResponse) => {
-          return superagent.get(`${API_URL}/system/${sysResponse.system.countryName}`)
+          return superagent.get(`${API_URL}/system-${sysResponse.system.countryName}`)
             .send({
               countryName: 'benin',
             })

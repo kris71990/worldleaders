@@ -13,6 +13,7 @@ const createCountryMock = (update, linked) => {
     .then((created) => {
       mock.country = created;
       mock.country.lastUpdated = data.countries[mock.request.countryName].metadata.date;
+      mock.country.typeOfGovernment = 'presidential republic';
 
       if (update) {
         created.lastUpdated = 'test';

@@ -66,7 +66,6 @@ const countryGetRequest = country => (store) => {
     }); 
 };
 
-
 const countryCreateRequest = country => (store) => {
   delete country.countryNameDirty;
   delete country.countryNameError;
