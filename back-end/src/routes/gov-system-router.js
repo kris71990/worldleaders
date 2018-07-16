@@ -9,6 +9,7 @@ import logger from '../lib/logger';
 import data from '../../data.json';
 import { filterDemocracies, filterRepublics, filterDictatorships, filterCommunism, filterMonarchies, parseFullGov } from '../lib/parse-govs';
 import { findHOGKeywords, findCOSKeywords } from '../lib/parse-leaders';
+import parseElectionDates from '../lib/parse-elections';
 // import getData from '../lib/get-data';
 
 const jsonParser = json();
@@ -63,10 +64,8 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
         }
 
         const hogk = findHOGKeywords(governmentInfo.executive_branch.head_of_government);
-        console.log('hog- ', hogk);
-
         const cosk = findCOSKeywords(governmentInfo.executive_branch.chief_of_state);
-        console.log('cos- ', cosk);
+        const allElectionDates = parseElectionDates(governmentInfo.executive_branch.elections_appointments, governmentInfo.legislative_branch.elections);
 
         return new System({
           countryId: request.body.countryId,
@@ -79,6 +78,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
           chiefOfStateKeywords: cosk,
           headOfGovernmentFull: governmentInfo.executive_branch.head_of_government,
           headOfGovernmentKeywords: hogk,
+          electionDates: allElectionDates,
           electionsExec: governmentInfo.executive_branch.elections_appointments,
           electionResultsExec: governmentInfo.executive_branch.election_results,
           electionsLeg: governmentInfo.legislative_branch.elections,
