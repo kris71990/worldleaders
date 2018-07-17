@@ -4,6 +4,7 @@ import logger from './logger';
 
 const findHOGKeywords = (string) => {
   logger.log(logger.INFO, 'finding keywords in head_of_government string');
+  // "President Enrique PENA NIETO (since 1 December 2012)"
 
   const fullGov = string;
   const multsGov = fullGov.includes(';') ? fullGov.split('; ') : null;
@@ -27,17 +28,16 @@ const findHOGKeywords = (string) => {
       return null;
     });
   } else {
-    const split = fullGov.split(' ');
     const root = fullGov.match(regex);
 
     if (root) {
       if (root.length === 1) {
-        const main = split.indexOf(root[0]);
-        keywordsGov[1] = split.slice(0, main + 1);
+        const main = fullGov.indexOf(root[0]);
+        keywordsGov[1] = fullGov.slice(0, main + 1);
       } else {
         const arr = [];
         root.forEach(y => arr.push(y)); 
-        keywordsGov.push(arr);
+        keywordsGov[1] = arr;
       }
     }
   }
