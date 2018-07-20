@@ -73,7 +73,7 @@ class System extends React.Component {
     return (
       <div className="system-info">
         {nameJSX}
-        <p>Last Updated: {selected.lastUpdated}</p>
+        <p>Last Updated: {selected.lastUpdated ? selected.lastUpdated : null}</p>
         <button onClick={this.handleUpdateSystem}>Uptdate</button> 
         <h4>Type of Government: <span>{selected.typeOfGovernment}</span></h4>
         <h4>Capital: </h4>
