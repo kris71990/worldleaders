@@ -56,7 +56,8 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
         });
 
         let independenceData = '';
-        if (governmentInfo.independence.date) {
+
+        if (governmentInfo.independence && governmentInfo.independence.date) {
           if (governmentInfo.independence.note) {
             independenceData = `${governmentInfo.independence.date} - ${governmentInfo.independence.note}`;
           }
@@ -100,7 +101,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
 govSystemRouter.get('/systems-all', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
-  return Country.find()
+  return System.find()
     .then((countries) => {
       const systems = countries.map(x => x.typeOfGovernment);
 
