@@ -6,7 +6,7 @@ const parseFullGov = (string) => {
   logger.log(logger.INFO, 'Parsing government string');
 
   let type;
-  if (string.includes('dictatorship') || string.includes('authoritarian')) {
+  if (string.includes('dictatorship') || string.includes('authoritarian') || string.includes('single-party') || string.includes('single party')) {
     type = 'dictatorship';
   } else if (string.includes('communist')) {
     type = 'communist state';
