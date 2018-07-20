@@ -2,6 +2,9 @@
 
 import logger from './logger';
 
+// called in POST /system
+// parses typeOfGovernmentFull and returns what will become typeOfGovernment
+// typeOfGovernment is used strictly for GET systems/all ranking/tally of all systems in the world
 const parseFullGov = (string) => {
   logger.log(logger.INFO, 'Parsing government string');
 
@@ -46,6 +49,10 @@ const parseFullGov = (string) => {
   return type;
 };
 
+// systems = array of typeOfGovernment (parsed as above) strings
+// these functions must simply county the systems and return an object
+// make one large switch statement. the only options are the ones created above in the parseGovs function
+// no need for redundant mapping and iterating
 const filterDemocracies = (systems) => {
   logger.log(logger.INFO, 'Filtering system data for democracies');
 

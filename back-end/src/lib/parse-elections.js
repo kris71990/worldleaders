@@ -14,10 +14,6 @@ const parseElectionDates = (exec, leg) => {
   const execLast = exec.match(findLastRx);
   const legNext = leg.match(findNextRx);
   const legLast = leg.match(findLastRx);
-  // console.log(execNext);
-  // console.log(execLast);
-  // console.log(legNext);
-  // console.log(legLast);
 
   if (!execNext) {
     elections.exec.next = null;
@@ -54,7 +50,7 @@ const parseElectionDates = (exec, leg) => {
     elections.leg.last = [];
     legLast.map(x => elections.leg.last.push(x.match(findDateRx)));
   }
-  console.log(elections);
+
   return elections;
 };
 

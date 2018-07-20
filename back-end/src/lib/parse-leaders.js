@@ -4,7 +4,6 @@ import logger from './logger';
 
 const findHOGKeywords = (string) => {
   logger.log(logger.INFO, 'finding keywords in head_of_government string');
-  // "President Enrique PENA NIETO (since 1 December 2012)"
 
   const fullGov = string;
   const multsGov = fullGov.includes(';') ? fullGov.split('; ') : null;
@@ -42,7 +41,6 @@ const findHOGKeywords = (string) => {
     }
   }
 
-  console.log(keywordsGov);
   return keywordsGov;
 };
 
@@ -85,8 +83,7 @@ const findCOSKeywords = (string) => {
       }
     }
   }
-  
-  console.log(keywordsState);
+
   return keywordsState;
 };
 

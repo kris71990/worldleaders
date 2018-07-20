@@ -10,7 +10,6 @@ import data from '../../data.json';
 import { filterDemocracies, filterRepublics, filterDictatorships, filterCommunism, filterMonarchies, parseFullGov } from '../lib/parse-govs';
 import { findHOGKeywords, findCOSKeywords } from '../lib/parse-leaders';
 import parseElectionDates from '../lib/parse-elections';
-// import getData from '../lib/get-data';
 
 const jsonParser = json();
 const govSystemRouter = new Router();
@@ -151,10 +150,8 @@ govSystemRouter.put('/system/:country', jsonParser, (request, response, next) =>
       govType = country[0].typeOfGovernment;
     })
     .then(() => {
-      console.log(request.params.country);
       return System.findOne({ countryName: request.params.country })
         .then((system) => {
-          console.log(system);
           const dateDB = system.lastUpdated;
           const dateData = data.countries[system.countryName].metadata.date;
           
