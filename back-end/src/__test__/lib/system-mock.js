@@ -29,16 +29,20 @@ const createSystemMock = (update) => {
     });
 };
 
-const createFakeMockSystem = (country) => {
-  const systemMock = {};
-  return createFakeMock(country)
+const createFakeMockSystem = (country, typeGov) => {
+  let systemMock = null;
+  return createFakeMock(country, typeGov)
     .then((mock) => {
-      systemMock.country = mock;
+      systemMock = mock;
     
-      return System.create(mock.country.countryName, mock.country._id)
+      return new System({
+        countryId: systemMock.country._id,
+        countryName: systemMock.country.countryName,
+        typeOfGovernment: systemMock.country.typeOfGovernment, 
+      }).save()
         .then((created) => {
           systemMock.system = created;
-          return mock;
+          return systemMock;
         });
     });
 };

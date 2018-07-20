@@ -110,9 +110,7 @@ countryRouter.get('/countries/:id', (request, response, next) => {
 // returns updated country json
 countryRouter.put('/countries/:id', jsonParser, (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
-
-  if (Object.keys(request.body).length !== 0) throw new HttpError(400, 'bad request');
-
+  
   return Country.findById(request.params.id)
     .then((country) => {
       const dateDB = country.lastUpdated;

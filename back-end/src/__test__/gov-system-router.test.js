@@ -3,7 +3,7 @@
 import superagent from 'superagent';
 import { startServer, stopServer } from '../lib/server';
 import { createCountryMock, createFakeMock, removeCountryMock } from './lib/country-mock';
-import { createSystemMock, removeSystemMock } from './lib/system-mock';
+import { createSystemMock, createFakeMockSystem, removeSystemMock } from './lib/system-mock';
 
 const API_URL = `http://localhost:${process.env.PORT}`;
 
@@ -127,29 +127,30 @@ describe('Test system-router', () => {
   });
 
   describe('GET from /systems-all', () => {
-    beforeEach(() => createFakeMock('togo', 'presidential republic and some other words to prove filtering'));
-    beforeEach(() => createFakeMock('tanzania', 'presidential republic'));
-    beforeEach(() => createFakeMock('benin', 'constitutional monarchy'));
-    beforeEach(() => createFakeMock('tunisia', 'constitutional monarchy'));
-    beforeEach(() => createFakeMock('united kingdom', 'parliamentary democracy but also a monarchy'));
-    beforeEach(() => createFakeMock('sweden', 'parliamentary democracy, but also a monarchy'));
-    beforeEach(() => createFakeMock('australia', 'presidential democracy'));
-    beforeEach(() => createFakeMock('hungary', 'presidential democracy'));
-    beforeEach(() => createFakeMock('denmark', 'parliamentary democracy;'));
-    beforeEach(() => createFakeMock('iceland', 'some extra words parliamentary democracy'));
-    beforeEach(() => createFakeMock('belarus', 'a dictatorship in reality'));
-    beforeEach(() => createFakeMock('north korea', 'dictatorship'));
-    beforeEach(() => createFakeMock('iran', 'theocratic republic'));
-    beforeEach(() => createFakeMock('afghanistan', 'theocratic republic'));
-    beforeEach(() => createFakeMock('china', 'communist state'));
-    beforeEach(() => createFakeMock('cuba', 'communist state'));
-    beforeEach(() => createFakeMock('south africa', 'parliamentary republic;'));
-    beforeEach(() => createFakeMock('senegal', 'parliamentary republic'));
+    beforeEach(() => createFakeMockSystem('togo', 'presidential republic and some other words to prove filtering'));
+    beforeEach(() => createFakeMockSystem('tanzania', 'presidential republic'));
+    beforeEach(() => createFakeMockSystem('benin', 'constitutional monarchy'));
+    beforeEach(() => createFakeMockSystem('tunisia', 'constitutional monarchy'));
+    beforeEach(() => createFakeMockSystem('united kingdom', 'parliamentary democracy but also a monarchy'));
+    beforeEach(() => createFakeMockSystem('sweden', 'parliamentary democracy, but also a monarchy'));
+    beforeEach(() => createFakeMockSystem('australia', 'presidential democracy'));
+    beforeEach(() => createFakeMockSystem('hungary', 'presidential democracy'));
+    beforeEach(() => createFakeMockSystem('denmark', 'parliamentary democracy;'));
+    beforeEach(() => createFakeMockSystem('iceland', 'some extra words parliamentary democracy'));
+    beforeEach(() => createFakeMockSystem('belarus', 'a dictatorship in reality'));
+    beforeEach(() => createFakeMockSystem('north korea', 'dictatorship'));
+    beforeEach(() => createFakeMockSystem('iran', 'theocratic republic'));
+    beforeEach(() => createFakeMockSystem('afghanistan', 'theocratic republic'));
+    beforeEach(() => createFakeMockSystem('china', 'communist state'));
+    beforeEach(() => createFakeMockSystem('cuba', 'communist state'));
+    beforeEach(() => createFakeMockSystem('south africa', 'parliamentary republic;'));
+    beforeEach(() => createFakeMockSystem('senegal', 'parliamentary republic'));
     afterEach(removeCountryMock);
 
     test('GET should normally return 201 and object of system tally', () => {
       return superagent.get(`${API_URL}/systems-all`)
         .then((response) => {
+          console.log(response.body);
           expect(response.status).toEqual(200);
           expect(response.body).toBeInstanceOf(Object);
           expect(Object.keys(response.body)).toHaveLength(9);

@@ -9,6 +9,7 @@ import logger from '../lib/logger';
 import data from '../../data.json';
 import { filterDemocracies, filterRepublics, filterDictatorships, filterCommunism, filterMonarchies, parseFullGov } from '../lib/parse-govs';
 import { findHOGKeywords, findCOSKeywords } from '../lib/parse-leaders';
+import parseElectionDates from '../lib/parse-elections';
 // import getData from '../lib/get-data';
 
 const jsonParser = json();
@@ -55,7 +56,8 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
         });
 
         let independenceData = '';
-        if (governmentInfo.independence.date) {
+
+        if (governmentInfo.independence && governmentInfo.independence.date) {
           if (governmentInfo.independence.note) {
             independenceData = `${governmentInfo.independence.date} - ${governmentInfo.independence.note}`;
           }
@@ -63,10 +65,8 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
         }
 
         const hogk = findHOGKeywords(governmentInfo.executive_branch.head_of_government);
-        console.log('hog- ', hogk);
-
         const cosk = findCOSKeywords(governmentInfo.executive_branch.chief_of_state);
-        console.log('cos- ', cosk);
+        const allElectionDates = parseElectionDates(governmentInfo.executive_branch.elections_appointments, governmentInfo.legislative_branch.elections);
 
         return new System({
           countryId: request.body.countryId,
@@ -79,6 +79,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
           chiefOfStateKeywords: cosk,
           headOfGovernmentFull: governmentInfo.executive_branch.head_of_government,
           headOfGovernmentKeywords: hogk,
+          electionDates: allElectionDates,
           electionsExec: governmentInfo.executive_branch.elections_appointments,
           electionResultsExec: governmentInfo.executive_branch.election_results,
           electionsLeg: governmentInfo.legislative_branch.elections,
@@ -100,7 +101,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
 govSystemRouter.get('/systems-all', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
-  return Country.find()
+  return System.find()
     .then((countries) => {
       const systems = countries.map(x => x.typeOfGovernment);
 
@@ -150,8 +151,10 @@ govSystemRouter.put('/system/:country', jsonParser, (request, response, next) =>
       govType = country[0].typeOfGovernment;
     })
     .then(() => {
-      return System.findOneAndUpdate({ countryName: request.params.country })
+      console.log(request.params.country);
+      return System.findOne({ countryName: request.params.country })
         .then((system) => {
+          console.log(system);
           const dateDB = system.lastUpdated;
           const dateData = data.countries[system.countryName].metadata.date;
           

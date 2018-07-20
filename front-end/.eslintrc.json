@@ -23,6 +23,7 @@
     "no-nested-ternary": "off",
     "operator-linebreak": "off",
     "prefer-destructuring": "off",
-    "prefer-template":"off"
+    "prefer-template":"off",
+    "no-unneeded-ternary": "off"
   }
 }

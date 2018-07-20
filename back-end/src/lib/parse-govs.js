@@ -6,7 +6,7 @@ const parseFullGov = (string) => {
   logger.log(logger.INFO, 'Parsing government string');
 
   let type;
-  if (string.includes('dictatorship') || string.includes('authoritarian')) {
+  if (string.includes('dictatorship') || string.includes('authoritarian') || string.includes('single-party') || string.includes('single party')) {
     type = 'dictatorship';
   } else if (string.includes('communist')) {
     type = 'communist state';
@@ -49,29 +49,30 @@ const parseFullGov = (string) => {
 const filterDemocracies = (systems) => {
   logger.log(logger.INFO, 'Filtering system data for democracies');
 
-  const democracies = systems.filter(country => country.includes('democracy'))
-    .map((x) => {
-      const split = x.split(' ');
-      return split;
-    }).map((y) => {
-      let index = 0;
-      y.forEach((z, i) => {
-        switch (z) {
-          case 'democracy':
-            index = i + 1;
-            return index;
-          case 'democracy;':
-            index = i + 1;
-            return index;
-          case 'democracy,':
-            index = i + 1;
-            return index;
-          default: 
-            return null;
-        }
-      }, 0);
-      return y.slice(0, index).join(' ');
-    });
+  const democracies = systems.filter(country => country.includes('democracy'));
+  // const democracies = systems.filter(country => country.includes('democracy'))
+  //   .map((x) => {
+  //     const split = x.split(' ');
+  //     return split;
+  //   }).map((y) => {
+  //     let index = 0;
+  //     y.forEach((z, i) => {
+  //       switch (z) {
+  //         case 'democracy':
+  //           index = i + 1;
+  //           return index;
+  //         case 'democracy;':
+  //           index = i + 1;
+  //           return index;
+  //         case 'democracy,':
+  //           index = i + 1;
+  //           return index;
+  //         default: 
+  //           return null;
+  //       }
+  //     }, 0);
+  //     return y.slice(0, index).join(' ');
+  //   });
 
   const parsedDemocracies = {};
 

@@ -11,9 +11,14 @@ const systemGet = system => ({
   payload: system,
 });
 
-const systemCreate = country => ({
+const systemCreate = system => ({
   type: 'SYSTEM_CREATE',
-  payload: country,
+  payload: system,
+});
+
+const systemUpdate = system => ({
+  type: 'SYSTEM_UPDATE',
+  payload: system,
 });
 
 const systemsGetAllRequest = () => (store) => {
@@ -33,13 +38,20 @@ const systemGetRequest = country => (store) => {
 };
 
 const systemCreateRequest = (countryId, countryName) => (store) => {
-  console.log(countryId);
-  console.log(countryName);
   return superagent.post(`${API_URL}${routes.SYSTEM_ROUTE}`)
     .send({ countryId })
     .send({ countryName })
     .then((response) => {
       store.dispatch(systemCreate(response.body));
+      return response;
+    });
+};
+
+const systemUpdateRequest = country => (store) => {
+  return superagent.put(`${API_URL}${routes.SYSTEM_ROUTE}/${country.countryName}`)
+    .send(country)
+    .then((response) => {
+      store.dispatch(systemUpdate(response.body));
       return response;
     });
 };
@@ -51,4 +63,6 @@ export {
   systemGet, 
   systemCreateRequest,
   systemCreate,
+  systemUpdateRequest,
+  systemUpdate,
 };
