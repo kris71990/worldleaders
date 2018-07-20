@@ -150,8 +150,10 @@ govSystemRouter.put('/system/:country', jsonParser, (request, response, next) =>
       govType = country[0].typeOfGovernment;
     })
     .then(() => {
-      return System.findOneAndUpdate({ countryName: request.params.country })
+      console.log(request.params.country);
+      return System.findOne({ countryName: request.params.country })
         .then((system) => {
+          console.log(system);
           const dateDB = system.lastUpdated;
           const dateData = data.countries[system.countryName].metadata.date;
           

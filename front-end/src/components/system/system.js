@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import autoBind from '../../utils/autoBind';
 
 import SystemElections from '../system-elections/system-elections';
 import SystemLeaders from '../system-leaders/system-leaders';
@@ -12,6 +13,7 @@ class System extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.props.location.state;
+    autoBind.call(this, System);
   }
 
   componentDidMount() {
@@ -19,6 +21,11 @@ class System extends React.Component {
       .then((response) => {
         this.setState({ selected: response.body });
       });
+  }
+
+  handleUpdateSystem() {
+    this.props.systemUpdate(this.props.selected)
+      .then(() => window.location.reload());
   }
 
   render() {
@@ -66,6 +73,8 @@ class System extends React.Component {
     return (
       <div className="system-info">
         {nameJSX}
+        <p>Last Updated: {selected.lastUpdated}</p>
+        <button onClick={this.handleUpdateSystem}>Uptdate</button> 
         <h4>Type of Government: <span>{selected.typeOfGovernment}</span></h4>
         <h4>Capital: </h4>
         {capitalJSX}
@@ -88,6 +97,7 @@ System.propTypes = {
   selected: PropTypes.object,
   location: PropTypes.object,
   systemGet: PropTypes.func,
+  systemUpdate: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {
@@ -98,6 +108,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   systemGet: country => dispatch(systemActions.systemGetRequest(country)),
+  systemUpdate: country => dispatch(systemActions.systemUpdateRequest(country)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(System);
