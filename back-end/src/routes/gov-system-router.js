@@ -7,7 +7,7 @@ import System from '../models/gov-system';
 import Country from '../models/country';
 import logger from '../lib/logger';
 import data from '../../data.json';
-import { filterDemocracies, filterRepublics, filterDictatorships, filterCommunism, filterMonarchies, parseFullGov } from '../lib/parse-govs';
+import { filterDemocracies, filterRepublics, filterDictatorships, filterCommunism, filterMonarchies, parseFullGov, countSystems } from '../lib/parse-govs';
 import { findHOGKeywords, findCOSKeywords } from '../lib/parse-leaders';
 import parseElectionDates from '../lib/parse-elections';
 
@@ -104,21 +104,22 @@ govSystemRouter.get('/systems-all', (request, response, next) => {
     .then((countries) => {
       const systems = countries.map(x => x.typeOfGovernment);
 
-      const democracies = filterDemocracies(systems);
-      const dictatorships = filterDictatorships(systems);
-      const communism = filterCommunism(systems);
-      const republics = filterRepublics(systems);
-      const monarchies = filterMonarchies(systems);
+      // const democracies = filterDemocracies(systems);
+      // const dictatorships = filterDictatorships(systems);
+      // const communism = filterCommunism(systems);
+      // const republics = filterRepublics(systems);
+      // const monarchies = filterMonarchies(systems);
 
-      const combinedSystems = { 
-        ...democracies, 
-        ...dictatorships, 
-        ...communism, 
-        ...republics, 
-        ...monarchies, 
-      };
+      // const combinedSystems = { 
+      //   ...democracies, 
+      //   ...dictatorships, 
+      //   ...communism, 
+      //   ...republics, 
+      //   ...monarchies, 
+      // };
+      const systemsObj = countSystems(systems);
 
-      return response.json(combinedSystems);
+      return response.json(systemsObj);
     })
     .catch(next);
 });

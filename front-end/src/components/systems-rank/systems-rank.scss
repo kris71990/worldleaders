@@ -44,6 +44,15 @@
     transform: scale(1.01);
   }
 
+  .presidential-federation {
+    background: linear-gradient(rgba(88, 36, 102, 0.8), rgba(88, 36, 102, 1));
+    padding-right: 4%;
+  }
+  .presidential-federation:hover {
+    background-color: rgb(88, 36, 102);
+    transform: scale(1.01);
+  }
+
   .parliamentary-monarchy {
     background: linear-gradient(rgba(158, 45, 223, 0.8), rgba(158, 45, 223, 1));
     padding-right: 4%;
