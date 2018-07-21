@@ -103,22 +103,7 @@ govSystemRouter.get('/systems-all', (request, response, next) => {
   return System.find()
     .then((countries) => {
       const systems = countries.map(x => x.typeOfGovernment);
-
-      // const democracies = filterDemocracies(systems);
-      // const dictatorships = filterDictatorships(systems);
-      // const communism = filterCommunism(systems);
-      // const republics = filterRepublics(systems);
-      // const monarchies = filterMonarchies(systems);
-
-      // const combinedSystems = { 
-      //   ...democracies, 
-      //   ...dictatorships, 
-      //   ...communism, 
-      //   ...republics, 
-      //   ...monarchies, 
-      // };
       const systemsObj = countSystems(systems);
-
       return response.json(systemsObj);
     })
     .catch(next);

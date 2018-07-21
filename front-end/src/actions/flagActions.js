@@ -9,11 +9,11 @@ const flagCreate = flag => ({
 const flagCreateRequest = (flag, countryId) => (store) => {
   delete flag.flagUrlDirty;
   delete flag.flagUrlError;
-  console.log(flag);
-  console.log(countryId);
+  const { flagUrl } = flag;
   return superagent.post(`${API_URL}${routes.FLAG_ROUTE}`)
-    .send(flag.flagUrl)
+    .send({ flagUrl, countryId })
     .then((response) => {
+      console.log(response);
       store.dispatch(flagCreate(response.body));
       return response;
     });
