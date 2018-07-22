@@ -27,22 +27,20 @@ const findHOGKeywords = (string) => {
       return null;
     });
   } else {
-    const split = fullGov.split(' ');
     const root = fullGov.match(regex);
 
     if (root) {
       if (root.length === 1) {
-        const main = split.indexOf(root[0]);
-        keywordsGov[1] = split.slice(0, main + 1);
+        const main = fullGov.indexOf(root[0]);
+        keywordsGov[1] = fullGov.slice(0, main + 1);
       } else {
         const arr = [];
         root.forEach(y => arr.push(y)); 
-        keywordsGov.push(arr);
+        keywordsGov[1] = arr;
       }
     }
   }
 
-  console.log(keywordsGov);
   return keywordsGov;
 };
 
@@ -50,15 +48,16 @@ const findCOSKeywords = (string) => {
   logger.log(logger.INFO, 'finding keywords in chief_of_state string');
 
   const fullState = string;
-  const multsState = fullState.includes(';') ? fullState.split(';') : null;
+  const multsState = fullState.includes(';') ? fullState.split('; ') : null;
 
   const keywordsState = {};
   const regex = /\b([A-Za-z]+[-])?[A-Z]+\b/g;
 
   if (multsState) {
     multsState.map((x, i) => {
-      const split = multsState[i].split(' ');
-      const root = multsState[i].match(regex);
+      x = x.replace(/([,])?/g, '');
+      const split = x.split(' ');
+      const root = x.match(regex);
       if (!root) return null;
       if (root.length === 1) {
         const main = split.indexOf(root[0]);
@@ -85,8 +84,7 @@ const findCOSKeywords = (string) => {
       }
     }
   }
-  
-  console.log(keywordsState);
+
   return keywordsState;
 };
 

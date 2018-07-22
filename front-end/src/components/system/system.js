@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import autoBind from '../../utils/autoBind';
+
+import SystemElections from '../system-elections/system-elections';
+import SystemLeaders from '../system-leaders/system-leaders';
 
 import * as systemActions from '../../actions/systemActions';
 import './system.scss';
@@ -9,6 +13,7 @@ class System extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.props.location.state;
+    autoBind.call(this, System);
   }
 
   componentDidMount() {
@@ -18,12 +23,15 @@ class System extends React.Component {
       });
   }
 
+  handleUpdateSystem() {
+    this.props.systemUpdate(this.props.selected)
+      .then(() => window.location.reload());
+  }
+
   render() {
     const { selected } = this.props;
-    let capitalJSX = null;
     let nameJSX = null;
-    let hosJSX = null;
-    let hogJSX = null;
+    let capitalJSX = null;
 
     if (selected) {
       let multipleCaps = null;
@@ -60,52 +68,13 @@ class System extends React.Component {
       } else {
         capitalJSX = <span>{selected.capital}</span>;
       }
-
-      if (selected.headOfGovernmentFull) {
-        let arr;
-        if (selected.headOfGovernmentFull.includes(';')) {
-          arr = selected.headOfGovernmentFull.split(';');
-        } else {
-          arr = [selected.headOfGovernmentFull];
-        }
-
-        hogJSX = 
-          <ul>
-            {
-              arr.map((x, i) => {
-                return (
-                  <li key={i}>{x}</li>
-                );
-              })
-            }
-          </ul>;
-      }
-
-      if (selected.chiefOfStateFull) {
-        let arr;
-        if (selected.chiefOfStateFull.includes(';')) {
-          arr = selected.chiefOfStateFull.split(';');
-        } else {
-          arr = [selected.chiefOfStateFull];
-        }
-
-        hosJSX = 
-          <ul>
-            {
-              arr.map((x, i) => {
-                return (
-                  <li key={i}>{x}</li>
-                );
-              })
-            }
-          </ul>;
-      }
     }
-
 
     return (
       <div className="system-info">
         {nameJSX}
+        <p>Last Updated: {selected.lastUpdated ? selected.lastUpdated : null}</p>
+        <button onClick={this.handleUpdateSystem}>Uptdate</button> 
         <h4>Type of Government: <span>{selected.typeOfGovernment}</span></h4>
         <h4>Capital: </h4>
         {capitalJSX}
@@ -114,10 +83,10 @@ class System extends React.Component {
             <h4>Independence: <span>{selected.independence}</span></h4>
             : null
         }
-        <h4>Head of State:</h4>
-        {hosJSX}
-        <h4>Head of Government:</h4>
-        {hogJSX}
+        <p>---------------------------------------</p>
+        <SystemLeaders selected={selected}/>
+        <p>---------------------------------------</p>
+        <SystemElections selected={selected}/>
       </div>
     );
   }
@@ -128,6 +97,7 @@ System.propTypes = {
   selected: PropTypes.object,
   location: PropTypes.object,
   systemGet: PropTypes.func,
+  systemUpdate: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {
@@ -138,6 +108,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   systemGet: country => dispatch(systemActions.systemGetRequest(country)),
+  systemUpdate: country => dispatch(systemActions.systemUpdateRequest(country)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(System);

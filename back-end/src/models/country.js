@@ -23,6 +23,7 @@ const countrySchema = mongoose.Schema({
   importPartners: { type: Array },
   typeOfGovernment: { type: String },
   hasLinkedSystem: { type: Boolean },
+  flagUrl: { type: String },
   lastUpdated: { type: String },
 });
 

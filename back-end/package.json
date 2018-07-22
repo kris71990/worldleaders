@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage --runInBand",
+    "test": "eslint . && jest --coverage --runInBand",
+    "test-nolint": "jest --coverage --runInBand",
     "dbon": "mkdir -p ./db && mongod --dbpath ./db",
     "dboff": "killall mongod",
     "build": "babel src -d build",

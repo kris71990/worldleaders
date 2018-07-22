@@ -17,6 +17,7 @@ const systemSchema = mongoose.Schema({
   headOfGovernmentFull: { type: String },
   chiefOfStateKeywords: { type: Object },
   headOfGovernmentKeywords: { type: Object },
+  electionDates: { type: Object },
   electionsExec: { type: String },
   electionResultsExec: { type: String },
   electionsLeg: { type: String },

@@ -1,3 +1,9 @@
 .basic-info {
   border: 10px groove #9B2120;
+  :nth-child(2) {
+    font-size: 90%;
+  }
+  img {
+    width: 50%;
+  }
 }

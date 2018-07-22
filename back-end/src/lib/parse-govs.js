@@ -2,20 +2,15 @@
 
 import logger from './logger';
 
+// This function parses the full type of government string - typeOfGovernmentFull - and returns a concise version of it as the typeOfGovernment field in the System model. This is then used below in countSystems() when displaying a tally of all systems
 const parseFullGov = (string) => {
   logger.log(logger.INFO, 'Parsing government string');
 
   let type;
-  if (string.includes('dictatorship') || string.includes('authoritarian')) {
+  if (string.includes('dictatorship') || string.includes('authoritarian') || string.includes('single-party') || string.includes('single party')) {
     type = 'dictatorship';
   } else if (string.includes('communist')) {
     type = 'communist state';
-  } else if (string.includes('monarchy')) {
-    if (string.includes('parliamentary')) {
-      type = 'parliamentary monarchy';
-    } else if (string.includes('constitutional') && !string.includes('parliamentary')) {
-      type = 'constitutional monarchy';
-    }
   } else if (string.includes('democracy')) {
     if (string.includes('parliamentary')) {
       type = 'parliamentary democracy';
@@ -25,7 +20,9 @@ const parseFullGov = (string) => {
       type = 'democracy';
     }
   } else if (string.includes('republic')) {
-    if (string.includes('parliamentary')) {
+    if (string.includes('theocratic')) {
+      type = 'theocratic republic';
+    } else if (string.includes('parliamentary')) {
       type = 'parliamentary republic';
     } else if (string.includes('presidential')) {
       type = 'presidential republic';
@@ -33,6 +30,12 @@ const parseFullGov = (string) => {
       type = 'constitutional republic';
     } else {
       type = 'republic';
+    }
+  } else if (string.includes('monarchy')) {
+    if (string.includes('parliamentary')) {
+      type = 'parliamentary monarchy';
+    } else if (string.includes('constitutional') && !string.includes('parliamentary')) {
+      type = 'constitutional monarchy';
     }
   } else if (string.includes('federation')) {
     if (string.includes('presidential')) {
@@ -46,221 +49,138 @@ const parseFullGov = (string) => {
   return type;
 };
 
-const filterDemocracies = (systems) => {
-  logger.log(logger.INFO, 'Filtering system data for democracies');
+// This function counts the types of governmental systems using the typeOfGovernment field in the System collection (produced above in parseGov())
+const countSystems = (systems) => {
+  logger.log(logger.INFO, 'Counting systems');
 
-  const democracies = systems.filter(country => country.includes('democracy'))
-    .map((x) => {
-      const split = x.split(' ');
-      return split;
-    }).map((y) => {
-      let index = 0;
-      y.forEach((z, i) => {
-        switch (z) {
-          case 'democracy':
-            index = i + 1;
-            return index;
-          case 'democracy;':
-            index = i + 1;
-            return index;
-          case 'democracy,':
-            index = i + 1;
-            return index;
-          default: 
-            return null;
+  const countedSystems = {};
+
+  systems.forEach((x) => {
+    switch (x) {
+      case 'dictatorship': {
+        if (countedSystems.dictatorship) {
+          countedSystems.dictatorship += 1;
+        } else {
+          countedSystems.dictatorship = 1;
         }
-      }, 0);
-      return y.slice(0, index).join(' ');
-    });
-
-  const parsedDemocracies = {};
-
-  democracies.forEach((x) => {
-    const parliamentary = x.includes('parliamentary');
-    const presidential = x.includes('presidential');
-
-    if (parliamentary) {
-      if (!parsedDemocracies['parliamentary democracy']) {
-        parsedDemocracies['parliamentary democracy'] = 1;
-      } else {
-        parsedDemocracies['parliamentary democracy'] += 1;
+        break;
       }
-    }
-      
-    if (presidential) {
-      if (!parsedDemocracies['presidential democracy']) {
-        parsedDemocracies['presidential democracy'] = 1;
-      } else {
-        parsedDemocracies['presidential democracy'] += 1;
-      }
-    }
-  });
-  return parsedDemocracies;
-};
-
-const filterRepublics = (systems) => {
-  logger.log(logger.INFO, 'Filtering system data for republics');
-
-  const republics = systems.filter(country => country.includes('republic'))
-    .map((x) => {
-      const split = x.split(' ');
-      return split;
-    }).map((y) => {
-      let index = 0;
-      y.forEach((z, i) => {
-        switch (z) {
-          case 'republic':
-            index = i + 1;
-            return index;
-          case 'republic;':
-            index = i + 1;
-            return index;
-          default: 
-            return null;
+      case 'communist state': {
+        if (countedSystems['communist state']) {
+          countedSystems['communist state'] += 1;
+        } else {
+          countedSystems['communist state'] = 1;
         }
-      }, 0);
-      return y.slice(0, index).join(' ');
-    });
-
-  const parsedRepublics = {};
-
-  republics.forEach((x) => {
-    const parliamentary = x.includes('parliamentary');
-    const presidential = x.includes('presidential');
-    const theocratic = x.includes('theocratic');
-
-    if (parliamentary) {
-      if (!parsedRepublics['parliamentary republic']) {
-        parsedRepublics['parliamentary republic'] = 1;
-      } else {
-        parsedRepublics['parliamentary republic'] += 1;
+        break;
       }
-    }
-      
-    if (presidential) {
-      if (!parsedRepublics['presidential republic']) {
-        parsedRepublics['presidential republic'] = 1;
-      } else {
-        parsedRepublics['presidential republic'] += 1;
+      case 'parliamentary democracy': {
+        if (countedSystems['parliamentary democracy']) {
+          countedSystems['parliamentary democracy'] += 1;
+        } else {
+          countedSystems['parliamentary democracy'] = 1;
+        }
+        break;
       }
-    }
-
-    if (theocratic) {
-      if (!parsedRepublics['theocratic republic']) {
-        parsedRepublics['theocratic republic'] = 1;
-      } else {
-        parsedRepublics['theocratic republic'] += 1;
+      case 'presidential democracy': {
+        if (countedSystems['presidential democracy']) {
+          countedSystems['presidential democracy'] += 1;
+        } else {
+          countedSystems['presidential democracy'] = 1;
+        }
+        break;
+      }
+      case 'democracy': {
+        if (countedSystems.democracy) {
+          countedSystems.democracy += 1;
+        } else {
+          countedSystems.democracy = 1;
+        }
+        break;
+      }
+      case 'parliamentary republic': {
+        if (countedSystems['parliamentary republic']) {
+          countedSystems['parliamentary republic'] += 1;
+        } else {
+          countedSystems['parliamentary republic'] = 1;
+        }
+        break;
+      }
+      case 'presidential republic': {
+        if (countedSystems['presidential republic']) {
+          countedSystems['presidential republic'] += 1;
+        } else {
+          countedSystems['presidential republic'] = 1;
+        }
+        break;
+      }
+      case 'constitutional republic': {
+        if (countedSystems['constitutional republic']) {
+          countedSystems['constitutional republic'] += 1;
+        } else {
+          countedSystems['constitutional republic'] = 1;
+        }
+        break;
+      }
+      case 'theocratic republic': {
+        if (countedSystems['theocratic republic']) {
+          countedSystems['theocratic republic'] += 1;
+        } else {
+          countedSystems['theocratic republic'] = 1;
+        }
+        break;
+      }
+      case 'republic': {
+        if (countedSystems.republic) {
+          countedSystems.republic += 1;
+        } else {
+          countedSystems.republic = 1;
+        }
+        break;
+      }
+      case 'parliamentary monarchy': {
+        if (countedSystems['parliamentary monarchy']) {
+          countedSystems['parliamentary monarchy'] += 1;
+        } else {
+          countedSystems['parliamentary monarchy'] = 1;
+        }
+        break;
+      }
+      case 'constitutional monarchy': {
+        if (countedSystems['constitutional monarchy']) {
+          countedSystems['constitutional monarchy'] += 1;
+        } else {
+          countedSystems['constitutional monarchy'] = 1;
+        }
+        break;
+      }
+      case 'presidential federation': {
+        if (countedSystems['presidential federation']) {
+          countedSystems['presidential federation'] += 1;
+        } else {
+          countedSystems['presidential federation'] = 1;
+        }
+        break;
+      }
+      case 'federation': {
+        if (countedSystems.federation) {
+          countedSystems.federation += 1;
+        } else {
+          countedSystems.federation = 1;
+        }
+        break;
+      }
+      default: {
+        if (countedSystems.unknown) {
+          countedSystems.unknown += 1;
+        } else {
+          countedSystems.unknown = 1;
+        }
       }
     }
   });
-  return parsedRepublics;
+
+  logger.log(logger.INFO, 'returning system tally');
+  return countedSystems;
 };
 
-const filterMonarchies = (systems) => {
-  logger.log(logger.INFO, 'Filtering system data for monarchies');
-
-  const monarchies = systems.filter(country => country.includes('monarchy')).map((x) => {
-    const split = x.split(' ');
-    return split;
-  }).map((y) => {
-    let index = 0;
-    y.forEach((z, i) => {
-      if (z.includes('monarchy')) {
-        index = i + 1;
-        return index;
-      }
-      return null;  
-    }, 0);
-    return y.slice(0, index).join(' ');
-  });
-
-  const parsedMonarchies = {};
-
-  monarchies.forEach((x) => {
-    const parliamentary = x.includes('parliamentary');
-
-    if (parliamentary) {
-      if (!parsedMonarchies['parliamentary monarchy']) {
-        parsedMonarchies['parliamentary monarchy'] = 1;
-      } else {
-        parsedMonarchies['parliamentary monarchy'] += 1;
-      }
-    } else if (!parliamentary) {
-      if (!parsedMonarchies['constitutional monarchy']) {
-        parsedMonarchies['constitutional monarchy'] = 1;
-      } else {
-        parsedMonarchies['constitutional monarchy'] += 1;
-      }
-    }
-  });
-  return parsedMonarchies;
-};
-
-const filterDictatorships = (systems) => {
-  logger.log(logger.INFO, 'Filtering system data for dictatorships');
-
-  const dictatorships = systems.filter(country => country.includes('dictatorship')).map((x) => {
-    const split = x.split(' ');
-    return split;
-  }).map((y) => {
-    let index = 0;
-    y.forEach((z, i) => {
-      if (z.includes('dictatorship')) {
-        index = i + 1;
-        return index;
-      }
-      return null;  
-    }, 0);
-    return y.slice(0, index).join(' ');
-  });
-
-  const parsedDictatorships = {};
-
-  dictatorships.forEach(() => {
-    if (!parsedDictatorships.dictatorship) {
-      parsedDictatorships.dictatorship = 1;
-    } else {
-      parsedDictatorships.dictatorship += 1;
-    }
-  });
-  return parsedDictatorships;
-};
-
-const filterCommunism = (systems) => {
-  logger.log(logger.INFO, 'Filtering system data for communism');
-
-  const communism = systems.filter(country => country.includes('communist')).map((x) => {
-    const split = x.split(' ');
-    return split;
-  }).map((y) => {
-    let index = 0;
-    y.forEach((z, i) => {
-      if (z.includes('communist')) {
-        index = i + 2;
-        return index;
-      }
-      return null;  
-    }, 0);
-    return y.slice(0, index).join(' ');
-  });
-
-  const parsedCommunists = {};
-
-  communism.forEach(() => {
-    if (!parsedCommunists['communist state']) {
-      parsedCommunists['communist state'] = 1;
-    } else {
-      parsedCommunists['communist state'] += 1;
-    }
-  });
-  return parsedCommunists;
-};
-
-export { 
-  filterDemocracies, 
-  filterRepublics, 
-  filterMonarchies, 
-  filterDictatorships, 
-  filterCommunism,
-  parseFullGov,
-};
+export { parseFullGov, countSystems };

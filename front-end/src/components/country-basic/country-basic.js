@@ -3,8 +3,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import autoBind from '../../utils/autoBind';
+
 import * as routes from '../../utils/routes';
 import * as systemActions from '../../actions/systemActions';
+import * as countryActions from '../../actions/countryActions';
+import FlagForm from '../flagForm/flag-form';
 
 import './country-basic.scss';
 
@@ -19,6 +22,11 @@ class CountryBasic extends React.Component {
       .then(() => window.location.reload());
   }
 
+  handleUpdateSystem() {
+    this.props.countryUpdate(this.props.selected)
+      .then(() => window.location.reload());
+  }
+
   render() {
     const { selected } = this.props;
 
@@ -26,6 +34,7 @@ class CountryBasic extends React.Component {
     let populationJSX = null;
     let areaJSX = null;
     let borderingJSX = null;
+    let flagJSX = null;
 
     if (selected) {
       if (selected.countryName) {
@@ -58,7 +67,9 @@ class CountryBasic extends React.Component {
           {
             selected.borderCountries
               ? selected.borderCountries.map((x, i) => {
-                if (i === 0 && selected.borderCountries.length > 2) return `${x}, `;
+                if (i === 0 && selected.borderCountries.length > 2) {
+                  return `${x}, `;
+                }
                 if (i === 0 && selected.borderCountries.length <= 2) return `${x} `;
                 if (i === selected.borderCountries.length - 1) return `and ${x}`;
                 return `${x}, `;
@@ -68,18 +79,38 @@ class CountryBasic extends React.Component {
         </span>;
     }
 
+    flagJSX = 
+      <span>
+        {
+          selected.flagUrl 
+            ? <img src={selected.flagUrl}></img>
+            : <FlagForm country={selected}/>
+        } 
+      </span>;
+      
+
     return (
       <div className="basic-info">
         <h1>{countryNameJSX}</h1>
+        {flagJSX}
+        <p>Last Updated: {selected.lastUpdated}</p>
         <h3>{selected.location}</h3>
+        <button onClick={this.handleUpdateSystem}>Uptdate</button>
         <p>
           {
             selected.hasLinkedSystem ?
-            <Link to={{ pathname: `${routes.SYSTEM_ROUTE}-${selected.countryName}`, state: { selected: this.props.selected } }}>Political Information</Link>
-              : <button onClick={this.handleCreateSystem}>Add system</button>
+            <Link to=
+              {
+                { 
+                  pathname: `${routes.SYSTEM_ROUTE}-${selected.countryName}`, state: { selected: this.props.selected },
+                }
+              }>
+              Political Information</Link>
+              : 
+              <button onClick={this.handleCreateSystem}>Add system</button>
           }
         </p>
-        <p>Shares borders with: <br/>{borderingJSX}</p>
+        <p>Shares borders with: {borderingJSX}</p>
         <p>-------------------</p>
         <p>Population: {populationJSX} million 
         <br/>Rank: {selected.populationRank}</p>
@@ -98,6 +129,7 @@ CountryBasic.propTypes = {
   history: PropTypes.object,
   selected: PropTypes.object,
   systemPost: PropTypes.func,
+  countryUpdate: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {
@@ -110,6 +142,7 @@ const mapDispatchToProps = dispatch => ({
   systemPost: country => dispatch(
     systemActions.systemCreateRequest(country._id, country.countryName),
   ),
+  countryUpdate: country => dispatch(countryActions.countryUpdateRequest(country)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CountryBasic);

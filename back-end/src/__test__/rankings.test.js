@@ -2,7 +2,7 @@
 
 import superagent from 'superagent';
 import { startServer, stopServer } from '../lib/server';
-import { createFakeGDPMock, createFakePopulationMock, createFakeAreaMock, createFakeLanguageMock,removeFakeMock } from './lib/rankings-mock';
+import { createFakeGDPMock, createFakePopulationMock, createFakeAreaMock, createFakeLanguageMock, removeFakeMock } from './lib/rankings-mock';
 
 const API_URL = `http://localhost:${process.env.PORT}`;
 
