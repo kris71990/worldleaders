@@ -127,17 +127,17 @@ describe('Test system-router', () => {
   });
 
   describe('GET from /systems-all', () => {
-    beforeEach(() => createFakeMockSystem('togo', 'presidential republic and some other words to prove filtering'));
+    beforeEach(() => createFakeMockSystem('togo', 'presidential republic'));
     beforeEach(() => createFakeMockSystem('tanzania', 'presidential republic'));
     beforeEach(() => createFakeMockSystem('benin', 'constitutional monarchy'));
     beforeEach(() => createFakeMockSystem('tunisia', 'constitutional monarchy'));
-    beforeEach(() => createFakeMockSystem('united kingdom', 'parliamentary democracy but also a monarchy'));
-    beforeEach(() => createFakeMockSystem('sweden', 'parliamentary democracy, but also a monarchy'));
+    beforeEach(() => createFakeMockSystem('united kingdom', 'parliamentary democracy'));
+    beforeEach(() => createFakeMockSystem('sweden', 'parliamentary democracy'));
     beforeEach(() => createFakeMockSystem('australia', 'presidential democracy'));
     beforeEach(() => createFakeMockSystem('hungary', 'presidential democracy'));
     beforeEach(() => createFakeMockSystem('denmark', 'parliamentary democracy;'));
-    beforeEach(() => createFakeMockSystem('iceland', 'some extra words parliamentary democracy'));
-    beforeEach(() => createFakeMockSystem('belarus', 'a dictatorship in reality'));
+    beforeEach(() => createFakeMockSystem('iceland', 'parliamentary democracy'));
+    beforeEach(() => createFakeMockSystem('belarus', 'dictatorship'));
     beforeEach(() => createFakeMockSystem('north korea', 'dictatorship'));
     beforeEach(() => createFakeMockSystem('iran', 'theocratic republic'));
     beforeEach(() => createFakeMockSystem('afghanistan', 'theocratic republic'));
@@ -150,15 +150,13 @@ describe('Test system-router', () => {
     test('GET should normally return 201 and object of system tally', () => {
       return superagent.get(`${API_URL}/systems-all`)
         .then((response) => {
-          console.log(response.body);
           expect(response.status).toEqual(200);
           expect(response.body).toBeInstanceOf(Object);
           expect(Object.keys(response.body)).toHaveLength(9);
           expect(response.body['presidential republic']).toEqual(2);
-          expect(response.body['parliamentary monarchy']).toEqual(2);
           expect(response.body['constitutional monarchy']).toEqual(2);
           expect(response.body['presidential democracy']).toEqual(2);
-          expect(response.body['parliamentary democracy']).toEqual(4);
+          expect(response.body['parliamentary democracy']).toEqual(3);
           expect(response.body['theocratic republic']).toEqual(2);
           expect(response.body.dictatorship).toEqual(2);
           expect(response.body['communist state']).toEqual(2);

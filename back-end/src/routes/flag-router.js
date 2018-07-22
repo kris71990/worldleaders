@@ -12,8 +12,16 @@ const flagRouter = new Router();
 flagRouter.post('/flags', jsonParser, (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
-  return Country.findByIdAndUpdate(request.body.countryId, { flagUrl: request.body.flagUrl }, { options: { runValidators: true, new: true } })
+  if (request.body.flagUrl.slice(0, 29) !== 'https://upload.wikimedia.org/' 
+    || !request.body.flagUrl.includes('Flag_of_')) {
+    throw new HttpError(400, 'improper url');
+  }
+
+  return Country.findById(request.body.countryId)
     .then((country) => {
+      country.flagUrl = request.body.flagUrl;
+      country.save();
+      logger.log(logger.INFO, 'Return updated data with flag image');
       return response.json(country);
     })
     .catch((error) => {
