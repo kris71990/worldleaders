@@ -7,6 +7,7 @@ import autoBind from '../../utils/autoBind';
 import * as routes from '../../utils/routes';
 import * as systemActions from '../../actions/systemActions';
 import * as countryActions from '../../actions/countryActions';
+import FlagForm from '../flagForm/flag-form';
 
 import './country-basic.scss';
 
@@ -33,6 +34,7 @@ class CountryBasic extends React.Component {
     let populationJSX = null;
     let areaJSX = null;
     let borderingJSX = null;
+    let flagJSX = null;
 
     if (selected) {
       if (selected.countryName) {
@@ -77,9 +79,20 @@ class CountryBasic extends React.Component {
         </span>;
     }
 
+    flagJSX = 
+      <span>
+        {
+          selected.flagUrl 
+            ? <img src={selected.flagUrl}></img>
+            : <FlagForm country={selected}/>
+        } 
+      </span>;
+      
+
     return (
       <div className="basic-info">
         <h1>{countryNameJSX}</h1>
+        {flagJSX}
         <p>Last Updated: {selected.lastUpdated}</p>
         <h3>{selected.location}</h3>
         <button onClick={this.handleUpdateSystem}>Uptdate</button>
