@@ -7,7 +7,7 @@ import System from '../models/gov-system';
 import Country from '../models/country';
 import logger from '../lib/logger';
 import data from '../../data.json';
-import { filterDemocracies, filterRepublics, filterDictatorships, filterCommunism, filterMonarchies, parseFullGov, countSystems } from '../lib/parse-govs';
+import { parseFullGov, countSystems } from '../lib/parse-govs';
 import { findHOGKeywords, findCOSKeywords } from '../lib/parse-leaders';
 import parseElectionDates from '../lib/parse-elections';
 

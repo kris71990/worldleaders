@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import autoBind from '../../utils/autoBind';
 
-import * as routes from '../../utils/routes';
 import * as flagActions from '../../actions/flagActions';
 import './flag-form.scss';
 
