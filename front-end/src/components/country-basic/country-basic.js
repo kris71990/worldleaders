@@ -34,6 +34,7 @@ class CountryBasic extends React.Component {
     let populationJSX = null;
     let areaJSX = null;
     let borderingJSX = null;
+    let flagJSX = null;
 
     if (selected) {
       if (selected.countryName) {
@@ -78,10 +79,20 @@ class CountryBasic extends React.Component {
         </span>;
     }
 
+    flagJSX = 
+      <span>
+        {
+          selected.flagUrl 
+            ? <img src={selected.flagUrl}></img>
+            : <FlagForm country={selected}/>
+        } 
+      </span>;
+      
+
     return (
       <div className="basic-info">
         <h1>{countryNameJSX}</h1>
-        <FlagForm country={selected}/>
+        {flagJSX}
         <p>Last Updated: {selected.lastUpdated}</p>
         <h3>{selected.location}</h3>
         <button onClick={this.handleUpdateSystem}>Uptdate</button>

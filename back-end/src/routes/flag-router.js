@@ -12,8 +12,13 @@ const flagRouter = new Router();
 flagRouter.post('/flags', jsonParser, (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
-  console.log(request);
-  return null;
+  return Country.findByIdAndUpdate(request.body.countryId, { flagUrl: request.body.flagUrl }, { options: { runValidators: true, new: true } })
+    .then((country) => {
+      return response.json(country);
+    })
+    .catch((error) => {
+      return next(error);
+    });
 });
 
 export default flagRouter;

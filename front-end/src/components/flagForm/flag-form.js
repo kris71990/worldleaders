@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import autoBind from '../../utils/autoBind';
 
+import * as routes from '../../utils/routes';
 import * as flagActions from '../../actions/flagActions';
 import './flag-form.scss';
 
@@ -47,6 +48,7 @@ class FlagForm extends React.Component {
     } else {
       this.props.flagCreate(this.state, country._id);
       this.setState(defaultState);
+      window.location.reload();
     }
   }
 
