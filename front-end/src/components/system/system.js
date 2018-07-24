@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import autoBind from '../../utils/autoBind';
 
+import CapitalMap from '../capital-map/capital-map';
 import SystemElections from '../system-elections/system-elections';
 import SystemLeaders from '../system-leaders/system-leaders';
 
@@ -78,6 +79,7 @@ class System extends React.Component {
         <h4>Type of Government: <span>{selected.typeOfGovernment}</span></h4>
         <h4>Capital: </h4>
         {capitalJSX}
+        <CapitalMap selected={selected}/>
         {
           selected.independence ? 
             <h4>Independence: <span>{selected.independence}</span></h4>
