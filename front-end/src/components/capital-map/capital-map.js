@@ -20,7 +20,7 @@ const MyMapComponent = compose(
   withScriptjs,
   withGoogleMap,
 )(props => <GoogleMap
-    defaultZoom={8}
+    defaultZoom={10}
     defaultCenter=
     { 
       { 
