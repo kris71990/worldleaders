@@ -12,8 +12,8 @@ import './capital-map.scss';
 
 const MyMapComponent = compose(
   withProps({
-    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_API_KEY}`,
-    loadingElement: <div style={{ height: '80%' }} />,
+    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}`,
+    loadingElement: <div style={{ height: '100%' }} />,
     containerElement: <div style={{ height: '300px' }} />,
     mapElement: <div style={{ height: '100%' }} />,
   }),
@@ -21,20 +21,35 @@ const MyMapComponent = compose(
   withGoogleMap,
 )(props => <GoogleMap
     defaultZoom={8}
-    defaultCenter={{ lat: -34.397, lng: 150.644 }}
+    defaultCenter=
+    { 
+      { 
+        lat: Number(props.selected.capitalCoordinates[0].slice(0, props.selected.capitalCoordinates[0].length - 2).replace(' ', '.')),
+        lng: Number(props.selected.capitalCoordinates[1].slice(0, props.selected.capitalCoordinates[1].length - 2).replace(' ', '.')),
+      }
+    }
   >
   {
     props.isMarkerShown && 
-    <Marker position={{ lat: -34.397, lng: 150.644 }} 
+    <Marker position=
+    {
+      { 
+        lat: Number(props.selected.capitalCoordinates[0].slice(0, props.selected.capitalCoordinates[0].length - 2).replace(' ', '.')),
+        lng: Number(props.selected.capitalCoordinates[1].slice(0, props.selected.capitalCoordinates[1].length - 2).replace(' ', '.')),
+      }
+    } 
     onClick={props.onMarkerClick} 
     />
-  }
-  </GoogleMap>,
-);
+  } 
+  </GoogleMap>);
 
 class CapitalMap extends React.PureComponent {
-  state = {
-    isMarkerShown: false,
+  constructor(props) {
+    super(props);
+    this.state = {
+      isMarkerShown: false,
+      coordinates: null,
+    };
   }
 
   componentDidMount() {
@@ -57,6 +72,7 @@ class CapitalMap extends React.PureComponent {
       <MyMapComponent
         isMarkerShown={this.state.isMarkerShown}
         onMarkerClick={this.handleMarkerClick}
+        selected={this.props.selected}
       />
     );
   }
