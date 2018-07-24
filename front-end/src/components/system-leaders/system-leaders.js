@@ -8,46 +8,48 @@ class SystemLeaders extends React.Component {
     let hosJSX = null;
     let hogJSX = null;
 
-    if (selected.headOfGovernmentFull) {
-      let arr;
-      if (selected.headOfGovernmentFull.includes(';')) {
-        arr = selected.headOfGovernmentFull.split(';');
-      } else {
-        arr = [selected.headOfGovernmentFull];
+    if (selected) {
+      if (selected.headOfGovernmentFull) {
+        let arr;
+        if (selected.headOfGovernmentFull.includes(';')) {
+          arr = selected.headOfGovernmentFull.split(';');
+        } else {
+          arr = [selected.headOfGovernmentFull];
+        }
+  
+        hogJSX = 
+          <ul>
+            {
+              arr.map((x, i) => {
+                return (
+                  <li key={i}>{x}</li>
+                );
+              })
+            }
+          </ul>;
       }
-
-      hogJSX = 
-        <ul>
-          {
-            arr.map((x, i) => {
-              return (
-                <li key={i}>{x}</li>
-              );
-            })
-          }
-        </ul>;
-    }
-
-    if (selected.chiefOfStateFull) {
-      let arr;
-      if (selected.chiefOfStateFull.includes(';')) {
-        arr = selected.chiefOfStateFull.split(';');
-      } else {
-        arr = [selected.chiefOfStateFull];
+  
+      if (selected.chiefOfStateFull) {
+        let arr;
+        if (selected.chiefOfStateFull.includes(';')) {
+          arr = selected.chiefOfStateFull.split(';');
+        } else {
+          arr = [selected.chiefOfStateFull];
+        }
+  
+        hosJSX = 
+          <ul>
+            {
+              arr.map((x, i) => {
+                return (
+                  <li key={i}>{x}</li>
+                );
+              })
+            }
+          </ul>;
       }
-
-      hosJSX = 
-        <ul>
-          {
-            arr.map((x, i) => {
-              return (
-                <li key={i}>{x}</li>
-              );
-            })
-          }
-        </ul>;
     }
-
+    
     return (
       <div className="system-election-info">
         <h4>Head of State:</h4>

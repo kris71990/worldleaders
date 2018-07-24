@@ -20,7 +20,7 @@ const MyMapComponent = compose(
   withScriptjs,
   withGoogleMap,
 )(props => <GoogleMap
-    defaultZoom={10}
+    defaultZoom={7}
     defaultCenter=
     { 
       { 
@@ -54,6 +54,11 @@ class CapitalMap extends React.PureComponent {
 
   componentDidMount() {
     this.delayedShowMarker();
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   delayedShowMarker = () => {
