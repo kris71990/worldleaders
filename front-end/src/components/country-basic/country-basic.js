@@ -95,7 +95,7 @@ class CountryBasic extends React.Component {
         {flagJSX}
         <p>Last Updated: {selected.lastUpdated}</p>
         <h3>{selected.location}</h3>
-        <button onClick={this.handleUpdateSystem}>Uptdate</button>
+        <button onClick={this.handleUpdateSystem}>Update</button>
         <p>
           {
             selected.hasLinkedSystem ?

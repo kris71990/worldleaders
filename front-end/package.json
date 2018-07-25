@@ -65,6 +65,8 @@
     "clean-webpack-plugin": "^0.1.19",
     "express": "^4.16.3",
     "html-webpack-exclude-empty-assets-plugin": "^0.1.1",
+    "react-google-maps": "^9.4.5",
+    "recompose": "^0.27.1",
     "superagent": "^3.8.3"
   }
 }
