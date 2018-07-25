@@ -9,7 +9,7 @@ import logger from './logger';
 import countryRouter from '../routes/country-router';
 import govSystemRouter from '../routes/gov-system-router';
 import rankingsRouter from '../routes/rankings-router';
-import flagRouter from '../routes/flag-router';
+import photoRouter from '../routes/photo-router';
 import errorMiddleware from './error-middleware';
 
 mongoose.Promise = bluebird;
@@ -21,7 +21,7 @@ app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
 
 app.use(rankingsRouter);
 app.use(countryRouter);
-app.use(flagRouter);
+app.use(photoRouter);
 app.use(govSystemRouter);
 
 app.all('*', (request, response) => {

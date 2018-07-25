@@ -4,6 +4,8 @@ export default (state = {}, { type, payload }) => {
       return payload;
     case 'SYSTEM_UPDATE': 
       return payload;
+    case 'LEADER_PHOTO_CREATE':
+      return payload;
     case 'SYSTEMS_GET_ALL':
       return null;
     case 'COUNTRIES_FETCH':

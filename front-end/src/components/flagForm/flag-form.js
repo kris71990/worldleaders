@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import autoBind from '../../utils/autoBind';
 
-import * as flagActions from '../../actions/flagActions';
+import * as flagActions from '../../actions/photoActions';
 import './flag-form.scss';
 
 const defaultState = {
