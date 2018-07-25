@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './system-leaders.scss';
+
 class SystemLeaders extends React.Component {
   render() {
     const { selected } = this.props;
@@ -51,11 +53,15 @@ class SystemLeaders extends React.Component {
     }
     
     return (
-      <div className="system-election-info">
-        <h4>Head of State:</h4>
-        {hosJSX}
-        <h4>Head of Government:</h4>
-        {hogJSX}
+      <div className="system-leader-info">
+        <div className="hos">
+          <h4>Head of State:</h4>
+          {hosJSX}
+        </div>
+        <div className="hog">
+          <h4>Head of Government:</h4>
+          {hogJSX}
+        </div>
       </div>
     );
   }

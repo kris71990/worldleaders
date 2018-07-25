@@ -20,7 +20,7 @@ const MyMapComponent = compose(
   withScriptjs,
   withGoogleMap,
 )(props => <GoogleMap
-    defaultZoom={7}
+    defaultZoom={6}
     defaultCenter=
     { 
       { 
@@ -62,9 +62,7 @@ class CapitalMap extends React.PureComponent {
   }
 
   delayedShowMarker = () => {
-    setTimeout(() => {
-      this.setState({ isMarkerShown: true });
-    }, 3000);
+    this.setState({ isMarkerShown: true });
   }
 
   handleMarkerClick = () => {
@@ -74,11 +72,13 @@ class CapitalMap extends React.PureComponent {
 
   render() {
     return (
-      <MyMapComponent
-        isMarkerShown={this.state.isMarkerShown}
-        onMarkerClick={this.handleMarkerClick}
-        selected={this.props.selected}
-      />
+      <div className="map">
+        <MyMapComponent
+          isMarkerShown={this.state.isMarkerShown}
+          onMarkerClick={this.handleMarkerClick}
+          selected={this.props.selected}
+        />
+      </div>
     );
   }
 }
