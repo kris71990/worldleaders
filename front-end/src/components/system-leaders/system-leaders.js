@@ -21,15 +21,23 @@ class SystemLeaders extends React.Component {
         }
   
         hogJSX = 
-          <ul>
+          <div>
             {
-              arr.map((x, i) => {
-                return (
-                  <li key={i}>{x}</li>
-                );
-              })
+              selected.headOfGovernmentImg 
+                ? 
+              <img src={selected.headOfGovernmentImg}></img>
+                : null
             }
-          </ul>;
+            <ul>
+              {
+                arr.map((x, i) => {
+                  return (
+                    <li key={i}>{x}</li>
+                  );
+                })
+              }
+            </ul>
+          </div>;
       }
   
       if (selected.chiefOfStateFull) {
@@ -41,15 +49,23 @@ class SystemLeaders extends React.Component {
         }
   
         hosJSX = 
-          <ul>
+          <div>
             {
-              arr.map((x, i) => {
-                return (
-                  <li key={i}>{x}</li>
-                );
-              })
+              selected.chiefOfStateImg 
+                ? 
+              <img src={selected.chiefOfStateImg}></img>
+                : null
             }
-          </ul>;
+            <ul>
+              {
+                arr.map((x, i) => {
+                  return (
+                    <li key={i}>{x}</li>
+                  );
+                })
+              }
+            </ul>
+          </div>;
       }
     }
     
