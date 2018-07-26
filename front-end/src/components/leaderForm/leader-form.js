@@ -31,12 +31,10 @@ class LeaderPhotoForm extends React.Component {
     const { keywords } = this.props;
     const { system } = this.props;
     const caselessUrl = this.state.leaderUrl.toLowerCase();
-    console.log(caselessUrl);
 
     if (keywords) {
       let validated = false;
 
-      console.log(keywords);
       keywords[1].some((name) => {
         if (caselessUrl.includes(name)) {
           validated = true;
@@ -44,8 +42,12 @@ class LeaderPhotoForm extends React.Component {
         return null;
       }); 
 
-      if (validated) {
-        this.props.leaderPhotoCreate(this.state, system._id);
+      if (validated && this.props.type === 'hog') {
+        this.props.headOfGovernmentPhotoCreate(this.state, system._id);
+        this.setState(defaultState);
+        window.location.reload();
+      } else if (validated && this.props.type === 'hos') {
+        this.props.headOfStatePhotoCreate(this.state, system._id);
         this.setState(defaultState);
         window.location.reload();
       } else {
@@ -79,9 +81,11 @@ class LeaderPhotoForm extends React.Component {
 }
 
 LeaderPhotoForm.propTypes = {
-  leaderPhotoCreate: PropTypes.func,
+  headOfGovernmentPhotoCreate: PropTypes.func,
+  headOfStatePhotoCreate: PropTypes.func,
   system: PropTypes.object,
   keywords: PropTypes.object,
+  type: PropTypes.string,
 };
 
 const mapStateToProps = (state) => {
@@ -91,7 +95,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  leaderPhotoCreate: (leader, systemId) => dispatch(photoActions.leaderPhotoCreateRequest(leader, systemId)),
+  headOfGovernmentPhotoCreate: (leader, systemId) => dispatch(photoActions.headOfGovernmentPhotoCreateRequest(leader, systemId)),
+  headOfStatePhotoCreate: (leader, systemId) => dispatch(photoActions.headOfStatePhotoCreateRequest(leader, systemId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeaderPhotoForm);

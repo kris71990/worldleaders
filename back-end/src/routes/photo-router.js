@@ -49,4 +49,23 @@ photoRouter.post('/photos/hog', jsonParser, (request, response, next) => {
     });
 });
 
+photoRouter.post('/photos/hos', jsonParser, (request, response, next) => {
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  if (request.body.leaderUrl.slice(0, 29) !== 'https://upload.wikimedia.org/') {
+    throw new HttpError(400, 'improper url');
+  }
+
+  return System.findById(request.body.systemId)
+    .then((system) => {
+      system.chiefOfStateImg = request.body.leaderUrl;
+      system.save();
+      logger.log(logger.INFO, 'Return updated data with new leader img');
+      return response.json(system);
+    })
+    .catch((error) => {
+      return next(error);
+    });
+});
+
 export default photoRouter;

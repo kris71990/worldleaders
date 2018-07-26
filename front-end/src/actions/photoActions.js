@@ -24,8 +24,7 @@ const flagCreateRequest = (flag, countryId) => (store) => {
     });
 };
 
-
-const leaderPhotoCreateRequest = (leader, systemId) => (store) => {
+const headOfGovernmentPhotoCreateRequest = (leader, systemId) => (store) => {
   delete leader.leaderUrlDirty;
   delete leader.leaderUrlError;
   const { leaderUrl } = leader;
@@ -38,9 +37,23 @@ const leaderPhotoCreateRequest = (leader, systemId) => (store) => {
     });
 };
 
+const headOfStatePhotoCreateRequest = (leader, systemId) => (store) => {
+  delete leader.leaderUrlDirty;
+  delete leader.leaderUrlError;
+  const { leaderUrl } = leader;
+
+  return superagent.post(`${API_URL}/photos/hos`)
+    .send({ leaderUrl, systemId })
+    .then((response) => {
+      store.dispatch(leaderPhotoCreate(response.body));
+      return response;
+    });
+};
+
 export { 
   flagCreateRequest, 
   flagCreate, 
-  leaderPhotoCreateRequest, 
+  headOfGovernmentPhotoCreateRequest, 
+  headOfStatePhotoCreateRequest,
   leaderPhotoCreate, 
 };
