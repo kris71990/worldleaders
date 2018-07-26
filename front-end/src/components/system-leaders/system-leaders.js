@@ -21,18 +21,15 @@ class SystemLeaders extends React.Component {
         }
   
         hogJSX = 
-          <div>
-            <LeaderPhotoForm system={selected}/>
-            <ul>
-              {
-                arr.map((x, i) => {
-                  return (
-                    <li key={i}>{x}</li>
-                  );
-                })
-              }
-            </ul>
-          </div>;
+          <ul>
+            {
+              arr.map((x, i) => {
+                return (
+                  <li key={i}>{x}</li>
+                );
+              })
+            }
+          </ul>;
       }
   
       if (selected.chiefOfStateFull) {
@@ -61,10 +58,12 @@ class SystemLeaders extends React.Component {
         <div className="hos">
           <h4>Head of State:</h4>
           {hosJSX}
+          <LeaderPhotoForm system={selected}/>
         </div>
         <div className="hog">
           <h4>Head of Government:</h4>
           {hogJSX}
+          <LeaderPhotoForm system={selected}/>
         </div>
       </div>
     );
