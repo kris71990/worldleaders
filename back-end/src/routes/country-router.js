@@ -15,6 +15,7 @@ const countryRouter = new Router();
 countryRouter.post('/countries', jsonParser, (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
+  // factor out country validation, basically done below, into validation middleware
   const searchableCountry = request.body.countryName.replace(' ', '_').toLowerCase();
 
   if (Object.keys(request.body).length > 1) throw new HttpError(400, 'improper request');

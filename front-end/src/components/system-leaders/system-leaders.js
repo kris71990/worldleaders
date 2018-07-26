@@ -25,19 +25,32 @@ class SystemLeaders extends React.Component {
             {
               selected.headOfGovernmentImg 
                 ? 
-              <img src={selected.headOfGovernmentImg}></img>
+              <div>
+                <img src={selected.headOfGovernmentImg}></img>
+                <ul>
+                  {
+                    arr.map((x, i) => {
+                      return (
+                        <li key={i}>{x}</li>
+                      );
+                    })
+                  }
+                </ul>
+              </div>
                 : 
-              <LeaderPhotoForm system={selected} type={'hog'} keywords={selected.headOfGovernmentKeywords}/>
+              <div>
+                <ul>
+                  {
+                    arr.map((x, i) => {
+                      return (
+                        <li key={i}>{x}</li>
+                      );
+                    })
+                  }
+                </ul>
+                <LeaderPhotoForm system={selected} type={'hog'} keywords={selected.headOfGovernmentKeywords}/>
+              </div>
             }
-            <ul>
-              {
-                arr.map((x, i) => {
-                  return (
-                    <li key={i}>{x}</li>
-                  );
-                })
-              }
-            </ul>
           </div>;
       }
   
@@ -54,19 +67,32 @@ class SystemLeaders extends React.Component {
             {
               selected.chiefOfStateImg 
                 ? 
-              <img src={selected.chiefOfStateImg}></img>
+              <div>
+                <img src={selected.chiefOfStateImg}></img>
+                <ul>
+                {
+                  arr.map((x, i) => {
+                    return (
+                      <li key={i}>{x}</li>
+                    );
+                  })
+                }
+                </ul>
+              </div>
                 : 
-              <LeaderPhotoForm system={selected} type={'hos'} keywords={selected.chiefOfStateKeywords}/>
+              <div>
+                <ul>
+                {
+                  arr.map((x, i) => {
+                    return (
+                      <li key={i}>{x}</li>
+                    );
+                  })
+                }
+                </ul>
+                <LeaderPhotoForm system={selected} type={'hos'} keywords={selected.chiefOfStateKeywords}/>
+              </div>
             }
-            <ul>
-              {
-                arr.map((x, i) => {
-                  return (
-                    <li key={i}>{x}</li>
-                  );
-                })
-              }
-            </ul>
           </div>;
       }
     }
