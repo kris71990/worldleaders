@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import LeaderPhotoForm from '../leaderForm/leader-form';
 
 import './system-leaders.scss';
 
@@ -20,15 +21,18 @@ class SystemLeaders extends React.Component {
         }
   
         hogJSX = 
-          <ul>
-            {
-              arr.map((x, i) => {
-                return (
-                  <li key={i}>{x}</li>
-                );
-              })
-            }
-          </ul>;
+          <div>
+            <LeaderPhotoForm system={selected}/>
+            <ul>
+              {
+                arr.map((x, i) => {
+                  return (
+                    <li key={i}>{x}</li>
+                  );
+                })
+              }
+            </ul>
+          </div>;
       }
   
       if (selected.chiefOfStateFull) {

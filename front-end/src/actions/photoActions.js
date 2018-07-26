@@ -25,17 +25,17 @@ const flagCreateRequest = (flag, countryId) => (store) => {
 };
 
 
-const leaderPhotoCreateRequest = (flag, countryId) => (store) => {
-  // delete flag.flagUrlDirty;
-  // delete flag.flagUrlError;
-  // const { flagUrl } = flag;
+const leaderPhotoCreateRequest = (leader, systemId) => (store) => {
+  delete leader.leaderUrlDirty;
+  delete leader.leaderUrlError;
+  const { leaderUrl } = leader;
 
-  // return superagent.post(`${API_URL}/photos${routes.LEADER_ROUTE}`)
-  //   .send({ flagUrl, countryId })
-  //   .then((response) => {
-  //     store.dispatch(leaderPhotoCreate(response.body));
-  //     return response;
-  //   });
+  return superagent.post(`${API_URL}/photos/hog`)
+    .send({ leaderUrl, systemId })
+    .then((response) => {
+      store.dispatch(leaderPhotoCreate(response.body));
+      return response;
+    });
 };
 
 export { 
