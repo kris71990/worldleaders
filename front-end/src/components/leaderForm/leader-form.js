@@ -28,27 +28,30 @@ class LeaderPhotoForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    const { keywords } = this.props;
     const { system } = this.props;
-    console.log(system);
+    const caselessUrl = this.state.leaderUrl.toLowerCase();
+    console.log(caselessUrl);
 
-    // let searchableCountryName;
+    if (keywords) {
+      let validated = false;
 
-    // if (country.countryName.includes('_')) {
-    //   searchableCountryName = country.countryName.split('_').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join(' ');
-    // } else {
-    //   searchableCountryName = 
-    //   country.countryName.charAt(0).toUpperCase() + country.countryName.slice(1);
-    // }
+      console.log(keywords);
+      keywords[1].some((name) => {
+        if (caselessUrl.includes(name)) {
+          validated = true;
+        }
+        return null;
+      }); 
 
-    // if (!this.state.flagUrl.includes('wikipedia') 
-    //     || !this.state.flagUrl.includes('Flag') 
-    //     || !this.state.flagUrl.includes(searchableCountryName)) {
-    //   this.setState({ flagUrlDirty: true });
-    // } else {
-    //   this.props.flagCreate(this.state, country._id);
-    //   this.setState(defaultState);
-    //   window.location.reload();
-    // }
+      if (validated) {
+        this.props.leaderPhotoCreate(this.state, system._id);
+        this.setState(defaultState);
+        window.location.reload();
+      } else {
+        this.setState({ leaderUrlDirty: true });
+      }
+    }
   }
 
   render() {
@@ -78,6 +81,7 @@ class LeaderPhotoForm extends React.Component {
 LeaderPhotoForm.propTypes = {
   leaderPhotoCreate: PropTypes.func,
   system: PropTypes.object,
+  keywords: PropTypes.object,
 };
 
 const mapStateToProps = (state) => {
@@ -87,7 +91,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  leaderPhotoCreate: (leader, systemId) => dispatch(photoActions.flagCreateRequest(leader, systemId)),
+  leaderPhotoCreate: (leader, systemId) => dispatch(photoActions.leaderPhotoCreateRequest(leader, systemId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeaderPhotoForm);

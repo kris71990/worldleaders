@@ -33,10 +33,9 @@ photoRouter.post('/photos/flags', jsonParser, (request, response, next) => {
 photoRouter.post('/photos/hog', jsonParser, (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
-  // if (request.body.flagUrl.slice(0, 29) !== 'https://upload.wikimedia.org/' 
-  //   || !request.body.flagUrl.includes('Flag_of_')) {
-  //   throw new HttpError(400, 'improper url');
-  // }
+  if (request.body.leaderUrl.slice(0, 29) !== 'https://upload.wikimedia.org/') {
+    throw new HttpError(400, 'improper url');
+  }
 
   return System.findById(request.body.systemId)
     .then((system) => {

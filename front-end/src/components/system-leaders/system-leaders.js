@@ -74,12 +74,12 @@ class SystemLeaders extends React.Component {
         <div className="hos">
           <h4>Head of State:</h4>
           {hosJSX}
-          <LeaderPhotoForm system={selected}/>
+          <LeaderPhotoForm system={selected._id} keywords={selected.chiefOfStateKeywords}/>
         </div>
         <div className="hog">
           <h4>Head of Government:</h4>
           {hogJSX}
-          <LeaderPhotoForm system={selected}/>
+          <LeaderPhotoForm system={selected._id} keywords={selected.headOfGovernmentKeywords}/>
         </div>
       </div>
     );
