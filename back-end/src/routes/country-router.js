@@ -18,9 +18,6 @@ countryRouter.post('/countries', jsonParser, countryParser, (request, response, 
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   const searchableCountry = request.body.countryName.replace(/([\s]+)/g, '_').toLowerCase();
-
-  if (Object.keys(request.body).length > 1) throw new HttpError(400, 'improper request');
-
   const countryExists = Object.keys(data.countries).filter(key => key === searchableCountry);
   if (countryExists.length === 0) throw new HttpError(404, 'country does not exist');
 
@@ -111,6 +108,7 @@ countryRouter.get('/countries/:id', (request, response, next) => {
 
 // returns updated country json
 countryRouter.put('/countries/:id', jsonParser, (request, response, next) => {
+  if (Object.keys(request.body).length > 0) return next(new HttpError(400, 'improper request'));
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
   
   return Country.findById(request.params.id)

@@ -91,7 +91,6 @@ describe('LEADER PHOTO ROUTER', () => {
 
     return createFakeMockSystem('australia')
       .then((country) => {
-        console.log(country);
         return superagent.post(`${API_URL}/photos/hos`)
           .send({ systemId: country.system._id, leaderUrl: url })
           .then((response) => {
