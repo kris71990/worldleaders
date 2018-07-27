@@ -76,7 +76,6 @@ describe('Test country-router', () => {
               countryName: 'china',
             });
         })
-        .then(Promise.reject)
         .catch((error) => {
           expect(error.status).toEqual(409);
         });
@@ -158,7 +157,7 @@ describe('Test country-router', () => {
   describe('GET from /countries/list', () => {
     beforeEach(() => createFakeMock('benin'));
     beforeEach(() => createFakeMock('togo'));
-    
+
     test('GET all should return a 200 and an array of objects', () => {
       return superagent.get(`${API_URL}/countries/list`)
         .then((response) => {
