@@ -177,7 +177,7 @@ describe('Test system-router', () => {
     afterEach(removeCountryMock);
 
     test('GET should normally return 201 and object of system tally', () => {
-      return superagent.get(`${API_URL}/systems/all`)
+      return superagent.get(`${API_URL}/systems-all`)
         .then((response) => {
           expect(response.status).toEqual(200);
           expect(response.body).toBeInstanceOf(Object);

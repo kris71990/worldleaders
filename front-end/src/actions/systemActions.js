@@ -30,7 +30,7 @@ const systemsGetAllRequest = () => (store) => {
 };
 
 const systemGetRequest = country => (store) => {
-  return superagent.get(`${API_URL}${routes.SYSTEM_ROUTE}-${country}`)
+  return superagent.get(`${API_URL}${routes.SYSTEM_ROUTE}/${country}`)
     .then((response) => {
       store.dispatch(systemGet(response.body));
       return response;

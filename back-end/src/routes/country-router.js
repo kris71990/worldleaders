@@ -108,7 +108,6 @@ countryRouter.get('/countries/:id', (request, response, next) => {
 
 // returns updated country json
 countryRouter.put('/countries/:id', jsonParser, (request, response, next) => {
-  if (Object.keys(request.body).length > 0) return next(new HttpError(400, 'improper request'));
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
   
   return Country.findById(request.params.id)

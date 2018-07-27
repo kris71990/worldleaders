@@ -97,7 +97,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
     .catch(next);
 });
 
-govSystemRouter.get('/systems/all', (request, response, next) => {
+govSystemRouter.get('/systems-all', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return System.find()
@@ -125,7 +125,6 @@ govSystemRouter.get('/system/:country', (request, response, next) => {
 });
 
 govSystemRouter.put('/system/:country', jsonParser, (request, response, next) => {
-  if (Object.keys(request.body).length > 0) return next(new HttpError(400, 'improper request'));
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   const searchableCountry = request.params.country.replace(' ', '_').toLowerCase();
