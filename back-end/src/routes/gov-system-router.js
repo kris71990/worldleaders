@@ -15,13 +15,14 @@ const jsonParser = json();
 const govSystemRouter = new Router();
 
 govSystemRouter.post('/system', jsonParser, (request, response, next) => {
-  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
-  
+  if (Object.keys(request.body).length !== 2) return next(new HttpError(400, 'improper request'));
   if (!request.body.countryId || !request.body.countryName) {
-    throw new HttpError(400, 'bad request - missing argument');
+    return next(new HttpError(400, 'bad request - missing argument'));
   }
 
-  Country.findById(request.body.countryId)
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  return Country.findById(request.body.countryId)
     .then((country) => {
       if (country.countryName !== request.body.countryName) {
         throw new HttpError(400, 'bad request - incorrect country');
@@ -96,7 +97,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
     .catch(next);
 });
 
-govSystemRouter.get('/systems-all', (request, response, next) => {
+govSystemRouter.get('/systems/all', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return System.find()
@@ -108,7 +109,7 @@ govSystemRouter.get('/systems-all', (request, response, next) => {
     .catch(next);
 });
 
-govSystemRouter.get('/system-:country', (request, response, next) => {
+govSystemRouter.get('/system/:country', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return System.find({ countryName: request.params.country })
@@ -124,6 +125,7 @@ govSystemRouter.get('/system-:country', (request, response, next) => {
 });
 
 govSystemRouter.put('/system/:country', jsonParser, (request, response, next) => {
+  if (Object.keys(request.body).length > 0) return next(new HttpError(400, 'improper request'));
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   const searchableCountry = request.params.country.replace(' ', '_').toLowerCase();
@@ -133,10 +135,14 @@ govSystemRouter.put('/system/:country', jsonParser, (request, response, next) =>
   return Country.find({ countryName: request.params.country })
     .then((country) => {
       govType = country[0].typeOfGovernment;
+      return null;
     })
+    .catch(() => Promise.reject())
     .then(() => {
       return System.findOne({ countryName: request.params.country })
         .then((system) => {
+          if (!system) return next(new HttpError(400, 'no system found'));
+
           const dateDB = system.lastUpdated;
           const dateData = data.countries[system.countryName].metadata.date;
           
@@ -162,7 +168,8 @@ govSystemRouter.put('/system/:country', jsonParser, (request, response, next) =>
           return response.status(200).json(system);
         })
         .catch(next);
-    });
+    })
+    .catch(next);
 });
 
 export default govSystemRouter;
