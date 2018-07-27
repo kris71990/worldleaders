@@ -1,0 +1,22 @@
+.system-leader-info {
+  display: block;
+  position: relative;
+
+  img {
+    height: 300px;
+  }
+  
+  .hog {
+    width: 49%;
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .hos {
+    width: 49%;
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
+  }
+}

@@ -35,6 +35,15 @@
     transform: scale(1.01);
   }
 
+  .constitutional-republic {
+    background: linear-gradient(rgba(66, 16, 144, 0.8), rgba(66, 16, 144, 1));
+    padding-right: 4%;
+  }
+  .constitutional-republic:hover {
+    background-color: rgb(66, 16, 144);
+    transform: scale(1.01);
+  }
+
   .presidential-republic {
     background: linear-gradient(rgba(117, 19, 144, 0.8), rgba(117, 19, 144, 1));
     padding-right: 4%;

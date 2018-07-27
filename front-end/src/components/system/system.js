@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import autoBind from '../../utils/autoBind';
 
+import CapitalMap from '../capital-map/capital-map';
 import SystemElections from '../system-elections/system-elections';
 import SystemLeaders from '../system-leaders/system-leaders';
 
@@ -73,13 +74,16 @@ class System extends React.Component {
     return (
       <div className="system-info">
         {nameJSX}
-        <p>Last Updated: {selected.lastUpdated ? selected.lastUpdated : null}</p>
-        <button onClick={this.handleUpdateSystem}>Uptdate</button> 
-        <h4>Type of Government: <span>{selected.typeOfGovernment}</span></h4>
+        <p>Last Updated: {selected ? selected.lastUpdated : null}</p>
+        <button onClick={this.handleUpdateSystem}>Update</button> 
+        <h4>Type of Government: <span>{selected ? selected.typeOfGovernment : null}</span></h4>
         <h4>Capital: </h4>
         {capitalJSX}
         {
-          selected.independence ? 
+          selected ? <CapitalMap selected={selected}/> : null
+        }
+        {
+          selected ? 
             <h4>Independence: <span>{selected.independence}</span></h4>
             : null
         }

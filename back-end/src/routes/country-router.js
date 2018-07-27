@@ -3,6 +3,8 @@
 import { Router } from 'express';
 import { json } from 'body-parser';
 import HttpError from 'http-errors';
+
+import countryParser from '../lib/country-parser-middleware';
 import Country from '../models/country';
 import System from '../models/gov-system';
 import logger from '../lib/logger';
@@ -12,10 +14,10 @@ const jsonParser = json();
 const countryRouter = new Router();
 
 // returns posted country json
-countryRouter.post('/countries', jsonParser, (request, response, next) => {
+countryRouter.post('/countries', jsonParser, countryParser, (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
-  const searchableCountry = request.body.countryName.replace(' ', '_').toLowerCase();
+  const searchableCountry = request.body.countryName.replace(/([\s]+)/g, '_').toLowerCase();
 
   if (Object.keys(request.body).length > 1) throw new HttpError(400, 'improper request');
 

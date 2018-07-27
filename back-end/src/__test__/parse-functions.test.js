@@ -32,16 +32,16 @@ describe('Testing: parse-leaders.js', () => {
       expect(Object.keys(multipleWithSemicolon)).toHaveLength(2);
       expect(multipleWithSemicolon['1']).toBeInstanceOf(Array);
       expect(multipleWithSemicolon['2']).toBeInstanceOf(Array);
-      expect(multipleWithSemicolon['1'][0]).toEqual('Premier');
-      expect(multipleWithSemicolon['1'][1]).toEqual('Dmitriy');
-      expect(multipleWithSemicolon['1'][2]).toEqual('Anatolyevich');
-      expect(multipleWithSemicolon['1'][3]).toEqual('MEDVEDEV');
-      expect(multipleWithSemicolon['2'][0]).toEqual('First');
-      expect(multipleWithSemicolon['2'][1]).toEqual('Deputy');
-      expect(multipleWithSemicolon['2'][2]).toEqual('Premier');
-      expect(multipleWithSemicolon['2'][3]).toEqual('Igor');
-      expect(multipleWithSemicolon['2'][4]).toEqual('Ivanovich');
-      expect(multipleWithSemicolon['2'][5]).toEqual('SHUVALOV');
+      expect(multipleWithSemicolon['1'][0]).toEqual('premier');
+      expect(multipleWithSemicolon['1'][1]).toEqual('dmitriy');
+      expect(multipleWithSemicolon['1'][2]).toEqual('anatolyevich');
+      expect(multipleWithSemicolon['1'][3]).toEqual('medvedev');
+      expect(multipleWithSemicolon['2'][0]).toEqual('first');
+      expect(multipleWithSemicolon['2'][1]).toEqual('deputy');
+      expect(multipleWithSemicolon['2'][2]).toEqual('premier');
+      expect(multipleWithSemicolon['2'][3]).toEqual('igor');
+      expect(multipleWithSemicolon['2'][4]).toEqual('ivanovich');
+      expect(multipleWithSemicolon['2'][5]).toEqual('shuvalov');
     });
 
     test('testing with semicolon but only one leader should return array of keywords for that leader', () => {
@@ -51,18 +51,19 @@ describe('Testing: parse-leaders.js', () => {
       expect(Object.keys(simpleWithSemicolon)).toHaveLength(1);
       expect(simpleWithSemicolon['1']).toBeInstanceOf(Array);
       expect(simpleWithSemicolon['1']).toHaveLength(3);
-      expect(simpleWithSemicolon['1'][0]).toEqual('President');
-      expect(simpleWithSemicolon['1'][1]).toEqual('Patrice');
-      expect(simpleWithSemicolon['1'][2]).toEqual('TALON');
+      expect(simpleWithSemicolon['1'][0]).toEqual('president');
+      expect(simpleWithSemicolon['1'][1]).toEqual('patrice');
+      expect(simpleWithSemicolon['1'][2]).toEqual('talon');
     });
 
     test('testing without semicolon and only one leader should returns a simple string', () => {
       const simpleWithSemicolon = findHOGKeywords('Prime Minister Theresa MAY (Conservative) (since 13 July 2016)');
   
+      console.log(simpleWithSemicolon);
       expect(simpleWithSemicolon).toBeInstanceOf(Object);
       expect(Object.keys(simpleWithSemicolon)).toHaveLength(1);
-      expect(typeof simpleWithSemicolon['1']).toEqual('string');
-      expect(simpleWithSemicolon['1']).toEqual('Prime Minister Theresa M');
+      expect(typeof simpleWithSemicolon['1']).toEqual('object');
+      expect(simpleWithSemicolon['1']).toEqual(['prime', 'minister', 'theresa', 'may']);
     });
   });
 
@@ -74,14 +75,14 @@ describe('Testing: parse-leaders.js', () => {
       expect(Object.keys(multipleWithSemicolon)).toHaveLength(2);
       expect(multipleWithSemicolon['1']).toBeInstanceOf(Array);
       expect(multipleWithSemicolon['2']).toBeInstanceOf(Array);
-      expect(multipleWithSemicolon['1'][0]).toEqual('ELIZABETH');
-      expect(multipleWithSemicolon['1'][1]).toEqual('II');
-      expect(multipleWithSemicolon['2'][0]).toEqual('Heir');
-      expect(multipleWithSemicolon['2'][1]).toEqual('Apparent');
-      expect(multipleWithSemicolon['2'][2]).toEqual('Prince');
-      expect(multipleWithSemicolon['2'][3]).toEqual('CHARLES');
+      expect(multipleWithSemicolon['1'][0]).toEqual('elizabeth');
+      expect(multipleWithSemicolon['1'][1]).toEqual('ii');
+      expect(multipleWithSemicolon['2'][0]).toEqual('heir');
+      expect(multipleWithSemicolon['2'][1]).toEqual('apparent');
+      expect(multipleWithSemicolon['2'][2]).toEqual('prince');
+      expect(multipleWithSemicolon['2'][3]).toEqual('charles');
     });
-
+    
     test('testing without semicolon and only one leader should return array of keywords for that leader', () => {
       const simpleWithSemicolon = findCOSKeywords('Supreme Leader Ali Hoseini-KHAMENEI (since 4 June 1989)');
   
@@ -89,10 +90,10 @@ describe('Testing: parse-leaders.js', () => {
       expect(Object.keys(simpleWithSemicolon)).toHaveLength(1);
       expect(simpleWithSemicolon['1']).toBeInstanceOf(Array);
       expect(simpleWithSemicolon['1']).toHaveLength(4);
-      expect(simpleWithSemicolon['1'][0]).toEqual('Supreme');
-      expect(simpleWithSemicolon['1'][1]).toEqual('Leader');
-      expect(simpleWithSemicolon['1'][2]).toEqual('Ali');
-      expect(simpleWithSemicolon['1'][3]).toEqual('Hoseini-KHAMENEI');
+      expect(simpleWithSemicolon['1'][0]).toEqual('supreme');
+      expect(simpleWithSemicolon['1'][1]).toEqual('leader');
+      expect(simpleWithSemicolon['1'][2]).toEqual('ali');
+      expect(simpleWithSemicolon['1'][3]).toEqual('hoseini-khamenei');
     });
   });
 });

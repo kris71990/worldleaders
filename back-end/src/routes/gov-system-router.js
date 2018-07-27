@@ -37,8 +37,8 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
         const coordinatesLon = governmentInfo.capital.geographic_coordinates.longitude;
         const parsedGov = parseFullGov(country.typeOfGovernment);
 
-        const latArr = [1, 2, 3];
-        const lonArr = [1, 2, 3];
+        const latArr = [1, 2];
+        const lonArr = [1, 2];
         Object.keys(coordinatesLat).forEach((x) => {
           if (x === 'degrees') {
             latArr[0] = coordinatesLat[x];
@@ -49,13 +49,12 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
             lonArr[1] = coordinatesLon[x];
           }
           if (x === 'hemisphere') {
-            latArr[2] = coordinatesLat[x];
-            lonArr[2] = coordinatesLon[x];
+            if (coordinatesLat[x] === 'S') latArr[0] = -latArr[0];
+            if (coordinatesLon[x] === 'W') lonArr[0] = -lonArr[0];
           }
         });
 
         let independenceData = '';
-
         if (governmentInfo.independence && governmentInfo.independence.date) {
           if (governmentInfo.independence.note) {
             independenceData = `${governmentInfo.independence.date} - ${governmentInfo.independence.note}`;
