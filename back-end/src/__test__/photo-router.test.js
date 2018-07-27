@@ -42,10 +42,62 @@ describe('FLAG PHOTO ROUTER', () => {
   test('POST to /photos/flags should return 400 for bad url (wrong format)', () => {
     const url = 'https://upload.wikimedia.org/australia.svg';
 
-    return createFakeMock('japan')
+    return createFakeMock('australia')
       .then((country) => {
         return superagent.post(`${API_URL}/photos/flags`)
           .send({ countryId: country.country._id, flagUrl: url })
+          .catch((response) => {
+            expect(response.status).toEqual(400);
+          });
+      });
+  });
+
+  test('POST to /photos/flags should return 400 for bad file type', () => {
+    const url = 'https://upload.wikimedia.org/Flag_of_Australia.com';
+
+    return createFakeMock('australia')
+      .then((country) => {
+        return superagent.post(`${API_URL}/photos/flags`)
+          .send({ countryId: country.country._id, flagUrl: url })
+          .catch((response) => {
+            expect(response.status).toEqual(400);
+          });
+      });
+  });
+
+  test('POST to /photos/flags should return 400 for missing argument', () => {
+    return createFakeMock('japan')
+      .then((country) => {
+        return superagent.post(`${API_URL}/photos/flags`)
+          .send({ countryId: country.country._id, arg2: 'blah' })
+          .catch((response) => {
+            expect(response.status).toEqual(400);
+          });
+      });
+  });
+
+  test('POST to /photos/flags with no arguments returns 400', () => {
+    return superagent.post(`${API_URL}/photos/flags`)
+      .catch((error) => {
+        expect(error.status).toEqual(400);
+      });
+  });
+
+  test('POST to /photos/flags with wrong arguments returns 400', () => {
+    return superagent.post(`${API_URL}/photos/flags`)
+      .send({ arg1: 'blah', arg2: 'blah' })
+      .catch((error) => {
+        expect(error.status).toEqual(400);
+      });
+  });
+
+  test('POST to /photos/flags with too many arguments returns 400', () => {
+    const url = 'https://upload.wikimedia.org/wikipedia/en/b/b9/Flag_of_Thailand.svg';
+
+    return createFakeMock('thailand')
+      .then((country) => {
+        return superagent.post(`${API_URL}/photos/flags`)
+          .send({ countryId: country.country._id, flagUrl: url, arg3: 'blah' })
           .catch((response) => {
             expect(response.status).toEqual(400);
           });
@@ -86,6 +138,58 @@ describe('LEADER PHOTO ROUTER', () => {
       });
   });
 
+  test('POST to /photos/hog should return 400 for bad file type', () => {
+    const url = 'https://upload.wikimedia.org/wikipedia/en/b/b9/Malcolm_Turnbull.com';
+
+    return createFakeMockSystem('australia')
+      .then((country) => {
+        return superagent.post(`${API_URL}/photos/hog`)
+          .send({ systemId: country.country._id, leaderUrl: url })
+          .catch((response) => {
+            expect(response.status).toEqual(400);
+          });
+      });
+  });
+
+  test('POST to /photos/hog should return 400 for missing argument', () => {
+    return createFakeMockSystem('japan')
+      .then((country) => {
+        return superagent.post(`${API_URL}/photos/hog`)
+          .send({ systemId: country.country._id, arg2: 'blah' })
+          .catch((response) => {
+            expect(response.status).toEqual(400);
+          });
+      });
+  });
+
+  test('POST to /photos/hog with no arguments returns 400', () => {
+    return superagent.post(`${API_URL}/photos/hog`)
+      .catch((error) => {
+        expect(error.status).toEqual(400);
+      });
+  });
+
+  test('POST to /photos/hog with wrong arguments returns 400', () => {
+    return superagent.post(`${API_URL}/photos/hog`)
+      .send({ arg1: 'blah', arg2: 'blah' })
+      .catch((error) => {
+        expect(error.status).toEqual(400);
+      });
+  });
+
+  test('POST to /photos/hog with too many arguments returns 400', () => {
+    const url = 'https://upload.wikimedia.org/wikipedia/en/b/b9/Malcolm_Turnbull.svg';
+
+    return createFakeMockSystem('australia')
+      .then((country) => {
+        return superagent.post(`${API_URL}/photos/hog`)
+          .send({ systemId: country.country._id, flagUrl: url, arg3: 'blah' })
+          .catch((response) => {
+            expect(response.status).toEqual(400);
+          });
+      });
+  });
+
   test('POST to /photos/hos should return updated country with hogUrl', () => {
     const url = 'https://upload.wikimedia.org/wikipedia/en/b/b9/Elizabeth_II.svg';
 
@@ -107,6 +211,58 @@ describe('LEADER PHOTO ROUTER', () => {
       .then((country) => {
         return superagent.post(`${API_URL}/photos/hos`)
           .send({ systemId: country.country._id, leaderUrl: url })
+          .catch((response) => {
+            expect(response.status).toEqual(400);
+          });
+      });
+  });
+
+  test('POST to /photos/hos should return 400 for bad file type', () => {
+    const url = 'https://upload.wikimedia.org/wikipedia/en/b/b9/Elizabeth_II.com';
+
+    return createFakeMockSystem('australia')
+      .then((country) => {
+        return superagent.post(`${API_URL}/photos/hos`)
+          .send({ systemId: country.country._id, leaderUrl: url })
+          .catch((response) => {
+            expect(response.status).toEqual(400);
+          });
+      });
+  });
+
+  test('POST to /photos/hos should return 400 for missing argument', () => {
+    return createFakeMockSystem('japan')
+      .then((country) => {
+        return superagent.post(`${API_URL}/photos/hos`)
+          .send({ systemId: country.country._id, arg2: 'blah' })
+          .catch((response) => {
+            expect(response.status).toEqual(400);
+          });
+      });
+  });
+
+  test('POST to /photos/hos with no arguments returns 400', () => {
+    return superagent.post(`${API_URL}/photos/hos`)
+      .catch((error) => {
+        expect(error.status).toEqual(400);
+      });
+  });
+
+  test('POST to /photos/hos with wrong arguments returns 400', () => {
+    return superagent.post(`${API_URL}/photos/hos`)
+      .send({ arg1: 'blah', arg2: 'blah' })
+      .catch((error) => {
+        expect(error.status).toEqual(400);
+      });
+  });
+
+  test('POST to /photos/hos with too many arguments returns 400', () => {
+    const url = 'https://upload.wikimedia.org/wikipedia/en/b/b9/Elizabeth_II.svg';
+
+    return createFakeMockSystem('australia')
+      .then((country) => {
+        return superagent.post(`${API_URL}/photos/hog`)
+          .send({ systemId: country.country._id, flagUrl: url, arg3: 'blah' })
           .catch((response) => {
             expect(response.status).toEqual(400);
           });
