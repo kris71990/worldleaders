@@ -95,8 +95,10 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  headOfGovernmentPhotoCreate: (leader, systemId) => dispatch(photoActions.headOfGovernmentPhotoCreateRequest(leader, systemId)),
-  headOfStatePhotoCreate: (leader, systemId) => dispatch(photoActions.headOfStatePhotoCreateRequest(leader, systemId)),
+  headOfGovernmentPhotoCreate: 
+  (leader, systemId) => dispatch(photoActions.headOfGovernmentPhotoCreateRequest(leader, systemId)),
+  headOfStatePhotoCreate: 
+  (leader, systemId) => dispatch(photoActions.headOfStatePhotoCreateRequest(leader, systemId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeaderPhotoForm);
