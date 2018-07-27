@@ -30,7 +30,6 @@ const findHOGKeywords = (string) => {
     });
   } else {
     const root = fullGov.match(regex);
-    console.log(root);
 
     if (!root) return null;
     if (root) {
