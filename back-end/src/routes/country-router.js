@@ -10,17 +10,12 @@ import System from '../models/gov-system';
 import logger from '../lib/logger';
 import data from '../../data.json';
 
-const util = require('util');
-
-
 const jsonParser = json();
 const countryRouter = new Router();
 
 // returns posted country json
 countryRouter.post('/countries', jsonParser, countryParser, (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
-
-  console.log(util.inspect(Object.keys(data.countries), { maxArrayLength: null }));
 
   const searchableCountry = request.body.countryName.replace(/([\s]+)/g, '_').toLowerCase();
 
