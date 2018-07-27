@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import LeaderPhotoForm from '../leaderForm/leader-form';
 
 import './system-leaders.scss';
 
@@ -20,15 +21,37 @@ class SystemLeaders extends React.Component {
         }
   
         hogJSX = 
-          <ul>
+          <div>
             {
-              arr.map((x, i) => {
-                return (
-                  <li key={i}>{x}</li>
-                );
-              })
+              selected.headOfGovernmentImg 
+                ? 
+              <div>
+                <img src={selected.headOfGovernmentImg}></img>
+                <ul>
+                  {
+                    arr.map((x, i) => {
+                      return (
+                        <li key={i}>{x}</li>
+                      );
+                    })
+                  }
+                </ul>
+              </div>
+                : 
+              <div>
+                <ul>
+                  {
+                    arr.map((x, i) => {
+                      return (
+                        <li key={i}>{x}</li>
+                      );
+                    })
+                  }
+                </ul>
+                <LeaderPhotoForm system={selected} type={'hog'} keywords={selected.headOfGovernmentKeywords}/>
+              </div>
             }
-          </ul>;
+          </div>;
       }
   
       if (selected.chiefOfStateFull) {
@@ -40,15 +63,37 @@ class SystemLeaders extends React.Component {
         }
   
         hosJSX = 
-          <ul>
+          <div>
             {
-              arr.map((x, i) => {
-                return (
-                  <li key={i}>{x}</li>
-                );
-              })
+              selected.chiefOfStateImg 
+                ? 
+              <div>
+                <img src={selected.chiefOfStateImg}></img>
+                <ul>
+                {
+                  arr.map((x, i) => {
+                    return (
+                      <li key={i}>{x}</li>
+                    );
+                  })
+                }
+                </ul>
+              </div>
+                : 
+              <div>
+                <ul>
+                {
+                  arr.map((x, i) => {
+                    return (
+                      <li key={i}>{x}</li>
+                    );
+                  })
+                }
+                </ul>
+                <LeaderPhotoForm system={selected} type={'hos'} keywords={selected.chiefOfStateKeywords}/>
+              </div>
             }
-          </ul>;
+          </div>;
       }
     }
     

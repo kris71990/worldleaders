@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import autoBind from '../../utils/autoBind';
 
-import * as flagActions from '../../actions/flagActions';
+import * as photoActions from '../../actions/photoActions';
 import './flag-form.scss';
 
 const defaultState = {
@@ -87,7 +87,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  flagCreate: (flag, countryId) => dispatch(flagActions.flagCreateRequest(flag, countryId)),
+  flagCreate: (flag, countryId) => dispatch(photoActions.flagCreateRequest(flag, countryId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FlagForm);

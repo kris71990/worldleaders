@@ -2,15 +2,21 @@
   display: block;
   position: relative;
 
+  img {
+    height: 300px;
+  }
+  
   .hog {
-    width: 50%;
+    width: 49%;
     height: 100%;
     display: inline-block;
+    vertical-align: top;
   }
 
   .hos {
-    width: 50%;
+    width: 49%;
     height: 100%;
     display: inline-block;
+    vertical-align: top;
   }
 }

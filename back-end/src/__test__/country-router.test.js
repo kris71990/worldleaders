@@ -24,11 +24,11 @@ describe('Test country-router', () => {
     test('POST under normal circumstances returns 201', () => {
       return superagent.post(`${API_URL}/countries`)
         .send({
-          countryName: 'afghanistan',
+          countryName: 'democratic republic of congo',
         })
         .then((response) => {
           expect(response.status).toEqual(201);
-          expect(response.body.countryName).toEqual('afghanistan');
+          expect(response.body.countryName).toEqual('congo_democratic_republic_of_the');
           expect(response.body.population).toBeTruthy();
           expect(response.body.area).toBeTruthy();
           expect(response.body.gdpPPPRank).toBeTruthy();
@@ -44,11 +44,11 @@ describe('Test country-router', () => {
     test('POST a country without bordering countries should return empty array for border countries', () => {
       return superagent.post(`${API_URL}/countries`)
         .send({
-          countryName: 'japan',
+          countryName: 'the bahamas',
         })
         .then((response) => {
           expect(response.status).toEqual(201);
-          expect(response.body.countryName).toEqual('japan');
+          expect(response.body.countryName).toEqual('bahamas_the');
           expect(response.body.borderCountries).toBeInstanceOf(Array);
           expect(response.body.borderCountries).toHaveLength(0);
         });
@@ -76,7 +76,6 @@ describe('Test country-router', () => {
               countryName: 'china',
             });
         })
-        .then(Promise.reject)
         .catch((error) => {
           expect(error.status).toEqual(409);
         });
@@ -100,15 +99,15 @@ describe('Test country-router', () => {
     test('GET with correct id should return 200 and json', () => {
       return superagent.post(`${API_URL}/countries`)
         .send({
-          countryName: 'togo',
+          countryName: 'north korea',
         })
         .then((response) => {
           return superagent.get(`${API_URL}/countries/${response.body._id}`)
             .then((res) => {
               expect(res.status).toEqual(200);
               expect(res.body).toBeTruthy();
-              expect(res.body.countryName).toEqual('togo');
-              expect(response.body.countryName).toEqual('togo');
+              expect(res.body.countryName).toEqual('korea_north');
+              expect(response.body.countryName).toEqual('korea_north');
               expect(response.body.population).toBeTruthy();
               expect(response.body.area).toBeTruthy();
               expect(response.body.gdpPPPRank).toBeTruthy();
@@ -135,14 +134,13 @@ describe('Test country-router', () => {
   describe('GET from /countries/all', () => {
     beforeEach(() => createFakeMock('benin'));
     beforeEach(() => createFakeMock('togo'));
-    beforeEach(() => createFakeMock('belgium'));
 
     test('GET all should return 200 and return all countries in database', () => {
       return superagent.get(`${API_URL}/countries/all`)
         .then((response) => {
           expect(response.status).toEqual(200);
           expect(response.body).toBeInstanceOf(Array);
-          expect(response.body).toHaveLength(3);
+          expect(response.body).toHaveLength(2);
         });
     });
   });
@@ -157,16 +155,15 @@ describe('Test country-router', () => {
   });
 
   describe('GET from /countries/list', () => {
-    test('GET all should return a 200 and an array of objects', () => {
-      createFakeMock('benin');
-      createFakeMock('togo');
-      createFakeMock('belgium');
+    beforeEach(() => createFakeMock('benin'));
+    beforeEach(() => createFakeMock('togo'));
 
+    test('GET all should return a 200 and an array of objects', () => {
       return superagent.get(`${API_URL}/countries/list`)
         .then((response) => {
           expect(response.status).toEqual(200);
           expect(response.body).toBeInstanceOf(Array);
-          expect(response.body).toHaveLength(3);
+          expect(response.body).toHaveLength(2);
           expect(response.body[0]).toBeInstanceOf(Object);
           expect(Object.keys(response.body[0])).toBeInstanceOf(Array);
           expect(Object.keys(response.body[0])).toHaveLength(2);
