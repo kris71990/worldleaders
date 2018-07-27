@@ -30,12 +30,14 @@ const findHOGKeywords = (string) => {
     });
   } else {
     const root = fullGov.match(regex);
+    console.log(root);
 
+    if (!root) return null;
     if (root) {
       if (root.length === 1) {
         const main = fullGov.indexOf(root[0]);
-        const sliced = fullGov.slice(0, main + 1);
-        keywordsGov[1] = sliced.map(y => y.toLowerCase());
+        const sliced = fullGov.slice(0, main + root[0].length);
+        keywordsGov[1] = sliced.split(' ').map(y => y.toLowerCase());
       } else {
         const arr = [];
         root.forEach(y => arr.push(y.toLowerCase())); 
