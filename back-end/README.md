@@ -201,4 +201,18 @@ All the functionality in the app is tested using the Jest library. 98% of server
 
 To run tests: `npm run test`
 
-Basic load testing has also been conducted.
+
+Basic load testing with artillery.io has also been conducted at varying rates and durations for the following:
+
+  Simple tests:
+  - `GET /countries/list` - Homepage route
+  - `POST /countries countryName="COUNTRY_NAME"` - Creating a country
+  - `GET /rankings/gdp` - Generic rankings request
+  - `GET /countries/"COUNTRY_ID"` - View a country's information page
+  
+  Complex:
+  ```
+  POST /countries countryName="COUNTRY_NAME"
+  GET /countries/list
+  GET /rankings/gdp
+  ```
