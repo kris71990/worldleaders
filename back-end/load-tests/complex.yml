@@ -9,11 +9,11 @@ config:
   phases:
     - duration: 30
       arrivalRate: 20
-    - duration: 15
+    - duration: 20
       arrivalRate: 50
     - duration: 10
       arrivalRate: 100
-    - duration: 15
+    - duration: 20
       arrivalRate: 50
     - duration: 30
       arrivalRate: 20

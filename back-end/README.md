@@ -197,10 +197,14 @@ Any country in the world can be stored in the country collection of the Country 
 
 ## Testing
 
+*Unit Testing*
+
 All the functionality in the app is tested using the Jest library. 98% of server-side code is covered with these unit tests. 
 
-To run tests: `npm run test`
+To run unit tests: `npm run test`
 
+
+*Load Testing*
 
 Basic load testing with artillery.io has also been conducted at varying rates and durations for the following:
 
@@ -216,3 +220,9 @@ Basic load testing with artillery.io has also been conducted at varying rates an
   GET /countries/list
   GET /rankings/gdp
   ```
+
+  Sample test data:
+
+  <img src="./assets/simple-load.png" alt="Simple Load Test" width="600">
+-------------------------------
+  <img src="./assets/complex-load.png" alt="Complex Load Test" width="600">
