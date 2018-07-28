@@ -1,0 +1,29 @@
+## POST to /countries countryName="country"
+## GET from /countries/list
+## GET from /rankings-area
+
+## This load test test a combination of the above requests over a number of phases
+
+config:
+  target: 'http://localhost:3000'
+  phases:
+    - duration: 30
+      arrivalRate: 20
+    - duration: 15
+      arrivalRate: 50
+    - duration: 10
+      arrivalRate: 100
+    - duration: 15
+      arrivalRate: 50
+    - duration: 30
+      arrivalRate: 20
+scenarios:
+  - flow:
+    - post:
+        url: "/countries"
+        json: 
+          countryName: "belize"
+    - get:
+        url: "/countries/list"
+    - get:  
+        url: "/rankings-area"

@@ -5,3 +5,5 @@
 !.elasticbeanstalk/*.global.yml
 .ebextensions
 .elasticbeanstalk
+
+load-tests/*.json*
