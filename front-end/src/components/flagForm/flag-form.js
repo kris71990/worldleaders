@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import autoBind from '../../utils/autoBind';
 
+import * as countryActions from '../../actions/countryActions';
 import * as photoActions from '../../actions/photoActions';
 import './flag-form.scss';
 
@@ -45,10 +46,12 @@ class FlagForm extends React.Component {
         || !this.state.flagUrl.includes(searchableCountryName)) {
       this.setState({ flagUrlDirty: true });
     } else {
-      this.props.flagCreate(this.state, country._id);
-      this.setState(defaultState);
-      window.location.reload();
+      this.props.flagCreate(this.state, country._id)
+        .then(() => {
+          this.props.countryGet(this.props.country);
+        });
     }
+    this.setState(defaultState);
   }
 
   render() {
@@ -77,6 +80,7 @@ class FlagForm extends React.Component {
 
 FlagForm.propTypes = {
   flagCreate: PropTypes.func,
+  countryGet: PropTypes.func,
   country: PropTypes.object,
 };
 
@@ -88,6 +92,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   flagCreate: (flag, countryId) => dispatch(photoActions.flagCreateRequest(flag, countryId)),
+  countryGet: country => dispatch(countryActions.countryGetRequest(country._id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FlagForm);

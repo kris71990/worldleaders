@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import autoBind from '../../utils/autoBind';
 
+import * as systemActions from '../../actions/systemActions';
 import * as photoActions from '../../actions/photoActions';
 
 const defaultState = {
@@ -43,13 +44,17 @@ class LeaderPhotoForm extends React.Component {
       }); 
 
       if (validated && this.props.type === 'hog') {
-        this.props.headOfGovernmentPhotoCreate(this.state, system._id);
+        this.props.headOfGovernmentPhotoCreate(this.state, system._id)
+          .then(() => {
+            this.props.systemGet(system.countryName);
+          });
         this.setState(defaultState);
-        window.location.reload();
       } else if (validated && this.props.type === 'hos') {
-        this.props.headOfStatePhotoCreate(this.state, system._id);
+        this.props.headOfStatePhotoCreate(this.state, system._id)
+          .then(() => {
+            this.props.systemGet(system.countryName);
+          });
         this.setState(defaultState);
-        window.location.reload();
       } else {
         this.setState({ leaderUrlDirty: true });
       }
@@ -83,6 +88,7 @@ class LeaderPhotoForm extends React.Component {
 LeaderPhotoForm.propTypes = {
   headOfGovernmentPhotoCreate: PropTypes.func,
   headOfStatePhotoCreate: PropTypes.func,
+  systemGet: PropTypes.func,
   system: PropTypes.object,
   keywords: PropTypes.object,
   type: PropTypes.string,
@@ -99,6 +105,7 @@ const mapDispatchToProps = dispatch => ({
   (leader, systemId) => dispatch(photoActions.headOfGovernmentPhotoCreateRequest(leader, systemId)),
   headOfStatePhotoCreate: 
   (leader, systemId) => dispatch(photoActions.headOfStatePhotoCreateRequest(leader, systemId)),
+  systemGet: system => dispatch(systemActions.systemGetRequest(system)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeaderPhotoForm);
