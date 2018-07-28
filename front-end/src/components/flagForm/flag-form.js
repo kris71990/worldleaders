@@ -35,13 +35,13 @@ class FlagForm extends React.Component {
     let searchableCountryName;
 
     if (country.countryName.includes('_')) {
-      searchableCountryName = country.countryName.split('_').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join(' ');
+      searchableCountryName = country.countryName.split('_').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join('_');
     } else {
       searchableCountryName = 
       country.countryName.charAt(0).toUpperCase() + country.countryName.slice(1);
     }
-
-    if (!this.state.flagUrl.includes('wikimedia') 
+    
+    if (this.state.flagUrl.slice(0, 29) !== 'https://upload.wikimedia.org/'
         || !this.state.flagUrl.includes('Flag') 
         || !this.state.flagUrl.includes(searchableCountryName)) {
       this.setState({ flagUrlDirty: true });
@@ -50,8 +50,8 @@ class FlagForm extends React.Component {
         .then(() => {
           this.props.countryGet(this.props.country);
         });
+      this.setState(defaultState);
     }
-    this.setState(defaultState);
   }
 
   render() {
