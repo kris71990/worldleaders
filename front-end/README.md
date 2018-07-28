@@ -1,14 +1,14 @@
 # The World Right Now - Front-End
 
 [![Travis branch](https://img.shields.io/travis/kris71990/the_world_right_now/master.svg)](https://travis-ci.org/kris71990/the_world_right_now)
-[![David](https://img.shields.io/david/expressjs/express.svg)]( https://github.com/kris71990/worldleaders)
+[![David](https://img.shields.io/david/expressjs/express.svg)]( https://github.com/kris71990/the_world_right_now)
 ![version](https://img.shields.io/badge/version-2.0.0-orange.svg)
-[![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/kris71990/worldleaders)
+[![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/kris71990/the_world_right_now)
 
 
-**Author Kris Sakarias**
+**Author: Kris Sakarias**
 
-**Version 2.0.0**
+**Version: 2.0.0**
 
 ## Overview
 

@@ -2,14 +2,14 @@
 
 [![Travis branch](https://img.shields.io/travis/kris71990/the_world_right_now/master.svg)](https://travis-ci.org/kris71990/the_world_right_now)
 ![Coverage](https://img.shields.io/badge/coverage-98%25-brightgreen.svg)
-[![David](https://img.shields.io/david/expressjs/express.svg)]( https://github.com/kris71990/worldleaders)
+[![David](https://img.shields.io/david/expressjs/express.svg)]( https://github.com/kris71990/the_world_right_now)
 ![version](https://img.shields.io/badge/version-2.0.0-orange.svg)
-[![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/kris71990/worldleaders)
+[![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/kris71990/the_world_right_now)
 
 
-**Author Kris Sakarias**
+**Author: Kris Sakarias**
 
-**Version 2.0.0**
+**Version: 2.0.0**
 
 ## Overview
 
@@ -25,6 +25,7 @@ Political and electoral information is also examined. A country's political syst
 ## Documentation
 
 **Create an .env file**
+
 Include these environment variables to run the application
 
 ```
@@ -215,11 +216,9 @@ Basic load testing with artillery.io has also been conducted at varying rates an
   - `GET /countries/"COUNTRY_ID"` - View a country's information page
   
   Complex:
-  ```
-  POST /countries countryName="COUNTRY_NAME"
-  GET /countries/list
-  GET /rankings/gdp
-  ```
+  - `POST /countries countryName="COUNTRY_NAME"`
+    `GET /countries/list`
+    `GET /rankings/gdp`
 
   Sample test data:
 
