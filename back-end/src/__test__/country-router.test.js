@@ -88,6 +88,14 @@ describe('Test country-router', () => {
           typeOfGovernment: 'democracy',
           headOfState: 'Donald Trump',
         })
+        .then(() => Promise.reject())
+        .catch((error) => {
+          expect(error.status).toEqual(400);
+        });
+    });
+
+    test('POST with no arguments returns 400', () => {
+      return superagent.post(`${API_URL}/countries`)
         .then(() => {})
         .catch((error) => {
           expect(error.status).toEqual(400);

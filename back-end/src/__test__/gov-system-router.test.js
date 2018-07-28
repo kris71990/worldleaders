@@ -25,7 +25,6 @@ describe('Test system-router', () => {
       let mock = null;
       return createCountryMock()
         .then((countryResponse) => {
-          console.log(countryResponse);
           mock = countryResponse;
           return superagent.post(`${API_URL}/system`)
             .send({
@@ -99,6 +98,24 @@ describe('Test system-router', () => {
         });
     });
 
+    test('POST a system too many parameters', () => {
+      let mock = null;
+      return createCountryMock()
+        .then((countryResponse) => {
+          mock = countryResponse;
+          return superagent.post(`${API_URL}/system`)
+            .send({
+              countryId: mock.country._id,
+              countryName: mock.country.countryName,
+              additionalParam: 'should yield bad request',
+            })
+            .then(() => {})
+            .catch((error) => {
+              expect(error.status).toEqual(400);
+            });   
+        });
+    });
+
     test('POST a system without any parameters', () => {
       return createCountryMock()
         .then(() => {
@@ -126,7 +143,7 @@ describe('Test system-router', () => {
     });
   });
 
-  describe('GET from /systems-all', () => {
+  describe('GET from /systems/all', () => {
     beforeEach(() => createFakeMockSystem('togo', 'presidential republic'));
     beforeEach(() => createFakeMockSystem('tanzania', 'presidential republic'));
     beforeEach(() => createFakeMockSystem('mozambique', 'parliamentary republic'));
@@ -184,11 +201,11 @@ describe('Test system-router', () => {
     });
   });
 
-  describe('GET from /system/-:country', () => {
+  describe('GET from /system/:country', () => {
     test('GET under normal circumstances should return 201 and system', () => {
       return createSystemMock()
         .then((sysResponse) => {
-          return superagent.get(`${API_URL}/system-${sysResponse.system.countryName}`)
+          return superagent.get(`${API_URL}/system/${sysResponse.system.countryName}`)
             .send({
               countryName: 'benin',
             })
@@ -235,6 +252,25 @@ describe('Test system-router', () => {
               expect(res.body).toBeTruthy();
               expect(res.body.lastUpdated).toEqual(response.system.lastUpdated);
             });
+        });
+    });
+
+    test('PUT system that doesn\'t exist (not possible in practice, but server will handle accordingly)', () => {
+      return createCountryMock()
+        .then(() => {
+          return superagent.put(`${API_URL}/system/benin`)
+            .then(() => {})
+            .catch((err) => {
+              expect(err.status).toEqual(400);
+            });
+        });
+    });
+
+    test('PUT system that doesn\'t exist (country also doesn\'t exist)', () => {
+      return superagent.put(`${API_URL}/system/russia`)
+        .then(() => Promise.reject())
+        .catch((err) => {
+          expect(err.status).toEqual(404);
         });
     });
   });

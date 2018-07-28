@@ -40,7 +40,7 @@ class FlagForm extends React.Component {
       country.countryName.charAt(0).toUpperCase() + country.countryName.slice(1);
     }
 
-    if (!this.state.flagUrl.includes('wikipedia') 
+    if (!this.state.flagUrl.includes('wikimedia') 
         || !this.state.flagUrl.includes('Flag') 
         || !this.state.flagUrl.includes(searchableCountryName)) {
       this.setState({ flagUrlDirty: true });

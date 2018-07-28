@@ -1,8 +1,12 @@
 'use strict';
 
+import HttpError from 'http-errors';
 import logger from './logger';
 
 export default (request, response, next) => {
+  if (!request.body.countryName) return next(new HttpError(400, 'improper request'));
+  if (Object.keys(request.body).length !== 1) return next(new HttpError(400, 'improper request'));
+
   logger.log(logger.INFO, `Requested country to add: ${request.body.countryName}`);
   const country = request.body.countryName.toLowerCase();
 

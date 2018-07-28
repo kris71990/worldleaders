@@ -11,12 +11,19 @@ const jsonParser = json();
 const photoRouter = new Router();
 
 photoRouter.post('/photos/flags', jsonParser, (request, response, next) => {
-  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
-
+  if (Object.keys(request.body).length !== 2) return next(new HttpError(400, 'improper request'));
+  if (!request.body.flagUrl) return next(new HttpError(400, 'improper request'));
   if (request.body.flagUrl.slice(0, 29) !== 'https://upload.wikimedia.org/' 
     || !request.body.flagUrl.includes('Flag_of_')) {
     throw new HttpError(400, 'improper url');
   }
+
+  const imgTypes = ['.svg', '.jpg', '.png'];
+  if (imgTypes.indexOf(request.body.flagUrl.slice(request.body.flagUrl.length - 4)) === -1) {
+    return next(new HttpError(400, 'bad file type'));
+  }
+
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return Country.findById(request.body.countryId)
     .then((country) => {
@@ -31,11 +38,18 @@ photoRouter.post('/photos/flags', jsonParser, (request, response, next) => {
 });
 
 photoRouter.post('/photos/hog', jsonParser, (request, response, next) => {
-  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
-
+  if (Object.keys(request.body).length !== 2) return next(new HttpError(400, 'improper request'));
+  if (!request.body.leaderUrl) return next(new HttpError(400, 'improper request'));
   if (request.body.leaderUrl.slice(0, 29) !== 'https://upload.wikimedia.org/') {
     throw new HttpError(400, 'improper url');
   }
+
+  const imgTypes = ['.svg', '.jpg', '.png'];
+  if (imgTypes.indexOf(request.body.leaderUrl.slice(request.body.leaderUrl.length - 4)) === -1) {
+    return next(new HttpError(400, 'bad file type'));
+  }
+
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return System.findById(request.body.systemId)
     .then((system) => {
@@ -50,11 +64,18 @@ photoRouter.post('/photos/hog', jsonParser, (request, response, next) => {
 });
 
 photoRouter.post('/photos/hos', jsonParser, (request, response, next) => {
-  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
-
+  if (Object.keys(request.body).length !== 2) return next(new HttpError(400, 'improper request'));
+  if (!request.body.leaderUrl) return next(new HttpError(400, 'improper request'));
   if (request.body.leaderUrl.slice(0, 29) !== 'https://upload.wikimedia.org/') {
     throw new HttpError(400, 'improper url');
   }
+
+  const imgTypes = ['.svg', '.jpg', '.png'];
+  if (imgTypes.indexOf(request.body.leaderUrl.slice(request.body.leaderUrl.length - 4)) === -1) {
+    return next(new HttpError(400, 'bad file type'));
+  }
+
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return System.findById(request.body.systemId)
     .then((system) => {

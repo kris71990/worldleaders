@@ -16,6 +16,21 @@ describe('Country Reducer', () => {
     expect(reducer(state, action)).toBeInstanceOf(Object);
   });
 
+  test('FLAG_CREATE should get a country', () => {
+    const state = {};
+    const country = {
+      countryName: 'latvia',
+      id: '82973931',
+    };
+    const action = {
+      type: 'FLAG_CREATE',
+      payload: country,
+    };
+
+    expect(reducer(state, action)).toEqual(country);
+    expect(reducer(state, action)).toBeInstanceOf(Object);
+  });
+
   test('COUNTRY_LIST_GET should return null', () => {
     const state = {};
     const countryList = [
