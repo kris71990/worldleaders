@@ -23,6 +23,7 @@ Political and electoral information is also examined. A country's political syst
 ## Documentation
 
 **Create an .env file**
+
 Include these variables to run the application:
 
 ```

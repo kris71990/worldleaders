@@ -37,17 +37,17 @@ CLIENT_URL=http://localhost:8080
 
 **Starting the Server**:
 
-`git clone https://github.com/kris71990/worldleaders.git`
+`git clone https://github.com/kris71990/the_world_right_now.git`
 
-`cd front-end npm i` 
+`cd front-end` `npm i` 
 
-`cd back-end npm i`
+`cd back-end` `npm i`
 
 `mongod`
 
-`/back-end: npm run start`
+`/back-end` `npm run start`
 
-`/front-end: npm run watch`
+`/front-end` `npm run watch`
 
 
 **Database Models**:
