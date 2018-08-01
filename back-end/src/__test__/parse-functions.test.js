@@ -59,7 +59,6 @@ describe('Testing: parse-leaders.js', () => {
     test('testing without semicolon and only one leader should returns a simple string', () => {
       const simpleWithSemicolon = findHOGKeywords('Prime Minister Theresa MAY (Conservative) (since 13 July 2016)');
   
-      console.log(simpleWithSemicolon);
       expect(simpleWithSemicolon).toBeInstanceOf(Object);
       expect(Object.keys(simpleWithSemicolon)).toHaveLength(1);
       expect(typeof simpleWithSemicolon['1']).toEqual('object');
