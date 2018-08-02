@@ -2,14 +2,14 @@
 
 [![Travis branch](https://img.shields.io/travis/kris71990/the_world_right_now/master.svg)](https://travis-ci.org/kris71990/the_world_right_now)
 ![Coverage](https://img.shields.io/badge/coverage-98%25-brightgreen.svg)
-[![David](https://img.shields.io/david/expressjs/express.svg)]( https://github.com/kris71990/worldleaders)
+[![David](https://img.shields.io/david/expressjs/express.svg)]( https://github.com/kris71990/the_world_right_now)
 ![version](https://img.shields.io/badge/version-2.0.0-orange.svg)
-[![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/kris71990/worldleaders)
+[![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/kris71990/the_world_right_now)
 
 
-**Author Kris Sakarias**
+**Author: Kris Sakarias**
 
-**Version 2.0.0**
+**Version: 2.0.0**
 
 ## Overview
 
@@ -28,7 +28,7 @@ The current functionality is described in detail in the front-end and back-end s
 **Starting the Server**:
 
 ```
-git clone https://github.com/kris71990/worldleaders.git
+git clone https://github.com/kris71990/the_world_right_now.git
 cd front-end npm i
 cd back-end npm i
 mongod
@@ -42,6 +42,8 @@ Please consult the back-end and front-end subdirectory READMEs for detailed docu
 
 ## Testing
 
-All the functionality in the app is tested using the Jest library. 
+All CRUD functionality in the app is tested using the Jest library. 
 
-To run back-end tests, navigate to the back-end directory and run `npm run test`
+To run server tests, navigate to the back-end directory and run `npm run test`
+
+The server's performance has also been tested under load with artillery.io.

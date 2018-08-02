@@ -26,7 +26,9 @@ class System extends React.Component {
 
   handleUpdateSystem() {
     this.props.systemUpdate(this.props.selected)
-      .then(() => window.location.reload());
+      .then(() => {
+        this.props.systemGet(this.props.selected.countryName);
+      });
   }
 
   render() {
@@ -111,7 +113,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  systemGet: country => dispatch(systemActions.systemGetRequest(country)),
+  systemGet: system => dispatch(systemActions.systemGetRequest(system)),
   systemUpdate: country => dispatch(systemActions.systemUpdateRequest(country)),
 });
 

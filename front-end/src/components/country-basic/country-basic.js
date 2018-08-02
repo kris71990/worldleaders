@@ -19,12 +19,16 @@ class CountryBasic extends React.Component {
 
   handleCreateSystem() {
     this.props.systemPost(this.props.selected)
-      .then(() => window.location.reload());
+      .then(() => {
+        this.props.countryGet(this.props.selected);
+      }); 
   }
 
   handleUpdateSystem() {
     this.props.countryUpdate(this.props.selected)
-      .then(() => window.location.reload());
+      .then(() => {
+        this.props.countryGet(this.props.selected);
+      }); 
   }
 
   render() {
@@ -130,6 +134,7 @@ CountryBasic.propTypes = {
   selected: PropTypes.object,
   systemPost: PropTypes.func,
   countryUpdate: PropTypes.func,
+  countryGet: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {
@@ -142,6 +147,7 @@ const mapDispatchToProps = dispatch => ({
   systemPost: country => dispatch(
     systemActions.systemCreateRequest(country._id, country.countryName),
   ),
+  countryGet: country => dispatch(countryActions.countryGetRequest(country._id)),
   countryUpdate: country => dispatch(countryActions.countryUpdateRequest(country)),
 });
 

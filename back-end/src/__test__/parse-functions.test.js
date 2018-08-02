@@ -2,6 +2,7 @@
 
 import { parseFullGov } from '../lib/parse-govs';
 import { findHOGKeywords, findCOSKeywords } from '../lib/parse-leaders';
+import parseElectionsDates from '../lib/parse-elections';
 
 describe('Testing: parse-govs.js', () => {
   test('parseFullGov parses long string to create condensed system information', () => {
@@ -59,7 +60,6 @@ describe('Testing: parse-leaders.js', () => {
     test('testing without semicolon and only one leader should returns a simple string', () => {
       const simpleWithSemicolon = findHOGKeywords('Prime Minister Theresa MAY (Conservative) (since 13 July 2016)');
   
-      console.log(simpleWithSemicolon);
       expect(simpleWithSemicolon).toBeInstanceOf(Object);
       expect(Object.keys(simpleWithSemicolon)).toHaveLength(1);
       expect(typeof simpleWithSemicolon['1']).toEqual('object');
@@ -97,3 +97,33 @@ describe('Testing: parse-leaders.js', () => {
     });
   });
 });
+
+describe('Testing: parse-elections.js', () => {
+  test('All elections exist - 1 entry for each (normal)', () => {
+    const test = parseElectionsDates('president directly elected by absolute majority popular vote in 2 rounds if needed for a 5-year term (eligible for a second term); last held on 6 March and 20 March 2016 (next to be held in 2021)', 'last held on 26 April 2015 (next to be held in April 2019)');
+    expect(test.exec.next[0]).toEqual('in 2021');
+    expect(test.exec.last[0]).toEqual('20 March 2016');
+    expect(test.leg.next[0]).toEqual('April 2019');
+    expect(test.leg.last[0]).toEqual('26 April 2015');
+  });
+
+  test('Legislative elections - multiple dates should return arrays; Executive - no dates should return null', () => {
+    const test = parseElectionsDates('blah blah no dates', 'Chamber of Senators - last held on 26 October 2014 (next to be held in October 2019); Chamber of Representatives - last held on 26 October 2014 (next to be held in October 2019)');
+    expect(test.exec.next).toBeNull();
+    expect(test.exec.last).toBeNull();
+    expect(test.leg.next).toBeInstanceOf(Array);
+    expect(test.leg.next).toHaveLength(2);
+    expect(test.leg.last).toBeInstanceOf(Array);
+    expect(test.leg.last).toHaveLength(2);
+  });
+
+  test('Executive elections - multiple dates should return arrays; Legislative - no dates should return null', () => {
+    const test = parseElectionsDates('president and vice president directly elected on the same ballot by absolute majority vote in 2 rounds if needed for a 5-year term (eligible for nonconsecutive terms); election last held on 26 October 2014, last on 30 November 2014 (next to be held on 27 October 2019, last on 24 November 2019)', 'blah blah no dates');
+    expect(test.leg.next).toBeNull();
+    expect(test.leg.last).toBeNull();
+    expect(test.exec.next).toBeInstanceOf(Array);
+    expect(test.exec.next).toHaveLength(2);
+    expect(test.exec.last).toBeInstanceOf(Array);
+    expect(test.exec.last).toHaveLength(2);
+  });
+}); 

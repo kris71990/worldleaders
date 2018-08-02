@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import autoBind from '../../utils/autoBind';
 
+import * as countryActions from '../../actions/countryActions';
 import * as photoActions from '../../actions/photoActions';
 import './flag-form.scss';
 
@@ -34,20 +35,22 @@ class FlagForm extends React.Component {
     let searchableCountryName;
 
     if (country.countryName.includes('_')) {
-      searchableCountryName = country.countryName.split('_').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join(' ');
+      searchableCountryName = country.countryName.split('_').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join('_');
     } else {
       searchableCountryName = 
       country.countryName.charAt(0).toUpperCase() + country.countryName.slice(1);
     }
-
-    if (!this.state.flagUrl.includes('wikimedia') 
+    
+    if (this.state.flagUrl.slice(0, 29) !== 'https://upload.wikimedia.org/'
         || !this.state.flagUrl.includes('Flag') 
         || !this.state.flagUrl.includes(searchableCountryName)) {
       this.setState({ flagUrlDirty: true });
     } else {
-      this.props.flagCreate(this.state, country._id);
+      this.props.flagCreate(this.state, country._id)
+        .then(() => {
+          this.props.countryGet(this.props.country);
+        });
       this.setState(defaultState);
-      window.location.reload();
     }
   }
 
@@ -77,6 +80,7 @@ class FlagForm extends React.Component {
 
 FlagForm.propTypes = {
   flagCreate: PropTypes.func,
+  countryGet: PropTypes.func,
   country: PropTypes.object,
 };
 
@@ -88,6 +92,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   flagCreate: (flag, countryId) => dispatch(photoActions.flagCreateRequest(flag, countryId)),
+  countryGet: country => dispatch(countryActions.countryGetRequest(country._id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FlagForm);
