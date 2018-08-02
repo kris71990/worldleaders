@@ -98,6 +98,21 @@ describe('Test system-router', () => {
         });
     });
 
+    test('POST a system without irrelevant parameters', () => {
+      return createCountryMock()
+        .then(() => {
+          return superagent.post(`${API_URL}/system`)
+            .send({
+              fake: 'blah',
+              params: 'meh',
+            })
+            .then(() => {})
+            .catch((error) => {
+              expect(error.status).toEqual(400);
+            });   
+        });
+    });
+
     test('POST a system too many parameters', () => {
       let mock = null;
       return createCountryMock()
