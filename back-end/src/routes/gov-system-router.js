@@ -30,9 +30,6 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
       } else if (country.hasLinkedSystem) {
         throw new HttpError(400, 'bad request - system already exists for this country');
       } else {
-        country.hasLinkedSystem = true;
-        country.save();
-
         const searchableCountry = request.body.countryName.replace(' ', '_').toLowerCase();
         const governmentInfo = data.countries[searchableCountry].data.government;
         const coordinatesLat = governmentInfo.capital.geographic_coordinates.latitude;
@@ -70,6 +67,9 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
         }).save()
           .then((system) => {
             logger.log(logger.INFO, 'POST /system successful, returning 201');
+
+            country.hasLinkedSystem = true;
+            country.save();
             return response.status(201).json(system);
           })
           .catch(() => {
