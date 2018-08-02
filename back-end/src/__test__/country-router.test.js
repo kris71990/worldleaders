@@ -103,6 +103,68 @@ describe('Test country-router', () => {
     });
   });
 
+  describe('POST - additional middleware testing', () => {
+    test('bahamas (no the)', () => {
+      return superagent.post(`${API_URL}/countries`)
+        .send({
+          countryName: 'bahamas',
+        })
+        .then((response) => {
+          expect(response.body.countryName).toEqual('bahamas_the');
+        });
+    });
+
+    test('netherlands (with the)', () => {
+      return superagent.post(`${API_URL}/countries`)
+        .send({
+          countryName: 'the netherlands',
+        })
+        .then((response) => {
+          expect(response.body.countryName).toEqual('netherlands');
+        });
+    });
+
+    test('congo (rep)', () => {
+      return superagent.post(`${API_URL}/countries`)
+        .send({
+          countryName: 'congo',
+        })
+        .then((response) => {
+          expect(response.body.countryName).toEqual('congo_republic_of_the');
+        });
+    });
+
+    test('ivory coast', () => {
+      return superagent.post(`${API_URL}/countries`)
+        .send({
+          countryName: 'ivory coast',
+        })
+        .then((response) => {
+          expect(response.body.countryName).toEqual('cote_d\'_ivoire');
+        });
+    });
+
+    test('czech republic', () => {
+      return superagent.post(`${API_URL}/countries`)
+        .send({
+          countryName: 'czech republic',
+        })
+        .then((response) => {
+          expect(response.body.countryName).toEqual('czechia');
+        });
+    });
+
+    test('south korea', () => {
+      return superagent.post(`${API_URL}/countries`)
+        .send({
+          countryName: 'south korea',
+        })
+        .then((response) => {
+          expect(response.body.countryName).toEqual('korea_south');
+        });
+    });
+  }); 
+
   describe('GET from /countries/:id', () => {
     test('GET with correct id should return 200 and json', () => {
       return superagent.post(`${API_URL}/countries`)
