@@ -5,7 +5,7 @@ import logger from './logger';
 const createCoordinatesData = (coordinatesLat, coordinatesLon) => {
   logger.log(logger.INFO, 'Creating capital coordinates array');
   
-  if (!coordinatesLat || !coordinatesLon) {
+  if (!coordinatesLat && !coordinatesLon) {
     return [null, null];
   }
 

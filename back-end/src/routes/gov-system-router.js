@@ -16,10 +16,10 @@ const jsonParser = json();
 const govSystemRouter = new Router();
 
 govSystemRouter.post('/system', jsonParser, (request, response, next) => {
-  if (Object.keys(request.body).length !== 2) return next(new HttpError(400, 'improper request'));
   if (!request.body.countryId || !request.body.countryName) {
     return next(new HttpError(400, 'bad request - missing argument'));
   }
+  if (Object.keys(request.body).length !== 2) return next(new HttpError(400, 'improper request'));
 
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
@@ -147,17 +147,21 @@ govSystemRouter.put('/system/:country', jsonParser, (request, response, next) =>
             let hogChanged = false;
             let cosChanged = false;
 
-            hogk[1].forEach((y) => {
-              if (!system.headOfGovernmentKeywords[1].includes(y)) {
-                hogChanged = true;
-              }
-            });
+            if (system.headOfGovernmentKeywords) {
+              hogk[1].forEach((y) => {
+                if (!system.headOfGovernmentKeywords[1].includes(y)) {
+                  hogChanged = true;
+                }
+              });
+            }
 
-            cosk[1].forEach((y) => {
-              if (!system.chiefOfStateKeywords[1].includes(y)) {
-                cosChanged = true;
-              }
-            });
+            if (system.chiefOfStateKeywords) {
+              cosk[1].forEach((y) => {
+                if (!system.chiefOfStateKeywords[1].includes(y)) {
+                  cosChanged = true;
+                }
+              });
+            }
 
             if (system.headOfGovernmentImg && hogChanged) {
               logger.log(logger.INFO, 'Head of Government changed, removing photo');

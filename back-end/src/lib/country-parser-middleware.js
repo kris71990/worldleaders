@@ -53,18 +53,6 @@ export default (request, response, next) => {
     return next();
   }
 
-  if (country === 'gaza') {
-    logger.log(logger.INFO, 'Altering country request (gaza)');
-    request.body = { countryName: 'gaza_strip' };
-    return next();
-  }
-
-  if (country.includes('vatican')) {
-    logger.log(logger.INFO, 'Altering country request (Vatican City)');
-    request.body = { countryName: 'holy_see_vatican_city' };
-    return next();
-  }
-
   if (country.includes('korea')) {
     logger.log(logger.INFO, 'Altering country request (korea)');
     if (country.includes('north')) {
@@ -75,12 +63,6 @@ export default (request, response, next) => {
       request.body = { countryName: 'korea_south' };
       return next();
     }
-  }
-
-  if (country.includes('micronesia')) {
-    logger.log(logger.INFO, 'Altering country request (micronesia)');
-    request.body = { countryName: 'micronesia_federated_states_of' };
-    return next();
   }
 
   return next();
