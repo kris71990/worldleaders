@@ -10,6 +10,7 @@ import data from '../../data.json';
 import { parseFullGov, countSystems } from '../lib/parse-govs';
 import { findHOGKeywords, findCOSKeywords } from '../lib/parse-leaders';
 import parseElectionDates from '../lib/parse-elections';
+import { createCoordinatesData, createIndependenceData } from '../lib/create-data';
 
 const jsonParser = json();
 const govSystemRouter = new Router();
@@ -38,31 +39,11 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
         const coordinatesLon = governmentInfo.capital.geographic_coordinates.longitude;
         const parsedGov = parseFullGov(country.typeOfGovernment);
 
-        const latArr = [1, 2];
-        const lonArr = [1, 2];
-        Object.keys(coordinatesLat).forEach((x) => {
-          if (x === 'degrees') {
-            latArr[0] = coordinatesLat[x];
-            lonArr[0] = coordinatesLon[x];
-          }
-          if (x === 'minutes') {
-            latArr[1] = coordinatesLat[x];
-            lonArr[1] = coordinatesLon[x];
-          }
-          if (x === 'hemisphere') {
-            if (coordinatesLat[x] === 'S') latArr[0] = -latArr[0];
-            if (coordinatesLon[x] === 'W') lonArr[0] = -lonArr[0];
-          }
-        });
+        const capitalCoordinates = createCoordinatesData(coordinatesLat, coordinatesLon);
+        if (capitalCoordinates[0]) capitalCoordinates[0].join(' ');
+        if (capitalCoordinates[1]) capitalCoordinates[1].join(' ');
 
-        let independenceData = '';
-        if (governmentInfo.independence && governmentInfo.independence.date) {
-          if (governmentInfo.independence.note) {
-            independenceData = `${governmentInfo.independence.date} - ${governmentInfo.independence.note}`;
-          }
-          independenceData = governmentInfo.independence.date;
-        }
-
+        const independenceData = createIndependenceData(governmentInfo.independence);
         const hogk = findHOGKeywords(governmentInfo.executive_branch.head_of_government);
         const cosk = findCOSKeywords(governmentInfo.executive_branch.chief_of_state);
         const allElectionDates = parseElectionDates(governmentInfo.executive_branch.elections_appointments, governmentInfo.legislative_branch.elections);
@@ -72,7 +53,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
           countryName: request.body.countryName,
           fullName: governmentInfo.country_name.conventional_long_form,
           capital: governmentInfo.capital.name,
-          capitalCoordinates: [latArr.join(' '), lonArr.join(' ')],
+          capitalCoordinates: [capitalCoordinates[0], capitalCoordinates[1]],
           independence: independenceData,
           chiefOfStateFull: governmentInfo.executive_branch.chief_of_state,
           chiefOfStateKeywords: cosk,
@@ -91,7 +72,11 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
             logger.log(logger.INFO, 'POST /system successful, returning 201');
             return response.status(201).json(system);
           })
-          .catch(next);
+          .catch(() => {
+            country.hasLinkedSystem = false;
+            country.save();
+            return next;
+          });
       }
     })
     .catch(next);
@@ -148,6 +133,7 @@ govSystemRouter.put('/system/:country', jsonParser, (request, response, next) =>
           if (dateDB !== dateData) {
             system.fullName = governmentInfo.country_name.conventional_long_form;
             system.capital = governmentInfo.capital.name;
+            system.capital
             system.independence = `${governmentInfo.independence.date} ${governmentInfo.independence.note}`;
             system.chiefOfState = governmentInfo.executive_branch.chief_of_state;
             system.headOfGovernment = governmentInfo.executive_branch.head_of_government;

@@ -62,6 +62,7 @@ const findCOSKeywords = (string) => {
       x = x.replace(/([,])?/g, '');
       const split = x.split(' ');
       const root = x.match(regex);
+
       if (!root) return null;
       if (root.length === 1) {
         const main = split.indexOf(root[0]);
@@ -86,7 +87,7 @@ const findCOSKeywords = (string) => {
       } else {
         const arr = [];
         root.forEach(y => arr.push(y.toLowerCase())); 
-        keywordsState.push(arr);
+        keywordsState[1] = arr;
       }
     }
   }
