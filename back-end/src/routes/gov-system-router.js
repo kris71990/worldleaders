@@ -37,8 +37,8 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
         const parsedGov = parseFullGov(country.typeOfGovernment);
 
         const capitalCoordinates = createCoordinatesData(coordinatesLat, coordinatesLon);
-        if (capitalCoordinates[0]) capitalCoordinates[0].join(' ');
-        if (capitalCoordinates[1]) capitalCoordinates[1].join(' ');
+        if (capitalCoordinates[0]) capitalCoordinates[0] = capitalCoordinates[0].join(' ');
+        if (capitalCoordinates[1]) capitalCoordinates[1] = capitalCoordinates[1].join(' ');
 
         const independenceData = createIndependenceData(governmentInfo.independence);
         const hogk = findHOGKeywords(governmentInfo.executive_branch.head_of_government);
