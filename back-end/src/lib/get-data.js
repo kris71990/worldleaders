@@ -11,16 +11,16 @@ export default () => {
 
   logger.log(logger.INFO, `The current data is for ${date}`);
   
-  return superagent.get('https://api.github.com/repos/iancoleman/cia_world_factbook_api/contents/data')
+  return superagent.get('https://api.github.com/repos/iancoleman/cia_world_factbook_api')
     .then((file) => {
-      const newestDate = file.body[0].name.split('_')[0];
+      const newestDate = file.body.updated_at.split('T')[0];
       let CIA_DATE;
       
       if (newestDate !== date) {
         CIA_DATE = newestDate;
         logger.log(logger.INFO, `The new data is for ${CIA_DATE}`);
 
-        return superagent.get(`https://raw.githubusercontent.com/iancoleman/cia_world_factbook_api/master/data/${CIA_DATE}_factbook.json`)
+        return superagent.get('https://raw.githubusercontent.com/iancoleman/cia_world_factbook_api/master/data/factbook.json')
           .then((newData) => {
             fs.writeFileSync('data.json', newData.text, (err) => {
               if (err) throw new HttpError(400, 'problem accessing data');
