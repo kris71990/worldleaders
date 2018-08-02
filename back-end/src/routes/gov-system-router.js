@@ -144,6 +144,30 @@ govSystemRouter.put('/system/:country', jsonParser, (request, response, next) =>
             const cosk = findCOSKeywords(governmentInfo.executive_branch.chief_of_state);
             const allElectionDates = parseElectionDates(governmentInfo.executive_branch.elections_appointments, governmentInfo.legislative_branch.elections);
 
+            let hogChanged = false;
+            let cosChanged = false;
+
+            hogk[1].forEach((y) => {
+              if (!system.headOfGovernmentKeywords[1].includes(y)) {
+                hogChanged = true;
+              }
+            });
+
+            cosk[1].forEach((y) => {
+              if (!system.chiefOfStateKeywords[1].includes(y)) {
+                cosChanged = true;
+              }
+            });
+
+            if (system.headOfGovernmentImg && hogChanged) {
+              logger.log(logger.INFO, 'Head of Government changed, removing photo');
+              system.headOfGovernmentImg = null;
+            }
+
+            if (system.chiefOfStateImg && cosChanged) {
+              logger.log(logger.INFO, 'Chief of state changed, removing photo');
+              system.chiefOfStateImg = null;
+            }
 
             system.fullName = governmentInfo.country_name.conventional_long_form;
             system.capital = governmentInfo.capital.name;

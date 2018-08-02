@@ -20,8 +20,7 @@ const parseElectionDates = (exec, leg) => {
   } else if (execNext.length === 1) {
     elections.exec.next = execNext[0].match(findDateRx);
   } else {
-    elections.exec.next = [];
-    execNext.map((x, i) => elections.exec.next.push(x[i].match(findDateRx)));
+    elections.exec.next = execNext;
   }
 
   if (!execLast) {
@@ -29,8 +28,7 @@ const parseElectionDates = (exec, leg) => {
   } else if (execLast.length === 1) {
     elections.exec.last = execLast[0].match(findDateRx);
   } else {
-    elections.exec.last = [];
-    execLast.map(x => elections.exec.last.push(x.match(findDateRx)));
+    elections.exec.last = execLast;
   }
 
   if (!legNext) {
@@ -38,8 +36,7 @@ const parseElectionDates = (exec, leg) => {
   } else if (legNext.length === 1) {
     elections.leg.next = legNext[0].match(findDateRx);
   } else {
-    elections.leg.next = [];
-    legNext.map(x => elections.leg.next.push(x.match(findDateRx)));
+    elections.leg.next = legNext;
   }
 
   if (!legLast) {
@@ -47,8 +44,7 @@ const parseElectionDates = (exec, leg) => {
   } else if (legLast.length === 1) {
     elections.leg.last = legLast[0].match(findDateRx);
   } else {
-    elections.leg.last = [];
-    legLast.map(x => elections.leg.last.push(x.match(findDateRx)));
+    elections.leg.last = legLast;
   }
 
   return elections;
