@@ -131,17 +131,35 @@ govSystemRouter.put('/system/:country', jsonParser, (request, response, next) =>
           const dateData = data.countries[system.countryName].metadata.date;
           
           if (dateDB !== dateData) {
+            const coordinatesLat = governmentInfo.capital.geographic_coordinates.latitude;
+            const coordinatesLon = governmentInfo.capital.geographic_coordinates.longitude;
+            const capitalCoordinates = createCoordinatesData(coordinatesLat, coordinatesLon);
+            
+            if (capitalCoordinates[0]) capitalCoordinates[0].join(' ');
+            if (capitalCoordinates[1]) capitalCoordinates[1].join(' ');
+            
+            const parsedGov = parseFullGov(govType);
+            const independenceData = createIndependenceData(governmentInfo.independence);
+            const hogk = findHOGKeywords(governmentInfo.executive_branch.head_of_government);
+            const cosk = findCOSKeywords(governmentInfo.executive_branch.chief_of_state);
+            const allElectionDates = parseElectionDates(governmentInfo.executive_branch.elections_appointments, governmentInfo.legislative_branch.elections);
+
+
             system.fullName = governmentInfo.country_name.conventional_long_form;
             system.capital = governmentInfo.capital.name;
-            system.capital
-            system.independence = `${governmentInfo.independence.date} ${governmentInfo.independence.note}`;
-            system.chiefOfState = governmentInfo.executive_branch.chief_of_state;
-            system.headOfGovernment = governmentInfo.executive_branch.head_of_government;
+            system.capitalCoordinates = [capitalCoordinates[0], capitalCoordinates[1]];
+            system.independence = independenceData;
+            system.chiefOfStateFull = governmentInfo.executive_branch.chief_of_state;
+            system.chiefOfStateKeywords = cosk;
+            system.headOfGovernmentFull = governmentInfo.executive_branch.head_of_government;
+            system.headOfGovernmentKeywords = hogk;
+            system.electionDates = allElectionDates;
             system.electionsExec = governmentInfo.executive_branch.elections_appointments;
             system.electionResultsExec = governmentInfo.executive_branch.election_results;
             system.electionsLeg = governmentInfo.legislative_branch.elections;
             system.electionResultsLeg = governmentInfo.legislative_branch.election_results;
-            system.typeOfGovernment = govType;
+            system.typeOfGovernmentFull = govType;
+            system.typeOfGovernment = parsedGov;
             system.lastUpdated = data.countries[searchableCountry].metadata.date;
     
             system.save();
