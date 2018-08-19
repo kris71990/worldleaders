@@ -13,7 +13,7 @@
 
 ## Overview
 
-This is a full-stack application that informs the user about the current social, political, and economic state of the countries in the world. 
+This is a full-stack application that informs the user about the current social, political, and economic state of the countries in the world. It is currently online at http://www.theworldrightnow.info/
 
 The back-end server and REST API is built with Node and powered by Express and MongoDB. All data is collected from and verified against data from the CIA API (https://github.com/iancoleman/cia_world_factbook_api#data). This data comes in the form of a single very large JSON object, which The World Right Now utilizes to perform its CRUD functionality for the purposes of this app. The server does a very large amount of parsing and validation to a ensure a smooth and accurate user experience.
 
