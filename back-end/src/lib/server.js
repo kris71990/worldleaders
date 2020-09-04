@@ -32,7 +32,10 @@ app.all('*', (request, response) => {
 app.use(errorMiddleware);
 
 const startServer = () => {
-  return mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true })
+  return mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
     .then(() => {
       server = app.listen(process.env.PORT, () => {
         logger.log(logger.INFO, `Server listening on port ${process.env.PORT}`);

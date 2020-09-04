@@ -44,8 +44,8 @@ webpackConfig.module.rules = [
     use: {
       loader: 'babel-loader',
       options: {
-        presets: ['env', 'stage-0', 'react'],
-        plugins: ['transform-react-jsx-source'],
+        presets: ['@babel/preset-env', '@babel/preset-react'],
+        plugins: ['@babel/plugin-transform-react-jsx-source'],
         cacheDirectory: true,
       },
     },

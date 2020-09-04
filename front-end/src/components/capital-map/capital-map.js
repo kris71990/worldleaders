@@ -61,11 +61,11 @@ class CapitalMap extends React.PureComponent {
     this.mounted = false;
   }
 
-  delayedShowMarker = () => {
+  delayedShowMarker() {
     this.setState({ isMarkerShown: true });
   }
 
-  handleMarkerClick = () => {
+  handleMarkerClick() {
     this.setState({ isMarkerShown: false });
     this.delayedShowMarker();
   }
