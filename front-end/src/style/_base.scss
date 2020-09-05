@@ -1,14 +1,11 @@
 @import 'vars';
 
-html,body {
+html, body {
   background: $background-color;
-  text-align: center;
-  height: 100%;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
+html {
+  min-height: 100%;
 }
 
 h1, h2, p {

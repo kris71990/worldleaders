@@ -1,20 +1,54 @@
-@import url('https://fonts.googleapis.com/css?family=Courgette');
+@import url('https://fonts.googleapis.com/css2?family=Headland+One&display=swap');
+@import '../../style/vars';
 
 .header {
-  border: 10px groove #9B2120;
-  background-color: #0781D6;
+  border-bottom: 5px groove $header-border;
+  background-color: $header-background;
+  font-family: 'Headland One', serif;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
 
-  h1 {
-    font-family: 'Courgette', cursive;
+  a {
+    outline: none;
+    text-decoration: none;
   }
 
-  ul {
-    list-style: none;
-    padding: 0;
+  div {
+    flex-grow: 1;
 
-    li {
-      display: inline;
-      margin: 10px;
+    h1 {
+      padding-left: 10px;
+      color: $header-text;
+      font-style: oblique;
+    }
+  }
+
+  nav {
+    padding-right: 20px;
+    flex-grow: 1;
+    font-size: 80%;
+
+    ul {
+      text-align: right;
+      list-style: none;
+      padding: 0;
+
+      .selected {
+        font-style: italic;
+        font-weight: bold;
+        padding-right: 10px;
+      }
+  
+      li {
+        a {
+          color: $header-text;
+        }
+        a:hover {
+          color: $header-border;
+        }
+        margin: 8px;
+      }
     }
   }
 }

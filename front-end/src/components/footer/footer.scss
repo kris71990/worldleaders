@@ -1,6 +1,18 @@
+@import '../../style/vars';
+
 .footer {
-  border: 10px groove #9B2120;
-  background-color: #0781D6;
-  height: 5em;
-  // padding: 0.5em;
+  border-top: 2px solid $header-border;
+  background-color: $header-background;
+  text-align: right;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 60px;
+  width: 100%;
+
+  p {
+    margin: 5px;
+    color: $header-text;
+    padding-right: 20px;
+  }
 }
