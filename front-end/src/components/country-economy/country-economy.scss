@@ -1,8 +1,12 @@
-.economy {
-  border: 10px groove #9B2120;
+@import '../../style/vars';
 
-  h2 {
-    line-height: 0.5em;
+.economy {
+  border: 10px ridge $economy-border;
+  background-color: $economy-background;
+
+  p {
+    font-weight: bold;
+    text-decoration: underline;
   }
 
   .export-partners {

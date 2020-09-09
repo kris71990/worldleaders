@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import autoBind from '../../utils/autoBind';
 
 import CountryForm from '../countryForm/countryForm';
+import SelectMenu from '../select-country/select-country';
 import * as countryActions from '../../actions/countryActions';
 import * as routes from '../../utils/routes';
 import './landing.scss';
@@ -56,33 +57,16 @@ class Landing extends React.Component {
 
     return (
       <div className="landing">
-        <h2>Choose a country</h2>
-        <div className="country-list">
-          <select 
-            className="country-select" 
-            value={this.state.value}
-            onChange={this.handleChange}>
-
-            <option value="empty">Select</option>
-            { countryList
-              ? countryList.map((country) => {
-                return (
-                  <option name={country.countryName} value={country.id} key={country.id}>
-                    {
-                      country.countryName.includes('_') 
-                        ? country.countryName.split('_').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join(' ')
-                        : country.countryName.charAt(0).toUpperCase() + country.countryName.slice(1)
-                    }
-                  </option>
-                );
-              })
-              : null
-            }
-          </select>
-          <button onClick={this.handleSearch}>Get info</button>
-        </div>
-        <CountryForm onComplete={this.handleCreateCountry} countries={countryList}/>
-
+        <SelectMenu 
+          onClick={ this.handleSearch } 
+          onChange={ this.handleChange }
+          value={ this.state.selected }
+          countries={ countryList }
+        />
+        <CountryForm 
+          onComplete={this.handleCreateCountry} 
+          countries={countryList}
+        />
         { redirect 
           ? <Redirect to={{ pathname: '/countries', state: { selected: this.state.selected } }}/> 
           : null 

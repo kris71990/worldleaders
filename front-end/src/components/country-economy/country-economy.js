@@ -82,29 +82,28 @@ class CountryEconomy extends React.Component {
 
     return (
       <div className="economy">
-        <h2>Economy</h2>
-        <p>GDP PPP Rank: {selected.gdpPPPRank}</p>
+        <h2>GDP PPP Rank: { selected.gdpPPPRank }</h2>
         <div className="resources">
-          <h5>Natural Resources</h5>
+          <p>Natural Resources</p>
           {resourcesJSX}
         </div>
         <div className="exports">
           <div className="export-goods">
-            <h5>Exports</h5>
+            <p>Exports</p>
             {exportsJSX}
           </div>
           <div className="export-partners">
-            <h5>Exporting to:</h5>
+            <p>Exporting to:</p>
             {exportPartnersJSX}
           </div>
         </div>
         <div className="imports">
           <div className="import-goods">
-            <h5>Imports</h5>
+            <p>Imports</p>
             {importsJSX}
           </div>
           <div className="import-partners">
-            <h5>Importing from:</h5>
+            <p>Importing from:</p>
             {importPartnersJSX}
           </div>
         </div>

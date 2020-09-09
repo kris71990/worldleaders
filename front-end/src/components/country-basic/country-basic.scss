@@ -1,5 +1,9 @@
+@import '../../style/vars';
+
 .basic-info {
-  border: 10px groove #9B2120;
+  border: 10px ridge $header-border;
+  background-color: $basic-background;
+  
   :nth-child(2) {
     font-size: 90%;
   }

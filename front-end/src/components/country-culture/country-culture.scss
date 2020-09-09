@@ -1,3 +1,6 @@
+@import '../../style/vars';
+
 .culture {
-  border: 10px groove #9B2120;
+  border: 10px ridge $culture-border;
+  background-color: $culture-background;
 }
