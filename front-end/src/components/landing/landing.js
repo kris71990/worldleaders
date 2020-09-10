@@ -63,6 +63,7 @@ class Landing extends React.Component {
           value={ this.state.selected }
           countries={ countryList }
         />
+        <p>---------------------</p>
         <CountryForm 
           onComplete={this.handleCreateCountry} 
           countries={countryList}

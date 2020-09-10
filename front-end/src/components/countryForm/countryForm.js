@@ -44,16 +44,16 @@ class CountryForm extends React.Component {
     return (
       <div className="country-container">
         <h4>{'Don\'t see a country? Add it here:'}</h4>
-        <form className="country-form" onSubmit={this.handleSubmit}>
+        <form className="country-form" onSubmit={ this.handleSubmit }>
           <input
             className="country-name"
             name="countryName"
             placeholder="Enter a country"
             type="text"
-            value={this.state.countryName}
-            onChange={this.handleChange}
+            value={ this.state.countryName }
+            onChange={ this.handleChange }
           />
-          <button type="submit">Submit</button>
+          <button type="submit">Add</button>
           { this.state.countryNameDirty ? 
               <p>{ this.state.countryNameError }</p>
             : null

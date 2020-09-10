@@ -11,6 +11,7 @@ import AreaRank from '../area-rank/area-rank';
 import LanguageRank from '../language-rank/language-rank';
 import SystemRank from '../systems-rank/systems-rank';
 import System from '../system/system';
+import Elections from '../election/elections';
 
 class App extends React.Component {
   render() {
@@ -19,14 +20,15 @@ class App extends React.Component {
         <BrowserRouter>
           <div>
             <Header/>
-            <Route exact path="/" component={Landing}/>
-            <Route exact path="/rankings-gdp" component={GDPRank}/>
-            <Route exact path="/rankings-population" component={PopulationRank}/>
-            <Route exact path="/rankings-area" component={AreaRank}/>
-            <Route exact path="/rankings-language-prevalence" component={LanguageRank}/>
-            <Route exact path="/countries" component={Country}/>
-            <Route exact path="/systems-all" component={SystemRank}/>
-            <Route path="/system-:country" component={System}/>
+            <Route exact path="/" component={ Landing }/>
+            <Route exact path="/rankings-gdp" component={ GDPRank }/>
+            <Route exact path="/rankings-population" component={ PopulationRank }/>
+            <Route exact path="/rankings-area" component={ AreaRank }/>
+            <Route exact path="/rankings-language-prevalence" component={ LanguageRank }/>
+            <Route exact path="/countries" component={ Country }/>
+            <Route exact path="/systems-all" component={ SystemRank }/>
+            <Route path="/system-:country" component={ System }/>
+            <Route path="/elections" component={ Elections }/>
             <Footer/>
           </div>
         </BrowserRouter>

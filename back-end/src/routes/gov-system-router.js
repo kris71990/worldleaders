@@ -94,6 +94,23 @@ govSystemRouter.get('/systems-all', (request, response, next) => {
     .catch(next);
 });
 
+govSystemRouter.get('/systems-elections', (request, response, next) => {
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  return System.find()
+    .then((countries) => {
+      const electionDates = countries.map((x) => {
+        return {
+          country: x.countryName,
+          id: x.countryId,
+          electionDates: x.electionDates,
+        };
+      });
+      return response.json(electionDates);
+    })
+    .catch(next);
+});
+
 govSystemRouter.get('/system/:country', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
