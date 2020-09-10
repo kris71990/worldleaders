@@ -13,6 +13,26 @@ input {
   margin-right: 10px;
 }
 
+.app > div {
+  position: relative;
+  min-height: 100vh;
+}
+
+.landing {
+  padding-bottom: 60px;
+  button {
+    padding: 5px 10px;
+    background-color: $header-background;
+    border: 1px solid $header-background;
+    color: $header-text;
+  }
+
+  button:hover {
+    cursor: pointer;
+    border: 1px solid $header-border;
+  }
+}
+
 .rankings {
   width: 60%;
   margin: 0 auto;

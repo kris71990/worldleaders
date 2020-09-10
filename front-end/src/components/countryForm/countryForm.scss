@@ -1,9 +1,12 @@
-// .country-container {
-//   margin: 100px;
-// }
-
 .country-form {
   p {
     color: red;
+  }
+
+  input {
+    width: 200px;
+    margin-right: 10px;
+    padding: 5px;
+    outline: 0;
   }
 }

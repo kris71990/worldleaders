@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './select-country.scss';
+
 const SelectMenu = (props) => {
   const { 
     onClick, onChange, countries, value,
@@ -31,14 +33,14 @@ const SelectMenu = (props) => {
             : null
           }
         </select>
-        <button onClick={ onClick }>Get info</button>
+        <button onClick={ onClick }>Find</button>
       </div>
     </div>
   );
 };
 
 SelectMenu.propTypes = {
-  countries: PropTypes.object,
+  countries: PropTypes.array,
   onClick: PropTypes.func,
   onChange: PropTypes.func,
   value: PropTypes.string,

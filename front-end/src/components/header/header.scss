@@ -2,12 +2,11 @@
 @import '../../style/vars';
 
 .header {
+  display: flex;
+  flex-direction: row;
   border-bottom: 5px groove $header-border;
   background-color: $header-background;
   font-family: 'Headland One', serif;
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
 
   a {
     outline: none;

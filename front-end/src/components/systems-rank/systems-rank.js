@@ -54,7 +54,7 @@ class SystemsRank extends React.Component {
       <div className="rankings"> 
         <h1>Distribution of Political Systems</h1>
         <p>A running tally of the types of governmental systems in the world</p>
-        {systemsRankJSX}
+        { systemsRankJSX }
       </div>
     );
   }
