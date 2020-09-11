@@ -6,6 +6,8 @@ import autoBind from '../../utils/autoBind';
 import * as routes from '../../utils/routes';
 
 import * as rankingActions from '../../actions/rankingActions';
+import * as parser from '../../utils/parser';
+
 import './gdp-rank.scss';
 
 
@@ -33,25 +35,20 @@ class GDPRank extends React.Component {
           {
             gdpRank.map((x) => {
               return (
-                <li key={x.id}>
-                  <p className="country-ranking">{x.gdpPPPRank}</p>
+                <li key={ x.id }>
+                  <p className="country-ranking">{ x.gdpPPPRank }</p>
                     {
                     <p className="country-name">
                       {
-                        x.countryName.includes('_') ?
                         <Link to={{ pathname: routes.COUNTRY_ROUTE, state: { selected: x.id } }}>
-                          {x.countryName.split('_').map(y => y.charAt(0).toUpperCase() + y.slice(1)).join(' ')}
-                        </Link>
-                          : 
-                        <Link to={{ pathname: routes.COUNTRY_ROUTE, state: { selected: x.id } }}>
-                          {x.countryName.charAt(0).toUpperCase() + x.countryName.slice(1)}
+                          { parser.parseCountryName(x.countryName) }
                         </Link>
                       }
                     </p>
                     }
                   </li>
               );
-            })
+            }) 
           }
         </ul>;
     }
@@ -59,10 +56,10 @@ class GDPRank extends React.Component {
     return (
       <div className="rankings"> 
         <h1>Gross-Domestic Product - Purchasing Power Parity</h1>
-        <p>Countries ranked in order of GDP, with respect to <a href="https://en.wikipedia.org/wiki/Purchasing_power_parity" target="_blank" rel="noopener noreferrer">Purchasing Power Parity (PPP)</a></p>
-        {
-          gdpRank ? gdpJSX : null
-        }
+        <p>Countries ranked in order of GDP, with respect to 
+          <a href="https://en.wikipedia.org/wiki/Purchasing_power_parity" target="_blank" rel="noopener noreferrer"> Purchasing Power Parity (PPP)</a>
+        </p>
+        { gdpRank ? gdpJSX : null }
       </div>
     );
   }

@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 
 import * as rankingActions from '../../actions/rankingActions';
 import * as routes from '../../utils/routes';
-import './area-rank.scss';
+import * as parser from '../../utils/parser';
 
+import './area-rank.scss';
 
 class AreaRank extends React.Component {
   constructor(props) {
@@ -37,19 +38,10 @@ class AreaRank extends React.Component {
                   {
                     <p className="country-name">
                     {
-                      x.countryName.includes('_') ? 
-                        <Link to={{ pathname: routes.COUNTRY_ROUTE, state: { selected: x.id } }}>
-                          {
-                            x.countryName.split('_').map(y => y.charAt(0).toUpperCase() + y.slice(1)).join(' ')
-                          }
-                        </Link>
-                        : 
-                        <Link to={{ pathname: routes.COUNTRY_ROUTE, state: { selected: x.id } }}>
-                          {
-                            x.countryName.charAt(0).toUpperCase() + x.countryName.slice(1)
-                          }
-                        </Link>
-                      }
+                      <Link to={{ pathname: routes.COUNTRY_ROUTE, state: { selected: x.id } }}>
+                        { parser.parseCountryName(x.countryName) }
+                      </Link>
+                    }
                     </p>
                   }
                   <p className="country-ranking-data">{area}</p>

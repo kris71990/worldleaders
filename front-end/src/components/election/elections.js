@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import electionsGet from '../../actions/electionActions';
 
+import * as parser from '../../utils/parser';
+
 class Elections extends React.Component {
   constructor(props) {
     super(props);
@@ -28,6 +30,7 @@ class Elections extends React.Component {
         <ul className="election-tracker">
           {
             elections.map((country) => {
+              const parsedCountry = parser.parseCountryName(country.country);
               const className = country.country.includes(' ') ? country.country.replace(' ', '-') : country.country;
               const systemUrl = `https://en.wikipedia.org/wiki/${country.country}`;
 
@@ -36,7 +39,7 @@ class Elections extends React.Component {
                   <div>
                     <p>
                       <a target="_blank" rel="noopener noreferrer" href={ systemUrl }>
-                        { country.country }
+                        { parsedCountry }
                       </a>
                     </p>
                     <p>Next executive: { country.electionDates.exec.next }</p>

@@ -8,6 +8,7 @@ import SystemElections from '../system-elections/system-elections';
 import SystemLeaders from '../system-leaders/system-leaders';
 
 import * as systemActions from '../../actions/systemActions';
+import * as parser from '../../utils/parser';
 import './system.scss';
 
 class System extends React.Component {
@@ -40,17 +41,9 @@ class System extends React.Component {
       let multipleCaps = null;
 
       if (selected.fullName === 'none') {
-        nameJSX = 
-          <h1>
-            {
-              selected.countryName.includes('_') 
-                ? selected.countryName.split('_').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join(' ')
-                : selected.countryName.charAt(0).toUpperCase() + selected.countryName.slice(1)
-
-            }
-          </h1>;
+        nameJSX = <h1>{ parser.parseCountryName(selected.countryName) }</h1>;
       } else {
-        nameJSX = <h1>{selected.fullName}</h1>;
+        nameJSX = <h1>{ selected.fullName }</h1>;
       }
 
       if (selected.capital && selected.capital.includes(';')) {
@@ -63,22 +56,22 @@ class System extends React.Component {
             {
               multipleCaps.map((x) => {
                 return (
-                  <li key={x}>{x}</li>
+                  <li key={x}>{ x }</li>
                 );
               })
             }
           </ul>;
       } else {
-        capitalJSX = <span>{selected.capital}</span>;
+        capitalJSX = <span>{ selected.capital }</span>;
       }
     }
 
     return (
       <div className="system-info">
         {nameJSX}
-        <p>Last Updated: {selected ? selected.lastUpdated : null}</p>
-        <button onClick={this.handleUpdateSystem}>Update</button> 
-        <h4>Type of Government: <span>{selected ? selected.typeOfGovernment : null}</span></h4>
+        <p>Last Updated: { selected ? selected.lastUpdated : null }</p>
+        <button onClick={ this.handleUpdateSystem }>Update</button> 
+        <h4>Type of Government: <span>{ selected ? selected.typeOfGovernment : null }</span></h4>
         <h4>Capital: </h4>
         {capitalJSX}
         {
@@ -86,7 +79,7 @@ class System extends React.Component {
         }
         {
           selected ? 
-            <h4>Independence: <span>{selected.independence}</span></h4>
+            <h4>Independence: <span>{ selected.independence }</span></h4>
             : null
         }
         <p>---------------------------------------</p>

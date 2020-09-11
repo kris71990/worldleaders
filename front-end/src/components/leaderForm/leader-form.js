@@ -64,15 +64,15 @@ class LeaderPhotoForm extends React.Component {
   render() {
     return (
       <div className="leader-container">
-        <h4>{'Enter Url of leader picture:'}</h4>
-        <form className="leader-form" onSubmit={this.handleSubmit}>
+        <h4>{ 'Enter Url of leader picture:' }</h4>
+        <form className="leader-form" onSubmit={ this.handleSubmit }>
           <input
             className="leader-url"
             name="leaderUrl"
             placeholder="Enter URL"
             type="text"
-            value={this.state.countryName}
-            onChange={this.handleChange}
+            value={ this.state.countryName }
+            onChange={ this.handleChange }
           />
           <button type="submit">Submit</button>
           { this.state.leaderUrlDirty ? 

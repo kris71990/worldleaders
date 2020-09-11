@@ -26,12 +26,12 @@ class SystemLeaders extends React.Component {
               selected.headOfGovernmentImg 
                 ? 
               <div>
-                <img src={selected.headOfGovernmentImg}></img>
+                <img src={ selected.headOfGovernmentImg }></img>
                 <ul>
                   {
                     arr.map((x, i) => {
                       return (
-                        <li key={i}>{x}</li>
+                        <li key={i}>{ x }</li>
                       );
                     })
                   }
@@ -43,12 +43,16 @@ class SystemLeaders extends React.Component {
                   {
                     arr.map((x, i) => {
                       return (
-                        <li key={i}>{x}</li>
+                        <li key={i}>{ x }</li>
                       );
                     })
                   }
                 </ul>
-                <LeaderPhotoForm system={selected} type={'hog'} keywords={selected.headOfGovernmentKeywords}/>
+                <LeaderPhotoForm 
+                  system={ selected } 
+                  type={ 'hog' } 
+                  keywords={ selected.headOfGovernmentKeywords }
+                />
               </div>
             }
           </div>;
@@ -73,7 +77,7 @@ class SystemLeaders extends React.Component {
                 {
                   arr.map((x, i) => {
                     return (
-                      <li key={i}>{x}</li>
+                      <li key={i}>{ x }</li>
                     );
                   })
                 }
@@ -85,12 +89,16 @@ class SystemLeaders extends React.Component {
                 {
                   arr.map((x, i) => {
                     return (
-                      <li key={i}>{x}</li>
+                      <li key={i}>{ x }</li>
                     );
                   })
                 }
                 </ul>
-                <LeaderPhotoForm system={selected} type={'hos'} keywords={selected.chiefOfStateKeywords}/>
+                <LeaderPhotoForm 
+                  system={ selected } 
+                  type={ 'hos' } 
+                  keywords={ selected.chiefOfStateKeywords }
+                />
               </div>
             }
           </div>;
@@ -101,11 +109,11 @@ class SystemLeaders extends React.Component {
       <div className="system-leader-info">
         <div className="hos">
           <h4>Head of State:</h4>
-          {hosJSX}
+          { hosJSX }
         </div>
         <div className="hog">
           <h4>Head of Government:</h4>
-          {hogJSX}
+          { hogJSX }
         </div>
       </div>
     );

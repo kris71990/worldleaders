@@ -72,11 +72,11 @@ class CountryCulture extends React.Component {
       <div className="culture">
         <h3>Culture</h3>
         <h5>Languages</h5>
-        {languagesJSX}
+        { languagesJSX }
         <h5>Ethnic Groups</h5>
-        {ethnicitiesJSX}
+        { ethnicitiesJSX }
         <h5>Religions</h5>
-        {religionsJSX}
+        { religionsJSX }
       </div>
     );
   }

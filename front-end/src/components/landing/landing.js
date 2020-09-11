@@ -65,8 +65,8 @@ class Landing extends React.Component {
         />
         <p>---------------------</p>
         <CountryForm 
-          onComplete={this.handleCreateCountry} 
-          countries={countryList}
+          onComplete={ this.handleCreateCountry } 
+          countries={ countryList }
         />
         { redirect 
           ? <Redirect to={{ pathname: '/countries', state: { selected: this.state.selected } }}/> 

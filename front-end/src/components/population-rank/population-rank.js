@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 
 import * as rankingActions from '../../actions/rankingActions';
 import * as routes from '../../utils/routes';
+import * as parser from '../../utils/parser';
+
 import './population-rank.scss';
 
 
@@ -33,23 +35,14 @@ class PopulationRank extends React.Component {
               const population = Number(x.population).toLocaleString();
 
               return (
-                <li key={x.id}>
+                <li key={ x.id }>
                   <p className="country-ranking">{x.populationRank}</p>
                   {
                     <p className="country-name">
                     {
-                      x.countryName.includes('_') ? 
-                        <Link to={{ pathname: routes.COUNTRY_ROUTE, state: { selected: x.id } }}>
-                          {
-                            x.countryName.split('_').map(y => y.charAt(0).toUpperCase() + y.slice(1)).join(' ')
-                          }
-                        </Link>
-                        : 
-                        <Link to={{ pathname: routes.COUNTRY_ROUTE, state: { selected: x.id } }}>
-                          {
-                            x.countryName.charAt(0).toUpperCase() + x.countryName.slice(1)
-                          }
-                        </Link>
+                      <Link to={{ pathname: routes.COUNTRY_ROUTE, state: { selected: x.id } }}>
+                        { parser.parseCountryName(x.countryName) }
+                      </Link>
                       }
                     </p>
                   }
