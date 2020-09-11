@@ -38,41 +38,33 @@ class System extends React.Component {
     let capitalJSX = null;
 
     if (selected) {
-      let multipleCaps = null;
-
       if (selected.fullName === 'none') {
         nameJSX = <h1>{ parser.parseCountryName(selected.countryName) }</h1>;
       } else {
         nameJSX = <h1>{ selected.fullName }</h1>;
       }
 
-      if (selected.capital && selected.capital.includes(';')) {
-        multipleCaps = selected.capital.split(';');
-      }
-
-      if (multipleCaps) {
-        capitalJSX = 
+      capitalJSX = 
+        <div>
+          <h4>Capital: </h4>
           <ul className="capitals">
             {
-              multipleCaps.map((x) => {
+              selected.capital.map((x) => {
                 return (
                   <li key={x}>{ x }</li>
                 );
               })
             }
-          </ul>;
-      } else {
-        capitalJSX = <span>{ selected.capital }</span>;
-      }
+          </ul>
+        </div>;
     }
 
     return (
       <div className="system-info">
-        {nameJSX}
+        { nameJSX }
         <p>Last Updated: { selected ? selected.lastUpdated : null }</p>
         <button onClick={ this.handleUpdateSystem }>Update</button> 
         <h4>Type of Government: <span>{ selected ? selected.typeOfGovernment : null }</span></h4>
-        <h4>Capital: </h4>
         { capitalJSX }
         {
           selected ? <CapitalMap selected={selected}/> : null

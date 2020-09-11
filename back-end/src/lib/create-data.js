@@ -2,9 +2,15 @@
 
 import logger from './logger';
 
+const createCapitalData = (capital) => {
+  logger.log(logger.INFO, 'Creating capital array');
+
+  if (capital.includes(';')) return capital.split(';');
+  return [capital];
+};
+
 const createCoordinatesData = (coordinatesLat, coordinatesLon) => {
   logger.log(logger.INFO, 'Creating capital coordinates array');
-  
   if (!coordinatesLat && !coordinatesLon) return [null, null];
 
   const latArr = [0, 0];
@@ -41,4 +47,4 @@ const createIndependenceData = (independence) => {
   return independenceData;
 };
 
-export { createCoordinatesData, createIndependenceData };
+export { createCapitalData, createCoordinatesData, createIndependenceData };
