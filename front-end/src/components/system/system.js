@@ -73,7 +73,7 @@ class System extends React.Component {
         <button onClick={ this.handleUpdateSystem }>Update</button> 
         <h4>Type of Government: <span>{ selected ? selected.typeOfGovernment : null }</span></h4>
         <h4>Capital: </h4>
-        {capitalJSX}
+        { capitalJSX }
         {
           selected ? <CapitalMap selected={selected}/> : null
         }
