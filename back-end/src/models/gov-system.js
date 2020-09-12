@@ -10,7 +10,7 @@ const systemSchema = mongoose.Schema({
   },
   countryName: { type: String, required: true, unique: true },
   fullName: { type: String },
-  capital: { type: String },
+  capital: { type: Array },
   capitalCoordinates: { type: Array },
   independence: { type: String },
   chiefOfStateFull: { type: String },

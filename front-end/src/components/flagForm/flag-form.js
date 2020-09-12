@@ -57,15 +57,15 @@ class FlagForm extends React.Component {
   render() {
     return (
       <div className="flag-container">
-        <h4>{'Enter Url of flag picture:'}</h4>
-        <form className="flag-form" onSubmit={this.handleSubmit}>
+        <h4>{ 'Enter Url of flag picture:' }</h4>
+        <form className="flag-form" onSubmit={ this.handleSubmit }>
           <input
             className="flag-url"
             name="flagUrl"
             placeholder="Enter URL"
             type="text"
-            value={this.state.countryName}
-            onChange={this.handleChange}
+            value={ this.state.countryName }
+            onChange={ this.handleChange }
           />
           <button type="submit">Submit</button>
           { this.state.flagUrlDirty ? 

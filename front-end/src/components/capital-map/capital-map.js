@@ -24,8 +24,8 @@ const MyMapComponent = compose(
     defaultCenter=
     { 
       { 
-        lat: Number(props.selected.capitalCoordinates[0].slice(0, props.selected.capitalCoordinates[0].length - 2).replace(' ', '.')),
-        lng: Number(props.selected.capitalCoordinates[1].slice(0, props.selected.capitalCoordinates[1].length - 2).replace(' ', '.')),
+        lat: Number(`${props.selected.capitalCoordinates[0][0]}.${props.selected.capitalCoordinates[0][1]}`),
+        lng: Number(`${props.selected.capitalCoordinates[1][0]}.${props.selected.capitalCoordinates[1][1]}`),
       }
     }
   >
@@ -34,11 +34,11 @@ const MyMapComponent = compose(
     <Marker position=
     {
       { 
-        lat: Number(props.selected.capitalCoordinates[0].slice(0, props.selected.capitalCoordinates[0].length - 2).replace(' ', '.')),
-        lng: Number(props.selected.capitalCoordinates[1].slice(0, props.selected.capitalCoordinates[1].length - 2).replace(' ', '.')),
+        lat: Number(`${props.selected.capitalCoordinates[0][0]}.${props.selected.capitalCoordinates[0][1]}`),
+        lng: Number(`${props.selected.capitalCoordinates[1][0]}.${props.selected.capitalCoordinates[1][1]}`),
       }
     } 
-    onClick={props.onMarkerClick} 
+    onClick={ props.onMarkerClick } 
     />
   } 
   </GoogleMap>);
@@ -74,9 +74,9 @@ class CapitalMap extends React.PureComponent {
     return (
       <div className="map">
         <MyMapComponent
-          isMarkerShown={this.state.isMarkerShown}
-          onMarkerClick={this.handleMarkerClick}
-          selected={this.props.selected}
+          isMarkerShown={ this.state.isMarkerShown }
+          onMarkerClick={ this.handleMarkerClick }
+          selected={ this.props.selected }
         />
       </div>
     );

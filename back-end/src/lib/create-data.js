@@ -2,15 +2,19 @@
 
 import logger from './logger';
 
+const createCapitalData = (capital) => {
+  logger.log(logger.INFO, 'Creating capital array');
+
+  if (capital.includes(';')) return capital.split(';');
+  return [capital];
+};
+
 const createCoordinatesData = (coordinatesLat, coordinatesLon) => {
   logger.log(logger.INFO, 'Creating capital coordinates array');
-  
-  if (!coordinatesLat && !coordinatesLon) {
-    return [null, null];
-  }
+  if (!coordinatesLat && !coordinatesLon) return [null, null];
 
-  const latArr = [1, 2];
-  const lonArr = [1, 2];
+  const latArr = [0, 0];
+  const lonArr = [0, 0];
 
   Object.keys(coordinatesLat).forEach((x) => {
     if (x === 'degrees') {
@@ -43,4 +47,4 @@ const createIndependenceData = (independence) => {
   return independenceData;
 };
 
-export { createCoordinatesData, createIndependenceData };
+export { createCapitalData, createCoordinatesData, createIndependenceData };

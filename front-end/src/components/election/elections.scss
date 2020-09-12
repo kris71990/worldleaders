@@ -1,0 +1,52 @@
+@import '../../style/vars';
+
+.election-info {
+  width: 60%;
+  margin: 0 auto;
+  padding-bottom: 60px;
+
+  h3 {
+    text-align: center;
+  }
+
+  .election-tracker {
+    width: 100%;
+    border-collapse: collapse;
+
+    tr {
+      background: linear-gradient(rgba(44, 105, 244, 1), rgba(24, 52, 117, 1));
+      td {
+        padding: 10px 20px;
+        border: 1px solid #183475;
+      }
+      .country a {
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      .dates {
+        color: $header-text;
+        text-align: right;
+        padding-left: 100px;
+      }
+    }
+  }
+
+  .toggle-buttons {
+    margin: 20px 0;
+    text-align: center;
+
+    button {
+      outline: 0;
+      border: 2px solid #ADADAD;
+      background-color: #ADADAD;
+      padding: 5px 20px;
+    }
+    
+    .selected {
+      border: 2px solid $header-border;
+      background-color: #7D7E7D;
+    }
+  }
+}

@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import autoBind from '../../utils/autoBind';
 
-import CapitalMap from '../capital-map/capital-map';
+// import CapitalMap from '../capital-map/capital-map';
 import SystemElections from '../system-elections/system-elections';
 import SystemLeaders from '../system-leaders/system-leaders';
 
 import * as systemActions from '../../actions/systemActions';
+import * as parser from '../../utils/parser';
 import './system.scss';
 
 class System extends React.Component {
@@ -37,57 +38,43 @@ class System extends React.Component {
     let capitalJSX = null;
 
     if (selected) {
-      let multipleCaps = null;
-
       if (selected.fullName === 'none') {
-        nameJSX = 
-          <h1>
-            {
-              selected.countryName.includes('_') 
-                ? selected.countryName.split('_').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join(' ')
-                : selected.countryName.charAt(0).toUpperCase() + selected.countryName.slice(1)
-
-            }
-          </h1>;
-      } else {
-        nameJSX = <h1>{selected.fullName}</h1>;
+        nameJSX = <h1>{ parser.parseCountryName(selected.countryName) }</h1>;
+      } else if (selected.fullName) {
+        nameJSX = <h1>{ parser.parseFullCountryName(selected.fullName) }</h1>;
       }
 
-      if (selected.capital && selected.capital.includes(';')) {
-        multipleCaps = selected.capital.split(';');
-      }
-
-      if (multipleCaps) {
+      if (selected.capital) {
         capitalJSX = 
-          <ul className="capitals">
-            {
-              multipleCaps.map((x) => {
-                return (
-                  <li key={x}>{x}</li>
-                );
-              })
-            }
-          </ul>;
-      } else {
-        capitalJSX = <span>{selected.capital}</span>;
+          <div>
+            <h4>Capital: </h4>
+            <ul className="capitals">
+              {
+                selected.capital.map((x) => {
+                  return (
+                    <li key={x}>{ x }</li>
+                  );
+                })
+              }
+            </ul>
+          </div>;
       }
     }
 
     return (
       <div className="system-info">
-        {nameJSX}
-        <p>Last Updated: {selected ? selected.lastUpdated : null}</p>
-        <button onClick={this.handleUpdateSystem}>Update</button> 
-        <h4>Type of Government: <span>{selected ? selected.typeOfGovernment : null}</span></h4>
-        <h4>Capital: </h4>
-        {capitalJSX}
+        { nameJSX }
+        <p>Last Updated: { selected ? selected.lastUpdated : null }</p>
+        <button onClick={ this.handleUpdateSystem }>Update</button> 
+        <h4>Type of Government: <span>{ selected ? selected.typeOfGovernment : null }</span></h4>
+        { capitalJSX }
         {
-          selected ? <CapitalMap selected={selected}/> : null
+          // selected ? <CapitalMap selected={selected}/> : null
         }
         {
           selected ? 
-            <h4>Independence: <span>{selected.independence}</span></h4>
-            : null
+            selected.independence ? <h4>Independence: <span>{ selected.independence } </span></h4>
+              : null : null
         }
         <p>---------------------------------------</p>
         <SystemLeaders selected={selected}/>

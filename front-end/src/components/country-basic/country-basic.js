@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import autoBind from '../../utils/autoBind';
 
+import FlagForm from '../flagForm/flag-form';
+
 import * as routes from '../../utils/routes';
 import * as systemActions from '../../actions/systemActions';
 import * as countryActions from '../../actions/countryActions';
-import FlagForm from '../flagForm/flag-form';
+import * as parser from '../../utils/parser';
 
 import './country-basic.scss';
 
@@ -42,29 +44,11 @@ class CountryBasic extends React.Component {
 
     if (selected) {
       if (selected.countryName) {
-        countryNameJSX =         
-          <span>
-            {
-              selected.countryName.includes('_') 
-                ? selected.countryName.split('_').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join(' ')
-                : selected.countryName.charAt(0).toUpperCase() + selected.countryName.slice(1)
-            }
-          </span>;
+        countryNameJSX = <span>{ parser.parseCountryName(selected.countryName) }</span>;
       }
 
-      populationJSX = 
-        <span>
-          {
-            Number(selected.population).toLocaleString()
-          }
-        </span>;
-
-      areaJSX = 
-        <span>
-          {
-            Number(selected.area).toLocaleString()
-          }
-        </span>;
+      populationJSX = <span>{ Number(selected.population).toLocaleString() }</span>;
+      areaJSX = <span>{ Number(selected.area).toLocaleString() }</span>;
 
       borderingJSX = 
         <span>

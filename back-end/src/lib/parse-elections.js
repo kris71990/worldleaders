@@ -8,7 +8,7 @@ const parseElectionDates = (exec, leg) => {
   const elections = { exec: {}, leg: {} };
   const findNextRx = /(((next)+)(.*?)[)])/g;
   const findLastRx = /(last.*?)(([(])(.*?))/g;
-  const findDateRx = /(((([0-9]{2})(.*?)\s)|(\w+)\s)([\d]{4}))/g;
+  const findDateRx = /(((([0-9])(.*?)\s)|(\w+)\s)([\d]{4}))/g;
 
   const execNext = exec.match(findNextRx);
   const execLast = exec.match(findLastRx);
@@ -17,34 +17,30 @@ const parseElectionDates = (exec, leg) => {
 
   if (!execNext) {
     elections.exec.next = null;
-  } else if (execNext.length === 1) {
-    elections.exec.next = execNext[0].match(findDateRx);
   } else {
-    elections.exec.next = execNext;
+    const execNextDates = execNext.map(clause => clause.match(findDateRx)[0]);
+    elections.exec.next = execNextDates;
   }
 
   if (!execLast) {
     elections.exec.last = null;
-  } else if (execLast.length === 1) {
-    elections.exec.last = execLast[0].match(findDateRx);
   } else {
-    elections.exec.last = execLast;
+    const execLastDates = execLast.map(clause => clause.match(findDateRx)[0]);
+    elections.exec.last = execLastDates;
   }
 
   if (!legNext) {
     elections.leg.next = null;
-  } else if (legNext.length === 1) {
-    elections.leg.next = legNext[0].match(findDateRx);
   } else {
-    elections.leg.next = legNext;
+    const legNextDates = legNext.map(clause => clause.match(findDateRx)[0]);
+    elections.leg.next = legNextDates;
   }
 
   if (!legLast) {
     elections.leg.last = null;
-  } else if (legLast.length === 1) {
-    elections.leg.last = legLast[0].match(findDateRx);
   } else {
-    elections.leg.last = legLast;
+    const legLastDates = legLast.map(clause => clause.match(findDateRx)[0]);
+    elections.leg.last = legLastDates;
   }
 
   return elections;

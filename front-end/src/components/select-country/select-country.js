@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import * as parser from '../../utils/parser';
+
 import './select-country.scss';
 
 const SelectMenu = (props) => {
@@ -21,12 +23,8 @@ const SelectMenu = (props) => {
           { countries
             ? countries.map((country) => {
               return (
-                <option name={country.countryName} value={country.id} key={country.id}>
-                  {
-                    country.countryName.includes('_') 
-                      ? country.countryName.split('_').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join(' ')
-                      : country.countryName.charAt(0).toUpperCase() + country.countryName.slice(1)
-                  }
+                <option name={ country.countryName } value={ country.id } key={ country.id }>
+                  { parser.parseCountryName(country.countryName) }
                 </option>
               );
             })

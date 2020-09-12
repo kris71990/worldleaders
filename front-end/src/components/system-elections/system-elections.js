@@ -44,7 +44,7 @@ class SystemElections extends React.Component {
             {
               arr.map((x, i) => {
                 return (
-                  <li key={i}>{x}</li>
+                  <li key={i}>{ x }</li>
                 );
               })
             }
@@ -64,7 +64,7 @@ class SystemElections extends React.Component {
             {
               arr.map((x, i) => {
                 return (
-                  <li key={i}>{x}</li>
+                  <li key={i}>{ x }</li>
                 );
               })
             }
@@ -84,7 +84,7 @@ class SystemElections extends React.Component {
             {
               arr.map((x, i) => {
                 return (
-                  <li key={i}>{x}</li>
+                  <li key={i}>{ x }</li>
                 );
               })
             }
@@ -95,13 +95,13 @@ class SystemElections extends React.Component {
     return (
       <div className="system-election-info">
         <h5>Election Information for Executive</h5>
-        {electionsExecJSX}
+        { electionsExecJSX }
         <h5>Most recent Election Results (Executive)</h5>
-        {electionResultsExecJSX ? electionResultsExecJSX : 'No election data'}
+        { electionResultsExecJSX ? electionResultsExecJSX : 'No election data' }
         <h5>Election Information for Legislative</h5>
         {electionsLegJSX}
         <h5>Most recent Election Results (Legislative)</h5>
-        {electionResultsLegJSX ? electionResultsLegJSX : 'No election data'}
+        { electionResultsLegJSX ? electionResultsLegJSX : 'No election data' }
       </div>
     );
   }

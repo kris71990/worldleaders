@@ -3,13 +3,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import electionsGet from '../../actions/electionActions';
+import * as parser from '../../utils/parser';
+import autoBind from '../../utils/autoBind';
+
+import './elections.scss';
 
 class Elections extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       elections: null,
+      type: 'executive',
     };
+    autoBind.call(this, Elections);
   }
 
   componentDidMount() {
@@ -19,38 +25,68 @@ class Elections extends React.Component {
       });
   }
 
+  handleToggleElectionType(e) {
+    if (e.target.textContent === 'Legislative') {
+      return this.setState({ type: 'legislative' });
+    }
+    return this.setState({ type: 'executive' });
+  }
+
   render() {
     const { elections } = this.props;
     let futureElectionsJSX = null;
 
     if (elections) {
+      let sortedElections;
+      if (this.state.type === 'legislative') {
+        sortedElections = parser.sortElectionDates(elections, 'leg');
+      } else {
+        sortedElections = parser.sortElectionDates(elections, 'exec');
+      }
+
       futureElectionsJSX = 
-        <ul className="election-tracker">
+        <table className="election-tracker">
+          <tbody>
           {
-            elections.map((country) => {
+            sortedElections.map((country) => {
+              const parsedCountry = parser.parseCountryName(country.country);
               const className = country.country.includes(' ') ? country.country.replace(' ', '-') : country.country;
               const systemUrl = `https://en.wikipedia.org/wiki/${country.country}`;
 
               return (
-                <li key={ country.id } className={ className }>
-                  <div>
-                    <p>
-                      <a target="_blank" rel="noopener noreferrer" href={ systemUrl }>
-                        { country.country }
-                      </a>
-                    </p>
-                    <p>Next executive: { country.electionDates.exec.next }</p>
-                    <p>Next legislative: { country.electionDates.leg.next }</p>
-                  </div>
-                </li>
+                <tr key={ country.id } className={ className }>
+                  <td className="country">
+                    <a target="_blank" rel="noopener noreferrer" href={ systemUrl }>
+                      { parsedCountry }
+                    </a>
+                  </td>
+                  <td className="dates">
+                    { this.state.type === 'legislative' ?
+                      parser.parseElectionDates(country.electionDates.leg.next)
+                      : parser.parseElectionDates(country.electionDates.exec.next)
+                    }
+                  </td>
+                </tr>
               );
             })
           }
-        </ul>;
+          </tbody>
+        </table>;
     }
 
     return (
       <div className="election-info">
+        <h3>Upcoming Elections Tracker</h3>
+        <div className="toggle-buttons">
+          <button 
+            onClick={ this.handleToggleElectionType }
+            className={ this.state.type === 'executive' ? 'selected' : null }
+          >Executive</button>
+          <button 
+            onClick={ this.handleToggleElectionType }
+            className={ this.state.type === 'legislative' ? 'selected' : null }
+          >Legislative</button>
+        </div>
         { futureElectionsJSX }
       </div>
     );
