@@ -31,9 +31,9 @@ class Country extends React.Component {
         {
           selected 
             ? <div>
-                <CountryBasic selected={selected}/>
-                <CountryCulture selected={selected}/>
-                <CountryEconomy selected={selected}/>
+                <CountryBasic selected={ selected }/>
+                <CountryCulture selected={ selected }/>
+                <CountryEconomy selected={ selected }/>
               </div>
             : null
         }

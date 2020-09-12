@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import autoBind from '../../utils/autoBind';
 
-import CapitalMap from '../capital-map/capital-map';
+// import CapitalMap from '../capital-map/capital-map';
 import SystemElections from '../system-elections/system-elections';
 import SystemLeaders from '../system-leaders/system-leaders';
 
@@ -40,23 +40,25 @@ class System extends React.Component {
     if (selected) {
       if (selected.fullName === 'none') {
         nameJSX = <h1>{ parser.parseCountryName(selected.countryName) }</h1>;
-      } else {
-        nameJSX = <h1>{ selected.fullName }</h1>;
+      } else if (selected.fullName) {
+        nameJSX = <h1>{ parser.parseFullCountryName(selected.fullName) }</h1>;
       }
 
-      capitalJSX = 
-        <div>
-          <h4>Capital: </h4>
-          <ul className="capitals">
-            {
-              selected.capital.map((x) => {
-                return (
-                  <li key={x}>{ x }</li>
-                );
-              })
-            }
-          </ul>
-        </div>;
+      if (selected.capital) {
+        capitalJSX = 
+          <div>
+            <h4>Capital: </h4>
+            <ul className="capitals">
+              {
+                selected.capital.map((x) => {
+                  return (
+                    <li key={x}>{ x }</li>
+                  );
+                })
+              }
+            </ul>
+          </div>;
+      }
     }
 
     return (
@@ -67,12 +69,12 @@ class System extends React.Component {
         <h4>Type of Government: <span>{ selected ? selected.typeOfGovernment : null }</span></h4>
         { capitalJSX }
         {
-          selected ? <CapitalMap selected={selected}/> : null
+          // selected ? <CapitalMap selected={selected}/> : null
         }
         {
           selected ? 
-            <h4>Independence: <span>{ selected.independence }</span></h4>
-            : null
+            selected.independence ? <h4>Independence: <span>{ selected.independence } </span></h4>
+              : null : null
         }
         <p>---------------------------------------</p>
         <SystemLeaders selected={selected}/>
