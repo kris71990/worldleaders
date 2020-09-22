@@ -5,12 +5,19 @@
   background-color: $basic-background;
   text-align: center;
 
+  h1 {
+    background-color: $header-border;
+    padding: 10px;
+    font-size: 2.5em;
+  }
+
   #info-status {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 
     h3 {
+      font-size: 1.5em;
       margin: 5px 0 0 5px;;
     }
 
@@ -21,10 +28,37 @@
     }
   }
 
-  .ranks {
-    p {
+  #borders {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+
+    p, ul {
       margin: 0;
     }
+
+    p {
+      padding-right: 10px;
+      align-self: flex-start;
+    }
+    
+    ul {
+      border-left: 1px solid black;
+      text-align: left;
+      padding-left: 10px;
+    }
+  }
+
+  .ranks {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: $header-border;
+    border-top: 2px solid $header-background;
+    
     p:last-child {
       margin-bottom: 20px;
     }

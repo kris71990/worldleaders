@@ -3,4 +3,17 @@
 .culture {
   border: 10px ridge $culture-border;
   background-color: $culture-background;
+
+  .ranks {
+    background-color: $culture-border;
+    border-top: 2px solid $header-background;
+
+    li {
+      margin-left: 10px;
+      padding: 2px;
+      span {
+        font-style: italic;
+      }
+    }
+  }
 }

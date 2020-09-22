@@ -52,23 +52,29 @@ class CountryBasic extends React.Component {
 
       populationJSX = 
         <div className="ranks">
-          <p>Population: { Number(selected.population).toLocaleString() } million</p>
-          <p>Rank: { selected.populationRank }</p>
+          <div>
+            <p>Population: { Number(selected.population).toLocaleString() } million</p>
+            <p>Rank: { selected.populationRank }</p>
+          </div>
         </div>;
       areaJSX = 
         <div className="ranks">
-          <p>Area: { Number(selected.area).toLocaleString() } km<sup>2</sup></p>
-          <p>Rank: { selected.areaRank }</p>
+          <div>
+            <p>Area: { Number(selected.area).toLocaleString() } km<sup>2</sup></p>
+            <p>Rank: { selected.areaRank }</p>
+          </div>
         </div>;
       lifeExpectancyJSX = 
         <div className="ranks">
-          <p>Life Expectancy: { selected.lifeExpectancy } years</p>
-          <p>Rank: { selected.lifeExpectancyRank }</p>
+          <div>
+            <p>Life Expectancy: { selected.lifeExpectancy } years</p>
+            <p>Rank: { selected.lifeExpectancyRank }</p>
+          </div>
         </div>;
 
       borderingJSX = 
-        <div>
-          <p>Borders:</p>
+        <div id="borders">
+          <p>Borders</p>
           <ul>
             {
               selected.borderCountries
@@ -82,13 +88,17 @@ class CountryBasic extends React.Component {
     }
 
     flagJSX = 
-      <span>
+      <div>
         {
           selected.flagUrl 
             ? <img src={ selected.flagUrl }></img>
-            : <FlagForm country={ selected }/>
+            : 
+            <div>
+              <FlagForm country={ selected }/>
+              <Divider/>
+            </div>
         } 
-      </span>;
+      </div>;
       
 
     return (
@@ -105,7 +115,7 @@ class CountryBasic extends React.Component {
           </div>
         </div>
         <h1>{ countryNameJSX }</h1>
-        <Divider/>{ flagJSX }<Divider/>
+        { flagJSX }
         {
           selected.hasLinkedSystem ?
           <Link to=
@@ -117,9 +127,9 @@ class CountryBasic extends React.Component {
             : 
           <CustomButton action={ this.handleCreateSystem } text='Find political information'/>
         }
-        { borderingJSX }<Divider/>
-        { populationJSX }<Divider/>
-        { areaJSX }<Divider/>
+        { borderingJSX }
+        { populationJSX }
+        { areaJSX }
         { lifeExpectancyJSX }
       </div>
     );
