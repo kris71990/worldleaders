@@ -3,6 +3,7 @@
 html, body {
   background: $background-color;
   height: 100%;
+  font-family: 'Ubuntu Mono', monospace;
 }
 
 h1, h2, p {
@@ -37,6 +38,7 @@ input {
   width: 60%;
   margin: 0 auto;
   font-weight: bold;
+  padding-bottom: 100px;
 
   .country-ranking {
     width: 18%;

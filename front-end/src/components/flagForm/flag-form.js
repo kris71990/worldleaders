@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import autoBind from '../../utils/autoBind';
 
+import CustomButton from '../common/button/button';
+
 import * as countryActions from '../../actions/countryActions';
 import * as photoActions from '../../actions/photoActions';
 import './flag-form.scss';
@@ -67,7 +69,7 @@ class FlagForm extends React.Component {
             value={ this.state.countryName }
             onChange={ this.handleChange }
           />
-          <button type="submit">Submit</button>
+          <CustomButton text='Submit'/>
           { this.state.flagUrlDirty ? 
               <p>{ this.state.flagUrlError }</p>
             : null

@@ -11,6 +11,7 @@ const parseFullCountryName = (fullName) => {
 };
 
 const parseElectionDates = (dates) => {
+  if (dates === 'unknown') return 'Unknown';
   if (dates.length > 1) {
     if (dates.every(date => date === dates[0])) return dates[0];
   }
@@ -20,6 +21,8 @@ const parseElectionDates = (dates) => {
 const sortElectionDates = (elections, type) => {
   if (type === 'leg') {
     const sortedElections = elections.sort((a, b) => {
+      if (a.electionDates.leg.next === 'unknown') return b - a;
+
       const legNextA = new Date(a.electionDates.leg.next[0]);
       const legNextB = new Date(b.electionDates.leg.next[0]);
       return legNextA - legNextB;
@@ -29,6 +32,8 @@ const sortElectionDates = (elections, type) => {
   
   if (type === 'exec') {
     const sortedElections = elections.sort((a, b) => {
+      if (a.electionDates.exec.next === 'unknown') return b - a;
+
       const execNextA = new Date(a.electionDates.exec.next[0]);
       const execNextB = new Date(b.electionDates.exec.next[0]);
       return execNextA - execNextB;

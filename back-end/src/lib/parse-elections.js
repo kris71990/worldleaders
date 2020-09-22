@@ -1,3 +1,5 @@
+/* eslint-disable prefer-destructuring */
+
 'use strict';
 
 import logger from './logger';
@@ -16,31 +18,47 @@ const parseElectionDates = (exec, leg) => {
   const legLast = leg.match(findLastRx);
 
   if (!execNext) {
-    elections.exec.next = null;
+    elections.exec.next = 'unknown';
   } else {
-    const execNextDates = execNext.map(clause => clause.match(findDateRx)[0]);
-    elections.exec.next = execNextDates;
+    const execNextDates = execNext.map(clause => clause.match(findDateRx));
+    if (!execNextDates) {
+      elections.exec.next = 'unknown';
+    } else {
+      elections.exec.next = execNextDates[0];
+    }
   }
 
   if (!execLast) {
-    elections.exec.last = null;
+    elections.exec.last = 'unknown';
   } else {
-    const execLastDates = execLast.map(clause => clause.match(findDateRx)[0]);
-    elections.exec.last = execLastDates;
+    const execLastDates = execLast.map(clause => clause.match(findDateRx));
+    if (!execLastDates) {
+      elections.exec.last = 'unknown';
+    } else {
+      elections.exec.last = execLastDates[0];
+    }
   }
 
   if (!legNext) {
-    elections.leg.next = null;
+    elections.leg.next = 'unknown';
   } else {
-    const legNextDates = legNext.map(clause => clause.match(findDateRx)[0]);
-    elections.leg.next = legNextDates;
+    const legNextDates = legNext.map(clause => clause.match(findDateRx));
+    if (legNextDates[0] === null) {
+      elections.leg.next = 'unknown';
+    } else {
+      elections.leg.next = legNextDates[0];
+    }
   }
 
   if (!legLast) {
-    elections.leg.last = null;
+    elections.leg.last = 'unknown';
   } else {
-    const legLastDates = legLast.map(clause => clause.match(findDateRx)[0]);
-    elections.leg.last = legLastDates;
+    const legLastDates = legLast.map(clause => clause.match(findDateRx));
+    if (!legLastDates) {
+      elections.leg.last = 'unknown';
+    } else {
+      elections.leg.last = legLastDates[0];
+    }
   }
 
   return elections;

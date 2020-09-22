@@ -13,7 +13,6 @@ export default () => {
   
   return superagent.get('https://api.github.com/repos/iancoleman/cia_world_factbook_api')
     .then((file) => {
-      console.log(file.body);
       const newestDate = file.body.updated_at.split('T')[0];
       let CIA_DATE;
       

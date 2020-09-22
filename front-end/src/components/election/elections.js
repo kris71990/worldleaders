@@ -32,6 +32,12 @@ class Elections extends React.Component {
     return this.setState({ type: 'executive' });
   }
 
+  handleComputeUnknownClass(dates) {
+    if (this.state.type === 'legislative' && dates.leg.next === 'unknown') return 'unknown';
+    if (this.state.type === 'executive' && dates.exec.next === 'unknown') return 'unknown';
+    return null;
+  }
+
   render() {
     const { elections } = this.props;
     let futureElectionsJSX = null;
@@ -55,12 +61,12 @@ class Elections extends React.Component {
 
               return (
                 <tr key={ country.id } className={ className }>
-                  <td className="country">
+                  <td className={`country ${this.handleComputeUnknownClass(country.electionDates)}`}>
                     <a target="_blank" rel="noopener noreferrer" href={ systemUrl }>
                       { parsedCountry }
                     </a>
                   </td>
-                  <td className="dates">
+                  <td className={`dates ${this.handleComputeUnknownClass(country.electionDates)}`}>
                     { this.state.type === 'legislative' ?
                       parser.parseElectionDates(country.electionDates.leg.next)
                       : parser.parseElectionDates(country.electionDates.exec.next)

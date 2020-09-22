@@ -3,10 +3,33 @@
 .basic-info {
   border: 10px ridge $header-border;
   background-color: $basic-background;
-  
-  :nth-child(2) {
-    font-size: 90%;
+  text-align: center;
+
+  #info-status {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    h3 {
+      margin: 5px 0 0 5px;;
+    }
+
+    p {
+      margin: 5px 5px 10px 0;
+      font-style: italic;
+      font-size: 90%;
+    }
   }
+
+  .ranks {
+    p {
+      margin: 0;
+    }
+    p:last-child {
+      margin-bottom: 20px;
+    }
+  }
+
   img {
     width: 50%;
   }
