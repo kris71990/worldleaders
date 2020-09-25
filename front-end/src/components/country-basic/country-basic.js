@@ -123,7 +123,7 @@ class CountryBasic extends React.Component {
               { 
                 pathname: `${routes.SYSTEM_ROUTE}-${selected.countryName}`, state: { selected: this.props.selected },
               }
-            }>Political System</Link>
+            }>Government</Link>
             : 
           <CustomButton action={ this.handleCreateSystem } text='Find political information'/>
         }

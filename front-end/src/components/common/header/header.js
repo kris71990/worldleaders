@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import autoBind from '../../utils/autoBind';
+import autoBind from '../../../utils/autoBind';
 
-import * as routes from '../../utils/routes';
+import * as routes from '../../../utils/routes';
 import './header.scss';
 
 class Header extends React.Component {
@@ -44,9 +44,9 @@ class Header extends React.Component {
               <Link to={ routes.LANGUAGE_PREVALENCE_ROUTE }>Languages</Link>
               { this.state.page === 'Languages' ? <span> &lt;</span> : null }
             </li>
-            <li className={ this.state.page === 'Government Systems' ? 'selected' : null }>
-              <Link to={ routes.SYSTEMS_ROUTE }>Government Systems</Link>
-              { this.state.page === 'Government Systems' ? <span> &lt;</span> : null }
+            <li className={ this.state.page === 'Government' ? 'selected' : null }>
+              <Link to={ routes.SYSTEMS_ROUTE }>Government</Link>
+              { this.state.page === 'Government' ? <span> &lt;</span> : null }
             </li>
             <li className={ this.state.page === 'Elections' ? 'selected' : null }>
               <Link to={ routes.ELECTION_ROUTE }>Elections</Link>

@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
-import Header from '../header/header';
+import Header from '../common/header/header';
 import Landing from '../landing/landing';
 import Country from '../country/country';
-import Footer from '../footer/footer';
+import Footer from '../common/footer/footer';
 import GDPRank from '../gdp-rank/gdp-rank';
 import PopulationRank from '../population-rank/population-rank';
 import AreaRank from '../area-rank/area-rank';
