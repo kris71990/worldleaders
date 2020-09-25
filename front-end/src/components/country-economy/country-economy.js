@@ -15,7 +15,9 @@ class CountryEconomy extends React.Component {
 
     if (selected) {
       resourcesJSX = 
-        <ul>
+        <div className="resources">
+          <h4>Natural Resources</h4>
+          <ul>
           {
             selected.naturalResources ?
               selected.naturalResources.map((x) => {
@@ -25,10 +27,13 @@ class CountryEconomy extends React.Component {
               })
               : null
           }
-        </ul>;
+          </ul>
+        </div>;
 
       importsJSX = 
-        <ul>
+        <div className="import-goods">
+          <h4>Imports</h4>
+          <ul>
           {
             selected.imports ?
               selected.imports.map((x) => {
@@ -38,23 +43,13 @@ class CountryEconomy extends React.Component {
               })
               : null
           }
-        </ul>;
-
-      exportsJSX = 
-        <ul>
-          {
-            selected.exports ?
-              selected.exports.map((x) => {
-                return (
-                  <li key={x}>{x}</li>
-                );
-              })
-              : null
-          }
-        </ul>;
+          </ul>
+        </div>;
 
       importPartnersJSX = 
-        <ul>
+        <div className="import-partners">
+          <h4>Importing from:</h4>
+          <ul>
           {
             selected.importPartners ?
               selected.importPartners.map((x) => {
@@ -64,10 +59,29 @@ class CountryEconomy extends React.Component {
               })
               : null
           }
-        </ul>;
+          </ul>
+        </div>;
+
+      exportsJSX = 
+        <div className="export-goods">
+          <h4>Exports</h4>
+          <ul>
+          {
+            selected.exports ?
+              selected.exports.map((x) => {
+                return (
+                  <li key={x}>{x}</li>
+                );
+              })
+              : null
+          }
+          </ul>
+        </div>;
 
       exportPartnersJSX = 
-        <ul>
+        <div className="export-partners">
+          <h4>Exporting to:</h4>
+          <ul>
           {
             selected.exportPartners ?
               selected.exportPartners.map((x) => {
@@ -77,35 +91,24 @@ class CountryEconomy extends React.Component {
               })
               : null
           }
-        </ul>;
+          </ul>
+        </div>;
     }
 
     return (
       <div className="economy">
-        <h2>GDP PPP Rank: { selected.gdpPPPRank }</h2>
-        <div className="resources">
-          <p>Natural Resources</p>
-          { resourcesJSX }
-        </div>
+        <h3>Economy: { selected.gdpPPPRank }</h3>
+        <p>
+          <a href="https://en.wikipedia.org/wiki/Purchasing_power_parity" target="_blank" rel="noopener noreferrer">(Purchasing Power Parity)</a>
+        </p>
+        { resourcesJSX }
         <div className="exports">
-          <div className="export-goods">
-            <p>Exports</p>
-            { exportsJSX }
-          </div>
-          <div className="export-partners">
-            <p>Exporting to:</p>
-            { exportPartnersJSX }
-          </div>
+          { exportsJSX }
+          { exportPartnersJSX }
         </div>
         <div className="imports">
-          <div className="import-goods">
-            <p>Imports</p>
-            { importsJSX }
-          </div>
-          <div className="import-partners">
-            <p>Importing from:</p>
-            { importPartnersJSX }
-          </div>
+          { importsJSX }
+          { importPartnersJSX }
         </div>
       </div>
     );

@@ -18,7 +18,7 @@
 
     h3 {
       font-size: 1.5em;
-      margin: 5px 0 0 5px;;
+      margin: 5px 0 0 5px;
     }
 
     p {
@@ -58,10 +58,6 @@
     align-items: center;
     background-color: $header-border;
     border-top: 2px solid $header-background;
-    
-    p:last-child {
-      margin-bottom: 20px;
-    }
   }
 
   img {

@@ -29,17 +29,29 @@ class Header extends React.Component {
         <nav>
           <ul onClick={ this.handleClickMenu }>
             <li className={ this.state.page === 'GDP' ? 'selected' : null }>
-              <Link to={ routes.GDP_ROUTE }>GDP</Link></li>
+              <Link to={ routes.GDP_ROUTE }>GDP</Link>
+              { this.state.page === 'GDP' ? <span> &lt;</span> : null }
+            </li>
             <li className={ this.state.page === 'Population' ? 'selected' : null }>
-              <Link to={ routes.POPULATION_ROUTE }>Population</Link></li>
+              <Link to={ routes.POPULATION_ROUTE }>Population</Link>
+              { this.state.page === 'Population' ? <span> &lt;</span> : null }
+            </li>
             <li className={ this.state.page === 'Area' ? 'selected' : null }>
-              <Link to={ routes.AREA_ROUTE }>Area</Link></li>
+              <Link to={ routes.AREA_ROUTE }>Area</Link>
+              { this.state.page === 'Area' ? <span> &lt;</span> : null }
+            </li>
             <li className={ this.state.page === 'Languages' ? 'selected' : null }>
-              <Link to={ routes.LANGUAGE_PREVALENCE_ROUTE }>Languages</Link></li>
+              <Link to={ routes.LANGUAGE_PREVALENCE_ROUTE }>Languages</Link>
+              { this.state.page === 'Languages' ? <span> &lt;</span> : null }
+            </li>
             <li className={ this.state.page === 'Government Systems' ? 'selected' : null }>
-              <Link to={ routes.SYSTEMS_ROUTE }>Government Systems</Link></li>
+              <Link to={ routes.SYSTEMS_ROUTE }>Government Systems</Link>
+              { this.state.page === 'Government Systems' ? <span> &lt;</span> : null }
+            </li>
             <li className={ this.state.page === 'Elections' ? 'selected' : null }>
-              <Link to={ routes.ELECTION_ROUTE }>Elections</Link></li>
+              <Link to={ routes.ELECTION_ROUTE }>Elections</Link>
+              { this.state.page === 'Elections' ? <span> &lt;</span> : null }
+            </li>
           </ul>
         </nav>
       </header>

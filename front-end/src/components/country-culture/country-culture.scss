@@ -4,9 +4,14 @@
   border: 10px ridge $culture-border;
   background-color: $culture-background;
 
+  h5 {
+    margin-left: 5px;
+  }
+
   .ranks {
     background-color: $culture-border;
     border-top: 2px solid $header-background;
+    margin: 0;
 
     li {
       margin-left: 10px;

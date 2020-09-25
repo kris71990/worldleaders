@@ -1,6 +1,7 @@
 @import '../../style/vars';
 
 .footer {
+  font-family: 'Ubuntu Mono', monospace;
   border-top: 2px solid $header-border;
   background-color: $header-background;
   text-align: right;
@@ -13,5 +14,9 @@
     margin: 5px;
     color: $header-text;
     padding-right: 20px;
+  }
+
+  span {
+    font-size: 1.2em;
   }
 }
