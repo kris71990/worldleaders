@@ -41,7 +41,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
         const parsedGov = parseFullGov(country.typeOfGovernment);
         const independenceData = create.createIndependenceData(governmentInfo.independence);
         const hogk = findHOGKeywords(governmentInfo.executive_branch.head_of_government);
-        const cosk = findCOSKeywords(governmentInfo.executive_branch.chief_of_state);
+        const cosk = findCOSKeywords(governmentInfo.executive_branch.chief_of_state ? governmentInfo.executive_branch.chief_of_state : governmentInfo.executive_branch.head_of_state);
         const allElectionDates = parseElectionDates(governmentInfo.executive_branch.elections_appointments, governmentInfo.legislative_branch.elections);
 
         return new System({
@@ -51,7 +51,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
           capital: capitalArray,
           capitalCoordinates,
           independence: independenceData,
-          chiefOfStateFull: governmentInfo.executive_branch.chief_of_state,
+          chiefOfStateFull: governmentInfo.executive_branch.chief_of_state ? governmentInfo.executive_branch.chief_of_state : governmentInfo.executive_branch.head_of_state,
           chiefOfStateKeywords: cosk,
           headOfGovernmentFull: governmentInfo.executive_branch.head_of_government,
           headOfGovernmentKeywords: hogk,

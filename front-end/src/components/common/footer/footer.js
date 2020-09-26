@@ -6,7 +6,7 @@ class Footer extends React.Component {
     return (
       <footer className="footer">
         <p>Data from CIA World Factbook</p>
-        <p>&copy; {new Date().getFullYear()} - Kris</p>
+        <p><span>&copy;</span> { new Date().getFullYear() }</p>
       </footer>
     );
   }

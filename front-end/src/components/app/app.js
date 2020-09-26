@@ -1,15 +1,15 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
-import Header from '../header/header';
+import Header from '../common/header/header';
 import Landing from '../landing/landing';
 import Country from '../country/country';
-import Footer from '../footer/footer';
-import GDPRank from '../gdp-rank/gdp-rank';
-import PopulationRank from '../population-rank/population-rank';
-import AreaRank from '../area-rank/area-rank';
-import LanguageRank from '../language-rank/language-rank';
-import SystemRank from '../systems-rank/systems-rank';
+import Footer from '../common/footer/footer';
+import GDPRank from '../rankings/gdp-rank/gdp-rank';
+import PopulationRank from '../rankings/population-rank/population-rank';
+import AreaRank from '../rankings/area-rank/area-rank';
+import LanguageRank from '../rankings/language-rank/language-rank';
+import SystemRank from '../rankings/systems-rank/systems-rank';
 import System from '../system/system';
 import Elections from '../election/elections';
 

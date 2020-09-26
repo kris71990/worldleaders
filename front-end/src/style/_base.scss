@@ -19,7 +19,9 @@ input {
 }
 
 .landing {
+  font-family: 'Ubuntu Mono', monospace;
   padding-bottom: 60px;
+
   button {
     padding: 5px 10px;
     background-color: $header-background;
@@ -34,9 +36,11 @@ input {
 }
 
 .rankings {
+  font-family: 'Ubuntu Mono', monospace;
   width: 60%;
   margin: 0 auto;
   font-weight: bold;
+  padding-bottom: 100px;
 
   .country-ranking {
     width: 18%;

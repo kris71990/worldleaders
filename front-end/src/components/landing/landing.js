@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import autoBind from '../../utils/autoBind';
 
-import CountryForm from '../countryForm/countryForm';
+import CountryForm from '../forms/countryForm/countryForm';
 import SelectMenu from '../select-country/select-country';
 import * as countryActions from '../../actions/countryActions';
 import * as routes from '../../utils/routes';
@@ -23,7 +23,10 @@ class Landing extends React.Component {
   }
 
   componentDidMount() {
-    this.props.countryListFetch();
+    return this.props.countryListFetch()
+      .then(() => {
+        return this.props.countriesExistingFetch();
+      });
   }
 
   handleCreateCountry(country) {
@@ -45,7 +48,7 @@ class Landing extends React.Component {
 
   render() {
     const { redirect } = this.state;
-    const { countryList } = this.props;
+    const { countryList, countriesExisting } = this.props;
 
     if (countryList) {
       countryList.sort((x, y) => {
@@ -57,6 +60,7 @@ class Landing extends React.Component {
 
     return (
       <div className="landing">
+        <p>Tracking { countriesExisting.length } countries and territories.</p>
         <SelectMenu 
           onClick={ this.handleSearch } 
           onChange={ this.handleChange }
@@ -79,7 +83,9 @@ class Landing extends React.Component {
 
 Landing.propTypes = {
   countryList: PropTypes.array,
+  countriesExisting: PropTypes.array,
   countryListFetch: PropTypes.func,
+  countriesExistingFetch: PropTypes.func,
   countryCreate: PropTypes.func,
   history: PropTypes.object,
   selected: PropTypes.string,
@@ -88,13 +94,15 @@ Landing.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    countryList: state.countries,
+    countryList: state.countries.countries,
+    countriesExisting: state.countries.existing,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   countryListFetch: () => dispatch(countryActions.countryListGetRequest()),
   countryCreate: country => dispatch(countryActions.countryCreateRequest(country)),
+  countriesExistingFetch: () => dispatch(countryActions.countriesExistingFetch()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Landing);

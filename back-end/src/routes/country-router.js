@@ -77,6 +77,22 @@ countryRouter.get('/countries/all', (request, response, next) => {
     .catch(next);
 });
 
+countryRouter.get('/countries/existing', (request, response) => {
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  const countries = Object.keys(data.countries);
+  const filteredCountries = countries.filter((country) => {
+    if (data.countries[country].data.geography.area.global_rank) {
+      if (!data.countries[country].data.people || !data.countries[country].data.economy) {
+        return null;
+      }
+      return country;
+    }
+    return null;
+  });
+  return response.json(filteredCountries);
+});
+
 // returns a clean array of all countries in database
 countryRouter.get('/countries/list', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);

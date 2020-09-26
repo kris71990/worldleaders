@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import autoBind from '../../utils/autoBind';
 
-import FlagForm from '../flagForm/flag-form';
+import FlagForm from '../forms/flagForm/flag-form';
+import CustomButton from '../common/button/button';
+import Divider from '../common/divider/divider';
 
 import * as routes from '../../utils/routes';
 import * as systemActions from '../../actions/systemActions';
@@ -33,12 +35,19 @@ class CountryBasic extends React.Component {
       }); 
   }
 
+  handleCreateReadablePopulation(population) {
+    const readablePopulation = Number(population).toLocaleString();
+    if (population.length > 9) return `${readablePopulation} billion`;
+    return `${readablePopulation} million`;
+  }
+
   render() {
-    const { selected } = this.props;
+    const { selected, existingCount } = this.props;
 
     let countryNameJSX = null;
     let populationJSX = null;
     let areaJSX = null;
+    let lifeExpectancyJSX = null;
     let borderingJSX = null;
     let flagJSX = null;
 
@@ -47,67 +56,93 @@ class CountryBasic extends React.Component {
         countryNameJSX = <span>{ parser.parseCountryName(selected.countryName) }</span>;
       }
 
-      populationJSX = <span>{ Number(selected.population).toLocaleString() }</span>;
-      areaJSX = <span>{ Number(selected.area).toLocaleString() }</span>;
+      if (selected.population) {
+        populationJSX = 
+          <div className="ranks">
+            <div><p>Population</p></div>
+            <div>
+              <p>{ this.handleCreateReadablePopulation(selected.population) }</p>
+              <p>{ selected.populationRank }/{ existingCount }</p>
+            </div>
+          </div>;
+      }
+
+      areaJSX = 
+        <div className="ranks">
+          <div><p>Area</p></div>
+          <div>
+            <p>{ Number(selected.area).toLocaleString() } km<sup>2</sup></p>
+            <p>{ selected.areaRank }/{ existingCount }</p>
+          </div>
+        </div>;
+      lifeExpectancyJSX = 
+        <div className="ranks">
+          <div><p>Life Expectancy</p></div>
+          <div>
+            <p>{ selected.lifeExpectancy } years</p>
+            <p>{ selected.lifeExpectancyRank }/{ existingCount }</p>
+          </div>
+        </div>;
 
       borderingJSX = 
-        <span>
-          {
-            selected.borderCountries
-              ? selected.borderCountries.map((x, i) => {
-                if (i === 0 && selected.borderCountries.length > 2) {
-                  return `${x}, `;
-                }
-                if (i === 0 && selected.borderCountries.length <= 2) return `${x} `;
-                if (i === selected.borderCountries.length - 1) return `and ${x}`;
-                return `${x}, `;
-              })
-              : null
-          }
-        </span>;
+        <div id="borders">
+          <p>Borders</p>
+          <ul>
+            {
+              selected.borderCountries
+                ? selected.borderCountries.map((borderCountry, i) => {
+                  return <li key={ i }>{ borderCountry }</li>;
+                })
+                : null
+            }
+          </ul>
+        </div>;
     }
 
     flagJSX = 
-      <span>
+      <div>
         {
           selected.flagUrl 
-            ? <img src={selected.flagUrl}></img>
-            : <FlagForm country={selected}/>
+            ? <img src={ selected.flagUrl }></img>
+            : 
+            <div>
+              <FlagForm country={ selected }/>
+              <Divider/>
+            </div>
         } 
-      </span>;
+      </div>;
       
 
     return (
       <div className="basic-info">
-        <h1>{countryNameJSX}</h1>
-        {flagJSX}
-        <p>Last Updated: {selected.lastUpdated}</p>
-        <h3>{selected.location}</h3>
-        <button onClick={this.handleUpdateSystem}>Update</button>
-        <p>
-          {
-            selected.hasLinkedSystem ?
-            <Link to=
-              {
-                { 
-                  pathname: `${routes.SYSTEM_ROUTE}-${selected.countryName}`, state: { selected: this.props.selected },
-                }
-              }>
-              Political Information</Link>
-              : 
-              <button onClick={this.handleCreateSystem}>Add system</button>
-          }
-        </p>
-        <p>Shares borders with: {borderingJSX}</p>
-        <p>-------------------</p>
-        <p>Population: {populationJSX} million 
-        <br/>Rank: {selected.populationRank}</p>
-        <p>-------------------</p>
-        <p>Area: {areaJSX} km<sup>2</sup>
-        <br/>Rank: {selected.areaRank}</p>
-        <p>-------------------</p>
-        <p>Life Expectancy: {selected.lifeExpectancy} years
-        <br/>Rank: {selected.lifeExpectancyRank}</p>
+        <div id="info-status">
+          <div><h3>{ selected.location }</h3></div>
+          <div>
+            <p>Last Updated: { selected.lastUpdated }</p>
+            { 
+              selected.hasLinkedSystem ?
+                <CustomButton action={ this.handleUpdateSystem } text='Update'/>
+                : null
+            }
+          </div>
+        </div>
+        <h1>{ countryNameJSX }</h1>
+        { flagJSX }
+        {
+          selected.hasLinkedSystem ?
+          <Link to=
+            {
+              { 
+                pathname: `${routes.SYSTEM_ROUTE}-${selected.countryName}`, state: { selected: this.props.selected },
+              }
+            }>Government</Link>
+            : 
+          <CustomButton action={ this.handleCreateSystem } text='Find political information'/>
+        }
+        { borderingJSX }
+        { populationJSX }
+        { areaJSX }
+        { lifeExpectancyJSX }
       </div>
     );
   }
@@ -116,6 +151,7 @@ class CountryBasic extends React.Component {
 CountryBasic.propTypes = {
   history: PropTypes.object,
   selected: PropTypes.object,
+  existingCount: PropTypes.number,
   systemPost: PropTypes.func,
   countryUpdate: PropTypes.func,
   countryGet: PropTypes.func,

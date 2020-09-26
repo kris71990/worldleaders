@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import autoBind from '../../utils/autoBind';
+import autoBind from '../../../utils/autoBind';
 
-import * as countryActions from '../../actions/countryActions';
-import * as photoActions from '../../actions/photoActions';
+import CustomButton from '../../common/button/button';
+
+import { parseCountryName } from '../../../utils/parser';
+import * as countryActions from '../../../actions/countryActions';
+import * as photoActions from '../../../actions/photoActions';
 import './flag-form.scss';
 
 const defaultState = {
@@ -31,15 +34,7 @@ class FlagForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const { country } = this.props;
-
-    let searchableCountryName;
-
-    if (country.countryName.includes('_')) {
-      searchableCountryName = country.countryName.split('_').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join('_');
-    } else {
-      searchableCountryName = 
-      country.countryName.charAt(0).toUpperCase() + country.countryName.slice(1);
-    }
+    const searchableCountryName = parseCountryName(country.countryName);
     
     if (this.state.flagUrl.slice(0, 29) !== 'https://upload.wikimedia.org/'
         || !this.state.flagUrl.includes('Flag') 
@@ -67,7 +62,7 @@ class FlagForm extends React.Component {
             value={ this.state.countryName }
             onChange={ this.handleChange }
           />
-          <button type="submit">Submit</button>
+          <CustomButton text='Submit'/>
           { this.state.flagUrlDirty ? 
               <p>{ this.state.flagUrlError }</p>
             : null

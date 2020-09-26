@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import * as rankingActions from '../../actions/rankingActions';
-import * as routes from '../../utils/routes';
-import * as parser from '../../utils/parser';
+import * as rankingActions from '../../../actions/rankingActions';
+import * as routes from '../../../utils/routes';
+import * as parser from '../../../utils/parser';
 
 import './population-rank.scss';
 
@@ -57,7 +57,7 @@ class PopulationRank extends React.Component {
     return (
       <div className="rankings"> 
         <h1>Population</h1>
-        <p>Most populated (in millions)</p>
+        <p>(millions)</p>
         {
           popRank ? popJSX : null
         }

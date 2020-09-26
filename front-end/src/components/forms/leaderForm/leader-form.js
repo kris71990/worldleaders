@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import autoBind from '../../utils/autoBind';
+import autoBind from '../../../utils/autoBind';
 
-import * as systemActions from '../../actions/systemActions';
-import * as photoActions from '../../actions/photoActions';
+import * as systemActions from '../../../actions/systemActions';
+import * as photoActions from '../../../actions/photoActions';
+
+import './leader-form.scss';
 
 const defaultState = {
   leaderUrl: '',
