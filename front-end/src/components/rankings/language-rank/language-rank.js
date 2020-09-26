@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import * as rankingActions from '../../actions/rankingActions';
+import * as rankingActions from '../../../actions/rankingActions';
 import './language-rank.scss';
 
 

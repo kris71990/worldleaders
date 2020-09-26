@@ -1,15 +1,36 @@
+@import '../../style/vars';
+
 .system-info {
   width: 75%;
   margin: 0 auto;
   padding-bottom: 100px;
 
-  :nth-child(2) {
-    font-size: 90%;
+  h1 {
+    text-align: center;
+    background-color: $header-border;
+    border-bottom: 2px solid $header-background;
+    padding: 10px;
+    font-size: 2.5em;
+  }
+
+  #info-status {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+
+    p {
+      margin: 5px 5px 10px 0;
+      font-style: italic;
+      font-size: 90%;
+    }
   }
   
-  ul {
-    list-style: none;
-    padding: 0;
+  #capitals {
+    ul {
+      list-style: none;
+      padding: 0;
+    }
 
     li {
       margin: 0.5em;

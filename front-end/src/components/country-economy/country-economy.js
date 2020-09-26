@@ -5,7 +5,7 @@ import './country-economy.scss';
 
 class CountryEconomy extends React.Component {
   render() {
-    const { selected } = this.props;
+    const { selected, existingCount } = this.props;
 
     let resourcesJSX = null;
     let importsJSX = null;
@@ -97,7 +97,7 @@ class CountryEconomy extends React.Component {
 
     return (
       <div className="economy">
-        <h3>Economy: { selected.gdpPPPRank }</h3>
+        <h3>Economy: { selected.gdpPPPRank } / { existingCount }</h3>
         <p>
           <a href="https://en.wikipedia.org/wiki/Purchasing_power_parity" target="_blank" rel="noopener noreferrer">(Purchasing Power Parity)</a>
         </p>
@@ -117,6 +117,7 @@ class CountryEconomy extends React.Component {
 
 CountryEconomy.propTypes = {
   selected: PropTypes.object,
+  existingCount: PropTypes.number,
 };
 
 export default CountryEconomy;

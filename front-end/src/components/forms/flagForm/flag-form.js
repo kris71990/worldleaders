@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import autoBind from '../../utils/autoBind';
+import autoBind from '../../../utils/autoBind';
 
-import CustomButton from '../common/button/button';
+import CustomButton from '../../common/button/button';
 
-import { parseCountryName } from '../../utils/parser';
-import * as countryActions from '../../actions/countryActions';
-import * as photoActions from '../../actions/photoActions';
+import { parseCountryName } from '../../../utils/parser';
+import * as countryActions from '../../../actions/countryActions';
+import * as photoActions from '../../../actions/photoActions';
 import './flag-form.scss';
 
 const defaultState = {

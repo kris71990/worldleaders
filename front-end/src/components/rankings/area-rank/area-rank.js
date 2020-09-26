@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import * as rankingActions from '../../actions/rankingActions';
-import * as routes from '../../utils/routes';
-import * as parser from '../../utils/parser';
+import * as rankingActions from '../../../actions/rankingActions';
+import * as routes from '../../../utils/routes';
+import * as parser from '../../../utils/parser';
 
 import './area-rank.scss';
 
@@ -55,7 +55,7 @@ class AreaRank extends React.Component {
     return (
       <div className="rankings"> 
         <h1>Area</h1>
-        <p>Countries ranked by area in square kilometers</p>
+        <p>(km<sup>2</sup>)</p>
         {
           areaRank ? areaJSX : null
         }

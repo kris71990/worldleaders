@@ -1,9 +1,16 @@
-export default (state = [], { type, payload }) => {
+const defaultState = {
+  countries: [],
+  existing: [],
+};
+
+export default (state = defaultState, { type, payload }) => {
   switch (type) {
+    case 'COUNTRIES_EXIST':
+      return Object.assign({}, state, { existing: payload });
     case 'COUNTRIES_FETCH':
-      return payload;
+      return Object.assign({}, state, { countries: payload });
     case 'COUNTRY_LIST_GET':
-      return payload;
+      return Object.assign({}, state, { countries: payload });
     case 'COUNTRY_CREATE': {
       const destructuredPayload = { 
         countryName: payload.countryName, 

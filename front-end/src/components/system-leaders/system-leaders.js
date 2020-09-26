@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LeaderPhotoForm from '../leaderForm/leader-form';
+
+import Divider from '../common/divider/divider';
+import LeaderPhotoForm from '../forms/leaderForm/leader-form';
 
 import './system-leaders.scss';
 
@@ -48,6 +50,7 @@ class SystemLeaders extends React.Component {
                     })
                   }
                 </ul>
+                <Divider/>
                 <LeaderPhotoForm 
                   system={ selected } 
                   type={ 'hog' } 
@@ -94,6 +97,7 @@ class SystemLeaders extends React.Component {
                   })
                 }
                 </ul>
+                <Divider/>
                 <LeaderPhotoForm 
                   system={ selected } 
                   type={ 'hos' } 

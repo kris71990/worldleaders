@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import autoBind from '../../utils/autoBind';
-import * as routes from '../../utils/routes';
+import autoBind from '../../../utils/autoBind';
+import * as routes from '../../../utils/routes';
 
-import * as rankingActions from '../../actions/rankingActions';
-import * as parser from '../../utils/parser';
+import * as rankingActions from '../../../actions/rankingActions';
+import * as parser from '../../../utils/parser';
 
 import './gdp-rank.scss';
 
@@ -55,9 +55,8 @@ class GDPRank extends React.Component {
 
     return (
       <div className="rankings"> 
-        <h1>Gross-Domestic Product - Purchasing Power Parity</h1>
-        <p>Countries ranked in order of GDP, with respect to 
-          <a href="https://en.wikipedia.org/wiki/Purchasing_power_parity" target="_blank" rel="noopener noreferrer"> Purchasing Power Parity (PPP)</a>
+        <h1>Gross Domestic Product</h1>
+        <p>(<a href="https://en.wikipedia.org/wiki/Purchasing_power_parity" target="_blank" rel="noopener noreferrer">Purchasing Power Parity</a>)
         </p>
         { gdpRank ? gdpJSX : null }
       </div>

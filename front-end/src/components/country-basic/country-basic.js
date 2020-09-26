@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import autoBind from '../../utils/autoBind';
 
-import FlagForm from '../flagForm/flag-form';
+import FlagForm from '../forms/flagForm/flag-form';
 import CustomButton from '../common/button/button';
 import Divider from '../common/divider/divider';
 
@@ -35,8 +35,14 @@ class CountryBasic extends React.Component {
       }); 
   }
 
+  handleCreateReadablePopulation(population) {
+    const readablePopulation = Number(population).toLocaleString();
+    if (population.length > 9) return `${readablePopulation} billion`;
+    return `${readablePopulation} million`;
+  }
+
   render() {
-    const { selected } = this.props;
+    const { selected, existingCount } = this.props;
 
     let countryNameJSX = null;
     let populationJSX = null;
@@ -50,25 +56,31 @@ class CountryBasic extends React.Component {
         countryNameJSX = <span>{ parser.parseCountryName(selected.countryName) }</span>;
       }
 
-      populationJSX = 
-        <div className="ranks">
-          <div>
-            <p>Population: { Number(selected.population).toLocaleString() } million</p>
-            <p>Rank: { selected.populationRank }</p>
-          </div>
-        </div>;
+      if (selected.population) {
+        populationJSX = 
+          <div className="ranks">
+            <div><p>Population</p></div>
+            <div>
+              <p>{ this.handleCreateReadablePopulation(selected.population) }</p>
+              <p>{ selected.populationRank }/{ existingCount }</p>
+            </div>
+          </div>;
+      }
+
       areaJSX = 
         <div className="ranks">
+          <div><p>Area</p></div>
           <div>
-            <p>Area: { Number(selected.area).toLocaleString() } km<sup>2</sup></p>
-            <p>Rank: { selected.areaRank }</p>
+            <p>{ Number(selected.area).toLocaleString() } km<sup>2</sup></p>
+            <p>{ selected.areaRank }/{ existingCount }</p>
           </div>
         </div>;
       lifeExpectancyJSX = 
         <div className="ranks">
+          <div><p>Life Expectancy</p></div>
           <div>
-            <p>Life Expectancy: { selected.lifeExpectancy } years</p>
-            <p>Rank: { selected.lifeExpectancyRank }</p>
+            <p>{ selected.lifeExpectancy } years</p>
+            <p>{ selected.lifeExpectancyRank }/{ existingCount }</p>
           </div>
         </div>;
 
@@ -139,6 +151,7 @@ class CountryBasic extends React.Component {
 CountryBasic.propTypes = {
   history: PropTypes.object,
   selected: PropTypes.object,
+  existingCount: PropTypes.number,
   systemPost: PropTypes.func,
   countryUpdate: PropTypes.func,
   countryGet: PropTypes.func,

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import * as systemActions from '../../actions/systemActions';
+import * as systemActions from '../../../actions/systemActions';
 // import * as routes from '../../utils/routes';
 import './systems-rank.scss';
 
@@ -53,7 +53,6 @@ class SystemsRank extends React.Component {
     return (
       <div className="rankings"> 
         <h1>Distribution of Political Systems</h1>
-        <p>A running tally of the types of governmental systems in the world</p>
         { systemsRankJSX }
       </div>
     );

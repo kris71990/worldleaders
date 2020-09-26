@@ -36,6 +36,8 @@ class System extends React.Component {
     const { selected } = this.props;
     let nameJSX = null;
     let capitalJSX = null;
+    let typeJSX = null;
+    let independenceJSX = null;
 
     if (selected) {
       if (selected.fullName === 'none') {
@@ -44,11 +46,27 @@ class System extends React.Component {
         nameJSX = <h1>{ parser.parseFullCountryName(selected.fullName) }</h1>;
       }
 
+      if (selected.typeOfGovernment) {
+        typeJSX = 
+          <div id="type">
+            <div><h4>Type</h4></div> 
+            <p>{ selected ? selected.typeOfGovernment : null }</p>
+          </div>;
+      }
+
+      if (selected.independence) {
+        independenceJSX = 
+          <div id="independence">
+            <div><h4>Independence</h4></div> 
+            <p>{ selected ? selected.independence : null }</p>
+          </div>;
+      }
+
       if (selected.capital) {
         capitalJSX = 
-          <div>
-            <h4>Capital: </h4>
-            <ul className="capitals">
+          <div id="capitals">
+            <div><h4>Capital</h4></div>
+            <ul>
               {
                 selected.capital.map((x) => {
                   return (
@@ -63,23 +81,23 @@ class System extends React.Component {
 
     return (
       <div className="system-info">
+        <div id="info-status">
+          <div>
+            <p>Last Updated: { selected ? selected.lastUpdated : null }</p>
+            <button onClick={ this.handleUpdateSystem }>Update</button> 
+          </div>
+        </div>
         { nameJSX }
-        <p>Last Updated: { selected ? selected.lastUpdated : null }</p>
-        <button onClick={ this.handleUpdateSystem }>Update</button> 
-        <h4>Type of Government: <span>{ selected ? selected.typeOfGovernment : null }</span></h4>
-        { capitalJSX }
-        {
-          // selected ? <CapitalMap selected={selected}/> : null
-        }
-        {
-          selected ? 
-            selected.independence ? <h4>Independence: <span>{ selected.independence } </span></h4>
-              : null : null
-        }
-        <p>---------------------------------------</p>
-        <SystemLeaders selected={selected}/>
-        <p>---------------------------------------</p>
-        <SystemElections selected={selected}/>
+        <div id="basic-system-info">
+          { typeJSX }
+          { capitalJSX }
+          {
+            // selected ? <CapitalMap selected={selected}/> : null
+          }
+          { independenceJSX }
+        </div>
+        <SystemLeaders selected={ selected }/>
+        <SystemElections selected={ selected }/>
       </div>
     );
   }

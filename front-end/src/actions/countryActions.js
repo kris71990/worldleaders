@@ -41,6 +41,11 @@ const countryDelete = country => ({
   payload: country,
 });
 
+const countriesExisting = countries => ({
+  type: 'COUNTRIES_EXIST',
+  payload: countries,
+});
+
 // async actions that call backend API
 const countriesFetchRequest = () => (store) => {
   return superagent.get(`${API_URL}${routes.COUNTRY_ROUTE}/all`)
@@ -48,6 +53,14 @@ const countriesFetchRequest = () => (store) => {
       store.dispatch(countriesFetch(response.body));
       return response;
     }); 
+};
+
+const countriesExistingFetch = () => (store) => {
+  return superagent.get(`${API_URL}${routes.COUNTRY_ROUTE}/existing`)
+    .then((response) => {
+      store.dispatch(countriesExisting(response.body));
+      return response;
+    });
 };
 
 const countryListGetRequest = () => (store) => {
@@ -107,4 +120,5 @@ export {
   countryUpdateRequest, 
   countryDeleteRequest,
   countryListGetRequest,
+  countriesExistingFetch,
 };

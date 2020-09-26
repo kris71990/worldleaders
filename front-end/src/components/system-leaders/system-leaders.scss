@@ -1,9 +1,18 @@
+@import '../../style/vars';
+
 .system-leader-info {
+  padding: 20px 0;
+  border-top: 2px solid $header-background;
+  border-bottom: 2px solid $header-background;
   display: block;
   position: relative;
 
   img {
     height: 300px;
+  }
+
+  .hog ul, .hos ul {
+    list-style: none;
   }
   
   .hog {
