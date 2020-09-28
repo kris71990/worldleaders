@@ -49,23 +49,23 @@ class System extends React.Component {
       if (selected.typeOfGovernment) {
         typeJSX = 
           <div id="type">
-            <div><h4>Type</h4></div> 
-            <p>{ selected ? selected.typeOfGovernment : null }</p>
+            <h4>Type</h4>
+            <p>{ selected ? parser.capitalize(selected.typeOfGovernment) : null }</p>
           </div>;
       }
 
       if (selected.independence) {
         independenceJSX = 
           <div id="independence">
-            <div><h4>Independence</h4></div> 
-            <p>{ selected ? selected.independence : null }</p>
+            <h4>Independence</h4>
+            <p>{ selected ? parser.parseDate(selected.independence) : null }</p>
           </div>;
       }
 
       if (selected.capital) {
         capitalJSX = 
           <div id="capitals">
-            <div><h4>Capital</h4></div>
+            <h4>Capital</h4>
             <ul>
               {
                 selected.capital.map((x) => {

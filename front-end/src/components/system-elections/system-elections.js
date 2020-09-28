@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './system-elections.scss';
+
 class SystemElections extends React.Component {
   render() {
     const { selected } = this.props;
@@ -94,14 +96,19 @@ class SystemElections extends React.Component {
 
     return (
       <div className="system-election-info">
-        <h5>Election Information for Executive</h5>
-        { electionsExecJSX }
-        <h5>Most recent Election Results (Executive)</h5>
-        { electionResultsExecJSX ? electionResultsExecJSX : 'No election data' }
-        <h5>Election Information for Legislative</h5>
-        {electionsLegJSX}
-        <h5>Most recent Election Results (Legislative)</h5>
-        { electionResultsLegJSX ? electionResultsLegJSX : 'No election data' }
+        <h4>Electoral Information</h4>
+        <div id="executive">
+          <h3>Executive</h3>
+          { electionsExecJSX }
+          <h5>Most recent results</h5>
+          { electionResultsExecJSX ? electionResultsExecJSX : <p>No election data</p> }
+        </div>
+        <div id="legislative">
+          <h3>Legislative</h3>
+          { electionsLegJSX }
+          <h5>Most recent results</h5>
+          { electionResultsLegJSX ? electionResultsLegJSX : <p>No election data</p> }
+        </div>
       </div>
     );
   }

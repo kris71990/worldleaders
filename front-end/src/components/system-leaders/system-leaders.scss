@@ -13,6 +13,12 @@
 
   .hog ul, .hos ul {
     list-style: none;
+    li:first-child {
+      color: #FF0101;
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 5px;
+    }
   }
   
   .hog {

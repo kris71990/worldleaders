@@ -66,7 +66,7 @@ class LeaderPhotoForm extends React.Component {
   render() {
     return (
       <div className="leader-container">
-        <h4>{ 'Enter Url of leader picture:' }</h4>
+        <h5>{ 'Enter Url of leader photo:' }</h5>
         <form className="leader-form" onSubmit={ this.handleSubmit }>
           <input
             className="leader-url"

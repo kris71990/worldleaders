@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import * as systemActions from '../../../actions/systemActions';
-// import * as routes from '../../utils/routes';
+import { capitalize } from '../../../utils/parser';
 import './systems-rank.scss';
 
 
@@ -36,12 +36,14 @@ class SystemsRank extends React.Component {
               const systemUrl = `https://en.wikipedia.org/wiki/${x}`;
 
               return (
-                <li key={x} className={className}>
+                <li key={x} className={ className }>
                   {
-                    <p className="country-ranking">{systemsRank[x]}</p>
+                    <p className="country-ranking">{ systemsRank[x] }</p>
                   }
                   {
-                    <p className="country-name"><a target="_blank" rel="noopener noreferrer" href={systemUrl}>{x}</a></p>
+                    <p className="country-name">
+                      <a target="_blank" rel="noopener noreferrer" href={ systemUrl }>{ capitalize(x) }</a>
+                    </p>
                   }
                 </li>
               );
