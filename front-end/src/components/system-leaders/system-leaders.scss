@@ -4,12 +4,8 @@
   padding: 20px 0;
   border-top: 2px solid $header-background;
   border-bottom: 2px solid $header-background;
-  display: block;
-  position: relative;
-
-  img {
-    height: 300px;
-  }
+  display: flex;
+  flex-direction: row;
 
   .hog ul, .hos ul {
     list-style: none;
@@ -21,17 +17,12 @@
     }
   }
   
-  .hog {
+  .hog, .hos {
+    img {
+      height: 300px;
+    }
+    
     width: 49%;
     height: 100%;
-    display: inline-block;
-    vertical-align: top;
-  }
-
-  .hos {
-    width: 49%;
-    height: 100%;
-    display: inline-block;
-    vertical-align: top;
   }
 }
