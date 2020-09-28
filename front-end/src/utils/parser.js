@@ -10,6 +10,18 @@ const parseFullCountryName = (fullName) => {
   return fullName;
 };
 
+const capitalize = (string) => {
+  const splitStr = string.split(' ');
+  if (splitStr.length > 1) {
+    return splitStr.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+  }
+  return splitStr[0].charAt(0).toUpperCase() + splitStr.slice(1);
+};
+
+const parseDate = (date) => {
+  return new Date(date).toDateString();
+};
+
 const parseElectionDates = (dates) => {
   if (dates === 'unknown') return 'Unknown';
   if (dates.length > 1) {
@@ -44,5 +56,5 @@ const sortElectionDates = (elections, type) => {
 };
 
 export { 
-  parseCountryName, parseFullCountryName, parseElectionDates, sortElectionDates,
+  parseCountryName, parseFullCountryName, parseElectionDates, sortElectionDates, capitalize, parseDate,
 };

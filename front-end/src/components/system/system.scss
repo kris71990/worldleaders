@@ -5,10 +5,16 @@
   margin: 0 auto;
   padding-bottom: 100px;
 
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
   h1 {
     text-align: center;
     background-color: $header-border;
-    border-bottom: 2px solid $header-background;
+    border-left: 20px solid $header-background;
+    border-right: 20px solid $header-background;
     padding: 10px;
     font-size: 2.5em;
   }
@@ -26,15 +32,10 @@
     }
   }
   
-  #capitals {
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      margin: 0.5em;
-    }
+  #basic-system-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
   }
 
   span {
@@ -42,6 +43,6 @@
   }
 
   h4 {
-    margin: 1%;
+    text-decoration: underline;
   }
 }

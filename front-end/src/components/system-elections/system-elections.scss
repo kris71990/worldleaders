@@ -1,0 +1,22 @@
+.system-election-info {
+  #executive, #legislative {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    background-color: #E1CFB2;
+    padding: 0 10px;
+
+    h3 {
+      border-bottom: 1px solid black;
+    }
+
+    h5 {
+      margin-bottom: 0;
+    }
+
+    ul {
+      li {
+        padding: 5px;
+      }
+    }
+  }
+}

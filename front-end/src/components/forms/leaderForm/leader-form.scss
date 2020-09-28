@@ -1,3 +1,11 @@
+@import '../../../style/vars';
+
 .leader-container {
   margin: 20px;
+
+  form {
+    p {
+      color: $error;
+    }
+  }
 }

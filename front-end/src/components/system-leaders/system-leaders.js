@@ -75,7 +75,7 @@ class SystemLeaders extends React.Component {
               selected.chiefOfStateImg 
                 ? 
               <div>
-                <img src={selected.chiefOfStateImg}></img>
+                <img src={ selected.chiefOfStateImg }></img>
                 <ul>
                 {
                   arr.map((x, i) => {

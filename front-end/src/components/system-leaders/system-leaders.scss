@@ -4,28 +4,25 @@
   padding: 20px 0;
   border-top: 2px solid $header-background;
   border-bottom: 2px solid $header-background;
-  display: block;
-  position: relative;
-
-  img {
-    height: 300px;
-  }
+  display: flex;
+  flex-direction: row;
 
   .hog ul, .hos ul {
     list-style: none;
+    li:first-child {
+      color: #FF0101;
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 5px;
+    }
   }
   
-  .hog {
+  .hog, .hos {
+    img {
+      height: 300px;
+    }
+    
     width: 49%;
     height: 100%;
-    display: inline-block;
-    vertical-align: top;
-  }
-
-  .hos {
-    width: 49%;
-    height: 100%;
-    display: inline-block;
-    vertical-align: top;
   }
 }
