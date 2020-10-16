@@ -9,6 +9,7 @@ import bluebird from 'bluebird';
 import HttpError from 'http-errors';
 
 import logger from './logger';
+import typeDefs from '../models/country-schema';
 import countryRouter from '../routes/country-router';
 import govSystemRouter from '../routes/gov-system-router';
 import rankingsRouter from '../routes/rankings-router';
@@ -19,6 +20,7 @@ mongoose.Promise = bluebird;
 
 const app = express();
 let server = null;
+// server = new ApolloServer ({ typeDefs });
 
 app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
 
