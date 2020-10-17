@@ -1,33 +1,34 @@
 'use strict';
 
 import express from 'express';
-import { ApolloServer, gql } from 'apollo-server-express';
-
-import cors from 'cors';
+import { ApolloServer } from 'apollo-server-express';
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
+// import cors from 'cors';
 import HttpError from 'http-errors';
 
-import logger from './logger';
 import typeDefs from '../models/country-schema';
-import countryRouter from '../routes/country-router';
-import govSystemRouter from '../routes/gov-system-router';
-import rankingsRouter from '../routes/rankings-router';
-import photoRouter from '../routes/photo-router';
+import resolvers from '../resolvers';
+import CountryAPI from '../datasources/country';
+
+import logger from './logger';
+// import countryRouter from '../routes/country-router';
+// import govSystemRouter from '../routes/gov-system-router';
+// import rankingsRouter from '../routes/rankings-router';
+// import photoRouter from '../routes/photo-router';
 import errorMiddleware from './error-middleware';
 
-mongoose.Promise = bluebird;
+mongoose.promise = bluebird;
 
 const app = express();
 let server = null;
-// server = new ApolloServer ({ typeDefs });
 
-app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
+// app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
 
-app.use(rankingsRouter);
-app.use(countryRouter);
-app.use(photoRouter);
-app.use(govSystemRouter);
+// app.use(rankingsRouter);
+// app.use(countryRouter);
+// app.use(photoRouter);
+// app.use(govSystemRouter);
 
 app.all('*', (request, response) => {
   logger.log(logger.INFO, '404 - not found from catch-all');
@@ -43,8 +44,18 @@ const startServer = () => {
     useUnifiedTopology: true,
   })
     .then(() => {
-      server = app.listen(process.env.PORT, () => {
-        logger.log(logger.INFO, `Server listening on port ${process.env.PORT}`);
+      server = new ApolloServer({ 
+        introspection: true,
+        playground: true,
+        typeDefs,
+        resolvers,
+        dataSources: () => ({
+          countryAPI: new CountryAPI(),
+        }),
+      });
+      server.applyMiddleware({ app });
+      app.listen({ port: process.env.PORT }, () => {
+        logger.log(logger.INFO, `Server listening on port ${process.env.PORT}${server.graphqlPath}`);
       });
     })
     .catch(() => {

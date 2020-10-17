@@ -14,6 +14,7 @@ const typeDefs = gql`
   }
 
   type Country {
+    _id: String
     countryName: String!
     location: String
     area: String
