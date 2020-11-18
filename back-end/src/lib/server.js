@@ -7,7 +7,8 @@ import bluebird from 'bluebird';
 // import cors from 'cors';
 import HttpError from 'http-errors';
 
-import typeDefs from '../models/country-schema';
+import countryTypeDefs from '../models/country-schema';
+import systemTypeDefs from '../models/system-schema';
 import resolvers from '../resolvers';
 import CountryAPI from '../datasources/country';
 
@@ -47,7 +48,8 @@ const startServer = () => {
       server = new ApolloServer({ 
         introspection: true,
         playground: true,
-        typeDefs,
+        countryTypeDefs,
+        systemTypeDefs,
         resolvers,
         dataSources: () => ({
           countryAPI: new CountryAPI(),
