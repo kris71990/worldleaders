@@ -7,10 +7,10 @@ import bluebird from 'bluebird';
 // import cors from 'cors';
 import HttpError from 'http-errors';
 
-import countryTypeDefs from '../models/country-schema';
-import systemTypeDefs from '../models/system-schema';
-import resolvers from '../resolvers';
-import CountryAPI from '../datasources/country';
+import countryTypeDefs from '../graphql/schemas/country-schema';
+import systemTypeDefs from '../graphql/schemas/system-schema';
+import resolvers from '../graphql/resolvers';
+import CountryAPI from '../graphql/datasources/country';
 
 import logger from './logger';
 // import countryRouter from '../routes/country-router';
