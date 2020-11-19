@@ -7,10 +7,12 @@ import bluebird from 'bluebird';
 // import cors from 'cors';
 import HttpError from 'http-errors';
 
+import baseTypeDefs from '../graphql/schemas/base-defs';
 import countryTypeDefs from '../graphql/schemas/country-schema';
 import systemTypeDefs from '../graphql/schemas/system-schema';
 import resolvers from '../graphql/resolvers';
 import CountryAPI from '../graphql/datasources/country';
+import SystemAPI from '../graphql/datasources/system';
 
 import logger from './logger';
 // import countryRouter from '../routes/country-router';
@@ -48,11 +50,11 @@ const startServer = () => {
       server = new ApolloServer({ 
         introspection: true,
         playground: true,
-        countryTypeDefs,
-        systemTypeDefs,
+        typeDefs: [baseTypeDefs, countryTypeDefs, systemTypeDefs],
         resolvers,
         dataSources: () => ({
           countryAPI: new CountryAPI(),
+          systemAPI: new SystemAPI(),
         }),
       });
       server.applyMiddleware({ app });
@@ -62,7 +64,7 @@ const startServer = () => {
     })
     .catch(() => {
       logger.log(logger.ERROR, 'Server failed to start');
-      throw new HttpError(400, 'Error starting server');
+      return new HttpError(400, 'Error starting server');
     });
 };
 

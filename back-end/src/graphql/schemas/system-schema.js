@@ -3,14 +3,14 @@
 import { gql } from 'apollo-server-express';
 
 const typeDefs = gql`
-  type Query {
+  extend type Query {
     systems: [System]!
     system(_id: ID!): System
   }
 
-  type Mutation {
+  extend type Mutation {
     createSystem(countryId: ID!, countryName: String!): System
-    editCountry(_id: ID!): System
+    editSystem(_id: ID!): System
   }
 
   type System {
@@ -18,23 +18,23 @@ const typeDefs = gql`
     countryId: String!
     countryName: String!
     capital: [String]
-    capitalCoordinates: [[Number]]
+    capitalCoordinates: [[Int]]
     independence: String
     fullName: String
-    chiefOfStateFull: String,
-    headOfGovernmentFull: String,
-    chiefOfStateKeywords: [String],
-    headOfGovernmentKeywords: [String],
-    chiefOfStateImg: String,
-    headOfGovernmentImg: String,
-    electionDates: [DateSchema],
-    electionsExec: String,
-    electionResultsExec: String,
-    electionsLeg: String,
-    electionResultsLeg: String,
-    typeOfGovernment: String,
-    typeOfGovernmentFull: String,
-    lastUpdated: String,
+    chiefOfStateFull: String
+    headOfGovernmentFull: String
+    chiefOfStateKeywords: [String]
+    headOfGovernmentKeywords: [String]
+    chiefOfStateImg: String
+    headOfGovernmentImg: String
+    electionDates: [DateSchema]
+    electionsExec: String
+    electionResultsExec: String
+    electionsLeg: String
+    electionResultsLeg: String
+    typeOfGovernment: String
+    typeOfGovernmentFull: String
+    lastUpdated: String
   }
 
   type DateSchema {
