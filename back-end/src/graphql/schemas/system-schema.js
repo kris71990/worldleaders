@@ -14,7 +14,7 @@ const typeDefs = gql`
   }
 
   type System {
-    _id: String
+    _id: ID!
     countryId: String!
     countryName: String!
     capital: [String]

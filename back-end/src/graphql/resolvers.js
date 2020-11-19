@@ -3,7 +3,7 @@
 export default {
   Query: {
     countries: (_, __, { dataSources }) => dataSources.countryAPI.getAllCountries(),
-    country: (_, { id }, { dataSources }) => dataSources.countryAPI.getCountry({ id }),
+    country: (_, { _id }, { dataSources }) => dataSources.countryAPI.getCountry({ _id }),
     systems: (_, __, { dataSources }) => dataSources.systemAPI.getAllSystems(),
   },
 };

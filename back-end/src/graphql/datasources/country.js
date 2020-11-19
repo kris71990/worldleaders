@@ -1,6 +1,12 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
 
 export default class CountryAPI extends RESTDataSource {
+  constructor({ connection }) {
+    super();
+    this.store = connection;
+    this.baseURL = `http://localhost:${process.env.PORT}`;
+  }
+
   countryReducer(country) {
     return {
       _id: country._id,
@@ -68,8 +74,14 @@ export default class CountryAPI extends RESTDataSource {
   //   );
   // }
 
-  // async getCountry({ id }) {
-  //   const response = await this.get('/country', { _id: id });
-  //   return this.countryReducer(response[0]);
-  // }
+  getCountry({ _id }) {
+    return this.get(`/country/${_id}`)
+      .then((response) => {
+        return (
+          Array.isArray(response) 
+            ? response.map(country => this.countryReducer(country))
+            : []
+        );
+      });
+  }
 }

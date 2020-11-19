@@ -24,14 +24,25 @@ import errorMiddleware from './error-middleware';
 mongoose.promise = bluebird;
 
 const app = express();
-let server = null;
 
-// app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
+const connection = mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+});
 
-// app.use(rankingsRouter);
-// app.use(countryRouter);
-// app.use(photoRouter);
-// app.use(govSystemRouter);
+const server = new ApolloServer({ 
+  introspection: true,
+  playground: true,
+  typeDefs: [baseTypeDefs, countryTypeDefs, systemTypeDefs],
+  resolvers,
+  dataSources: () => ({
+    countryAPI: new CountryAPI({ connection }),
+    systemAPI: new SystemAPI({ connection }),
+  }),
+});
+
+server.applyMiddleware({ app });
 
 app.all('*', (request, response) => {
   logger.log(logger.INFO, '404 - not found from catch-all');
@@ -41,31 +52,19 @@ app.all('*', (request, response) => {
 app.use(errorMiddleware);
 
 const startServer = () => {
-  return mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  })
-    .then(() => {
-      server = new ApolloServer({ 
-        introspection: true,
-        playground: true,
-        typeDefs: [baseTypeDefs, countryTypeDefs, systemTypeDefs],
-        resolvers,
-        dataSources: () => ({
-          countryAPI: new CountryAPI(),
-          systemAPI: new SystemAPI(),
-        }),
-      });
-      server.applyMiddleware({ app });
-      app.listen({ port: process.env.PORT }, () => {
-        logger.log(logger.INFO, `Server listening on port ${process.env.PORT}${server.graphqlPath}`);
-      });
-    })
-    .catch(() => {
-      logger.log(logger.ERROR, 'Server failed to start');
-      return new HttpError(400, 'Error starting server');
-    });
+  // return mongoose.connect(process.env.MONGODB_URI, {
+  //   useNewUrlParser: true,
+  //   useCreateIndex: true,
+  //   useUnifiedTopology: true,
+  // })
+  // .then(() => {
+  app.listen({ port: process.env.PORT }, () => {
+    logger.log(logger.INFO, `Server listening on port ${process.env.PORT}${server.graphqlPath}`);
+  });
+  // .catch(() => {
+  //   logger.log(logger.ERROR, 'Server failed to start');
+  //   return new HttpError(400, 'Error starting server');
+  // });
 };
 
 const stopServer = () => {

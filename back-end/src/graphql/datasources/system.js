@@ -47,17 +47,17 @@ export default class SystemAPI extends RESTDataSource {
       });
   }
 
-  // async getExistingCountries() {
-  //   const response = await this.get('/countries/existing');
+  // async getElections() {
+  //   const response = await this.get('/systems/elections');
   //   return (
   //     Array.isArray(response)
-  //       ? response.map(country => this.countryReducer(country))
+  //       ? response.map(system => this.systemReducer(system))
   //       : []
   //   );
   // }
 
-  // async getCountry({ id }) {
-  //   const response = await this.get('/country', { _id: id });
-  //   return this.countryReducer(response[0]);
+  // async getSystem({ country }) {
+  //   const response = await this.get('/country', { countryName: country });
+  //   return this.systemReducer(response[0]);
   // }
 }
