@@ -94,6 +94,7 @@ countryRouter.get('/countries/existing', (request, response) => {
 });
 
 // returns a clean array of all countries in database
+// *** obsolete with graphql ***
 countryRouter.get('/countries/list', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 

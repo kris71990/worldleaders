@@ -93,6 +93,7 @@ govSystemRouter.get('/systems/all', (request, response, next) => {
     .catch(next);
 });
 
+// *** obsolete with graphql ***
 govSystemRouter.get('/systems/elections', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 

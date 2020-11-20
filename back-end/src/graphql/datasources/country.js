@@ -21,36 +21,12 @@ export default class CountryAPI extends RESTDataSource {
       borderCountries: country.borderCountries,
       naturalResources: country.naturalResources,
       ethnicities: country.ethnicities,
-      // {
-      //   name: country.ethnicities.name,
-      //   percent: country.ethnicities.percent,
-      // },
       languages: country.languages,
-      // {
-      //   name: country.languages.name,
-      //   note: country.languages.note,
-      // },
       religions: country.religions,
-      // {
-      //   name: country.religions.name,
-      //   percent: country.religions.percent,
-      //   breakdown: {
-      //     name: country.religions.breakdown.name,
-      //     percent: country.religions.breakdown.percent,
-      //   },
-      // },
       exports: country.exports,
       exportPartners: country.exportPartners,
-      // {
-      //   name: country.exportPartners.name,
-      //   percent: country.exportPartners.percent,
-      // },
       imports: country.imports,
       importPartners: country.importPartners,
-      // {
-      //   name: country.importPartners.name,
-      //   percent: country.importPartners.percent,
-      // },
       typeOfGovernment: country.typeOfGovernment,
       hasLinkedSystem: country.hasLinkedSystem,
       flagUrl: country.flagUrl,

@@ -4,31 +4,12 @@ import { gql } from 'apollo-server-express';
 
 const typeDefs = gql`
   extend type Query {
-    systems: SystemCount
     system(country: String!): System
   }
 
   extend type Mutation {
     createSystem(countryId: ID!, countryName: String!): System
     editSystem(_id: ID!): System
-  }
-
-  type SystemCount {
-    dictatorship: Int
-    communistState: Int
-    parliamentaryDemocracy: Int
-    presidentialDemocracy: Int
-    democracy: Int
-    parliamentaryRepublic: Int
-    presidentialRepublic: Int
-    constitutionalRepublic: Int
-    theocraticRepublic: Int
-    republic: Int
-    parliamentaryMonarchy: Int
-    constitutionalMonarchy: Int
-    presidentialFederation: Int
-    federation: Int
-    unknown: Int
   }
 
   type System {

@@ -24,12 +24,6 @@ mongoose.promise = bluebird;
 
 const app = express();
 
-// const dbConnection = mongoose.connect(process.env.MONGODB_URI, {
-//   useNewUrlParser: true,
-//   useCreateIndex: true,
-//   useUnifiedTopology: true,
-// });
-
 const server = new ApolloServer({ 
   introspection: true,
   playground: true,
