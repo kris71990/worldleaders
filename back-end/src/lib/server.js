@@ -1,10 +1,18 @@
 'use strict';
 
 import express from 'express';
-import cors from 'cors';
+import { ApolloServer } from 'apollo-server-express';
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 import HttpError from 'http-errors';
+
+import baseTypeDefs from '../graphql/schemas/base-defs';
+import countryTypeDefs from '../graphql/schemas/country-schema';
+import systemTypeDefs from '../graphql/schemas/system-schema';
+import resolvers from '../graphql/resolvers';
+import CountryAPI from '../graphql/datasources/country';
+import SystemAPI from '../graphql/datasources/system';
+
 import logger from './logger';
 import countryRouter from '../routes/country-router';
 import govSystemRouter from '../routes/gov-system-router';
@@ -12,17 +20,27 @@ import rankingsRouter from '../routes/rankings-router';
 import photoRouter from '../routes/photo-router';
 import errorMiddleware from './error-middleware';
 
-mongoose.Promise = bluebird;
+mongoose.promise = bluebird;
 
 const app = express();
-let server = null;
 
-app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
+const server = new ApolloServer({ 
+  introspection: true,
+  playground: true,
+  typeDefs: [baseTypeDefs, countryTypeDefs, systemTypeDefs],
+  resolvers,
+  dataSources: () => ({
+    countryAPI: new CountryAPI(),
+    systemAPI: new SystemAPI(),
+  }),
+});
 
 app.use(rankingsRouter);
 app.use(countryRouter);
 app.use(photoRouter);
 app.use(govSystemRouter);
+
+server.applyMiddleware({ app });
 
 app.all('*', (request, response) => {
   logger.log(logger.INFO, '404 - not found from catch-all');
@@ -38,8 +56,8 @@ const startServer = () => {
     useUnifiedTopology: true,
   })
     .then(() => {
-      server = app.listen(process.env.PORT, () => {
-        logger.log(logger.INFO, `Server listening on port ${process.env.PORT}`);
+      app.listen({ port: process.env.PORT }, () => {
+        logger.log(logger.INFO, `Server listening on port ${process.env.PORT}${server.graphqlPath}`);
       });
     })
     .catch(() => {

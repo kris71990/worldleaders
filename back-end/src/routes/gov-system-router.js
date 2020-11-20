@@ -81,7 +81,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
     .catch(next);
 });
 
-govSystemRouter.get('/systems-all', (request, response, next) => {
+govSystemRouter.get('/systems/all', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return System.find()
@@ -93,7 +93,8 @@ govSystemRouter.get('/systems-all', (request, response, next) => {
     .catch(next);
 });
 
-govSystemRouter.get('/systems-elections', (request, response, next) => {
+// *** obsolete with graphql ***
+govSystemRouter.get('/systems/elections', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return System.find()
