@@ -66,26 +66,26 @@ const countSystems = (systems) => {
         break;
       }
       case 'communist state': {
-        if (countedSystems['communist state']) {
-          countedSystems['communist state'] += 1;
+        if (countedSystems.communistState) {
+          countedSystems.communistState += 1;
         } else {
-          countedSystems['communist state'] = 1;
+          countedSystems.communistState = 1;
         }
         break;
       }
       case 'parliamentary democracy': {
-        if (countedSystems['parliamentary democracy']) {
-          countedSystems['parliamentary democracy'] += 1;
+        if (countedSystems.parliamentaryDemocracy) {
+          countedSystems.parliamentaryDemocracy += 1;
         } else {
-          countedSystems['parliamentary democracy'] = 1;
+          countedSystems.parliamentaryDemocracy = 1;
         }
         break;
       }
       case 'presidential democracy': {
-        if (countedSystems['presidential democracy']) {
-          countedSystems['presidential democracy'] += 1;
+        if (countedSystems.presidentialDemocracy) {
+          countedSystems.presidentialDemocracy += 1;
         } else {
-          countedSystems['presidential democracy'] = 1;
+          countedSystems.presidentialDemocracy = 1;
         }
         break;
       }
@@ -98,34 +98,34 @@ const countSystems = (systems) => {
         break;
       }
       case 'parliamentary republic': {
-        if (countedSystems['parliamentary republic']) {
-          countedSystems['parliamentary republic'] += 1;
+        if (countedSystems.parliamentaryRepublic) {
+          countedSystems.parliamentaryRepublic += 1;
         } else {
-          countedSystems['parliamentary republic'] = 1;
+          countedSystems.parliamentaryRepublic = 1;
         }
         break;
       }
       case 'presidential republic': {
-        if (countedSystems['presidential republic']) {
-          countedSystems['presidential republic'] += 1;
+        if (countedSystems.presidentialRepublic) {
+          countedSystems.presidentialRepublic += 1;
         } else {
-          countedSystems['presidential republic'] = 1;
+          countedSystems.presidentialRepublic = 1;
         }
         break;
       }
       case 'constitutional republic': {
-        if (countedSystems['constitutional republic']) {
-          countedSystems['constitutional republic'] += 1;
+        if (countedSystems.constitutionalRepublic) {
+          countedSystems.constitutionalRepublic += 1;
         } else {
-          countedSystems['constitutional republic'] = 1;
+          countedSystems.constitutionalRepublic = 1;
         }
         break;
       }
       case 'theocratic republic': {
-        if (countedSystems['theocratic republic']) {
-          countedSystems['theocratic republic'] += 1;
+        if (countedSystems.theocraticRepublic) {
+          countedSystems.theocraticRepublic += 1;
         } else {
-          countedSystems['theocratic republic'] = 1;
+          countedSystems.theocraticRepublic = 1;
         }
         break;
       }
@@ -138,26 +138,26 @@ const countSystems = (systems) => {
         break;
       }
       case 'parliamentary monarchy': {
-        if (countedSystems['parliamentary monarchy']) {
-          countedSystems['parliamentary monarchy'] += 1;
+        if (countedSystems.parliamentaryMonarchy) {
+          countedSystems.parliamentaryMonarchy += 1;
         } else {
-          countedSystems['parliamentary monarchy'] = 1;
+          countedSystems.parliamentaryMonarchy = 1;
         }
         break;
       }
       case 'constitutional monarchy': {
-        if (countedSystems['constitutional monarchy']) {
-          countedSystems['constitutional monarchy'] += 1;
+        if (countedSystems.constitutionalMonarchy) {
+          countedSystems.constitutionalMonarchy += 1;
         } else {
-          countedSystems['constitutional monarchy'] = 1;
+          countedSystems.constitutionalMonarchy = 1;
         }
         break;
       }
       case 'presidential federation': {
-        if (countedSystems['presidential federation']) {
-          countedSystems['presidential federation'] += 1;
+        if (countedSystems.presidentialFederation) {
+          countedSystems.presidentialFederation += 1;
         } else {
-          countedSystems['presidential federation'] = 1;
+          countedSystems.presidentialFederation = 1;
         }
         break;
       }

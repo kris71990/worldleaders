@@ -1,6 +1,11 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
 
 export default class SystemAPI extends RESTDataSource {
+  constructor() {
+    super();
+    this.baseURL = `http://localhost:${process.env.PORT}`;
+  }
+
   systemReducer(system) {
     return {
       _id: system._id,
@@ -16,16 +21,7 @@ export default class SystemAPI extends RESTDataSource {
       headOfGovernmentKeywords: system.headOfGovernmentKeywords,
       chiefOfStateImg: system.chiefOfStateImg,
       headOfGovernmentImg: system.headOfGovernmentFull,
-      electionDates: {
-        exec: {
-          next: system.electionDates.exec.next,
-          last: system.electionDates.exec.last,
-        },
-        leg: {
-          next: system.electionDates.leg.next,
-          last: system.electionDates.leg.last,
-        },
-      },
+      electionDates: system.electionDates,
       electionsExec: system.electionsExec,
       electionResultsExec: system.electionResultsExec,
       electionsLeg: system.electionsLeg,
@@ -36,14 +32,40 @@ export default class SystemAPI extends RESTDataSource {
     };
   }
 
-  getAllSystems() {
+  systemTypesReducer(count) {
+    return {
+      dictatorship: count.dictatorship,
+      communistState: count.communistState,
+      parliamentaryDemocracy: count.parliamentaryDemocracy,
+      presidentialDemocracy: count.presidentialDemocracy,
+      democracy: count.democracy,
+      parliamentaryRepublic: count.parliamentaryRepublic,
+      presidentialRepublic: count.presidentialRepublic,
+      constitutionalRepublic: count.constitutionalRepublic,
+      theocraticRepublic: count.theocraticRepublic,
+      republic: count.republic,
+      parliamentaryMonarchy: count.parliamentaryMonarchy,
+      constitutionalMonarchy: count.constitutionalMonarchy,
+      presidentialFederation: count.presidentialFederation,
+      federation: count.federation,
+      unknown: count.unknown,
+    };
+  }
+
+  // get one system by country name
+  getSystem(country) {
+    return this.get(`/system/${country}`)
+      .then((responseSystem) => {
+        return this.systemReducer(responseSystem);
+      });
+  }
+
+  // get number of systems of a type
+  getSystemCount() {
     return this.get('/systems/all')
-      .then((response) => {
-        return (
-          Array.isArray(response) 
-            ? response.map(system => this.systemReducer(system))
-            : []
-        );
+      .then((responseSystems) => {
+        console.log(responseSystems);
+        return this.systemTypesReducer(responseSystems);
       });
   }
 
@@ -54,10 +76,5 @@ export default class SystemAPI extends RESTDataSource {
   //       ? response.map(system => this.systemReducer(system))
   //       : []
   //   );
-  // }
-
-  // async getSystem({ country }) {
-  //   const response = await this.get('/country', { countryName: country });
-  //   return this.systemReducer(response[0]);
   // }
 }

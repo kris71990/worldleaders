@@ -4,8 +4,8 @@ import { gql } from 'apollo-server-express';
 
 const typeDefs = gql`
   extend type Query {
-    countries: [Country]!
-    country(_id: ID!): Country
+    countries: [Country]
+    country(_id: String!): Country
   }
 
   extend type Mutation {
@@ -14,7 +14,7 @@ const typeDefs = gql`
   }
 
   type Country {
-    _id: ID!
+    _id: String!
     countryName: String!
     location: String
     area: String
@@ -40,28 +40,28 @@ const typeDefs = gql`
   }
   
   type Ethnicity {
-    name: String!
+    name: String
     percent: Float
   }
 
   type Language {
-    name: String!
+    name: String
     note: String
   }
 
   type Religion {
-    name: String!
+    name: String
     percent: Float
     breakdown: [ReligionBreakdown]
   }
 
   type ReligionBreakdown {
-    name: String!
+    name: String
     percent: Float
   }
 
   type Partner {
-    name: String!
+    name: String
     percent: Float
   }
 `;

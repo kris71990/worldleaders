@@ -1,9 +1,8 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
 
 export default class CountryAPI extends RESTDataSource {
-  constructor({ connection }) {
+  constructor() {
     super();
-    this.store = connection;
     this.baseURL = `http://localhost:${process.env.PORT}`;
   }
 
@@ -21,32 +20,37 @@ export default class CountryAPI extends RESTDataSource {
       gdpPPPRank: country.gdpPPPRank,
       borderCountries: country.borderCountries,
       naturalResources: country.naturalResources,
-      ethnicities: {
-        name: country.ethnicities.name,
-        percent: country.ethnicities.percent,
-      },
-      languages: {
-        name: country.languages.name,
-        note: country.languages.note,
-      },
-      religions: {
-        name: country.religions.name,
-        percent: country.religions.percent,
-        breakdown: {
-          name: country.religions.breakdown.name,
-          percent: country.religions.breakdown.percent,
-        },
-      },
+      ethnicities: country.ethnicities,
+      // {
+      //   name: country.ethnicities.name,
+      //   percent: country.ethnicities.percent,
+      // },
+      languages: country.languages,
+      // {
+      //   name: country.languages.name,
+      //   note: country.languages.note,
+      // },
+      religions: country.religions,
+      // {
+      //   name: country.religions.name,
+      //   percent: country.religions.percent,
+      //   breakdown: {
+      //     name: country.religions.breakdown.name,
+      //     percent: country.religions.breakdown.percent,
+      //   },
+      // },
       exports: country.exports,
-      exportPartners: {
-        name: country.exportPartners.name,
-        percent: country.exportPartners.percent,
-      },
+      exportPartners: country.exportPartners,
+      // {
+      //   name: country.exportPartners.name,
+      //   percent: country.exportPartners.percent,
+      // },
       imports: country.imports,
-      importPartners: {
-        name: country.importPartners.name,
-        percent: country.importPartners.percent,
-      },
+      importPartners: country.importPartners,
+      // {
+      //   name: country.importPartners.name,
+      //   percent: country.importPartners.percent,
+      // },
       typeOfGovernment: country.typeOfGovernment,
       hasLinkedSystem: country.hasLinkedSystem,
       flagUrl: country.flagUrl,
@@ -54,14 +58,23 @@ export default class CountryAPI extends RESTDataSource {
     };
   }
 
+  // get all countries in database
   getAllCountries() {
     return this.get('/countries/all')
-      .then((response) => {
+      .then((responseCountries) => {
         return (
-          Array.isArray(response) 
-            ? response.map(country => this.countryReducer(country))
+          Array.isArray(responseCountries) 
+            ? responseCountries.map(country => this.countryReducer(country))
             : []
         );
+      });
+  }
+
+  // get one country by id
+  getCountry(_id) {
+    return this.get(`/countries/${_id}`)
+      .then((responseCountry) => {
+        return this.countryReducer(responseCountry);
       });
   }
 
@@ -73,15 +86,4 @@ export default class CountryAPI extends RESTDataSource {
   //       : []
   //   );
   // }
-
-  getCountry({ _id }) {
-    return this.get(`/country/${_id}`)
-      .then((response) => {
-        return (
-          Array.isArray(response) 
-            ? response.map(country => this.countryReducer(country))
-            : []
-        );
-      });
-  }
 }
