@@ -40,6 +40,17 @@ export default class SystemAPI extends RESTDataSource {
       });
   }
 
+  getSystems() {
+    return this.get('/systems/all')
+      .then((responseSystems) => {
+        return (
+          Array.isArray(responseSystems) 
+            ? responseSystems.map(system => this.systemReducer(system))
+            : []
+        );
+      });
+  }
+
   // create system for new country
   postSystem({ countryId, countryName }) {
     return this.post('/system', { countryId, countryName })
@@ -48,17 +59,10 @@ export default class SystemAPI extends RESTDataSource {
       });
   }
 
-  // get number of systems of a type
-  // getSystemCount() {
-  //   return this.get('/systems/all');
-  // }
-
-  // async getElections() {
-  //   const response = await this.get('/systems/elections');
-  //   return (
-  //     Array.isArray(response)
-  //       ? response.map(system => this.systemReducer(system))
-  //       : []
-  //   );
-  // }
+  putSystem(_id) {
+    return this.put(`/system/${_id}`)
+      .then((responseSystem) => {
+        return this.systemReducer(responseSystem);
+      });
+  }
 }

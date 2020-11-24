@@ -15,6 +15,7 @@ import * as create from '../lib/create-data';
 const jsonParser = json();
 const govSystemRouter = new Router();
 
+// creates system for a country
 govSystemRouter.post('/system', jsonParser, (request, response, next) => {
   if (!request.body.countryId || !request.body.countryName) {
     return next(new HttpError(400, 'bad request - missing argument'));
@@ -28,7 +29,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
       if (country.countryName !== request.body.countryName) {
         throw new HttpError(400, 'bad request - incorrect country');
       } else if (country.hasLinkedSystem) {
-        throw new HttpError(400, 'bad request - system already exists for this country');
+        throw new HttpError(409, 'duplicate - system already exists for this country');
       } else {
         const searchableCountry = request.body.countryName.replace(' ', '_').toLowerCase();
         const governmentInfo = data.countries[searchableCountry].data.government;
@@ -81,7 +82,20 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
     .catch(next);
 });
 
+// return all systems 
 govSystemRouter.get('/systems/all', (request, response, next) => {
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  return System.find()
+    .then((systems) => {
+      logger.log(logger.INFO, 'GET /systems/all successful, getting all systems, returning 200');
+      return response.json(systems);
+    })
+    .catch(next);
+});
+
+// *** returns object of all types of political systems
+govSystemRouter.get('/systems/types', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return System.find()
@@ -89,24 +103,6 @@ govSystemRouter.get('/systems/all', (request, response, next) => {
       const systems = countries.map(x => x.typeOfGovernment);
       const systemsObj = countSystems(systems);
       return response.json(systemsObj);
-    })
-    .catch(next);
-});
-
-// *** obsolete with graphql ***
-govSystemRouter.get('/systems/elections', (request, response, next) => {
-  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
-
-  return System.find()
-    .then((countries) => {
-      const electionDates = countries.map((x) => {
-        return {
-          country: x.countryName,
-          id: x.countryId,
-          electionDates: x.electionDates,
-        };
-      });
-      return response.json(electionDates);
     })
     .catch(next);
 });

@@ -35,8 +35,8 @@ export default class CountryAPI extends RESTDataSource {
   }
 
   // get all countries in database
-  getAllCountries() {
-    return this.get('/countries/all')
+  getCountries() {
+    return this.get('/countries/db')
       .then((responseCountries) => {
         return (
           Array.isArray(responseCountries) 
@@ -62,12 +62,18 @@ export default class CountryAPI extends RESTDataSource {
       });
   }
 
-  // async getExistingCountries() {
-  //   const response = await this.get('/countries/existing');
-  //   return (
-  //     Array.isArray(response)
-  //       ? response.map(country => this.countryReducer(country))
-  //       : []
-  //   );
-  // }
+  // gets updated country information
+  putCountry(_id) {
+    return this.put(`/countries/${_id}`)
+      .then((responseCountry) => {
+        return this.countryReducer(responseCountry);
+      });
+  }
+
+  deleteCountry(_id) {
+    return this.delete(`/countries/${_id}`)
+      .then((response) => {
+        return response;
+      });
+  }
 }

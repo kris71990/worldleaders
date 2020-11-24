@@ -5,11 +5,12 @@ import { gql } from 'apollo-server-express';
 const typeDefs = gql`
   extend type Query {
     system(country: String!): System
+    systems: [System]
   }
 
   extend type Mutation {
     createSystem(countryId: ID!, countryName: String!): System
-    editSystem(_id: ID!): System
+    updateSystem(country: String!): System
   }
 
   type System {

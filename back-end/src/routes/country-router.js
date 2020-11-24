@@ -65,8 +65,8 @@ countryRouter.post('/countries', jsonParser, countryParser, (request, response, 
     .catch(next);
 });
 
-// returns all countries in database
-countryRouter.get('/countries/all', (request, response, next) => {
+// returns all countries in application database
+countryRouter.get('/countries/db', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return Country.find()
@@ -77,7 +77,9 @@ countryRouter.get('/countries/all', (request, response, next) => {
     .catch(next);
 });
 
-countryRouter.get('/countries/existing', (request, response) => {
+// *** 
+// returns all countries in cia database
+countryRouter.get('/countries/cia', (request, response) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   const countries = Object.keys(data.countries);
@@ -93,24 +95,6 @@ countryRouter.get('/countries/existing', (request, response) => {
   return response.json(filteredCountries);
 });
 
-// returns a clean array of all countries in database
-// *** obsolete with graphql ***
-countryRouter.get('/countries/list', (request, response, next) => {
-  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
-
-  return Country.find()
-    .then((countries) => {
-      logger.log(logger.INFO, 'GET /country/list successful, getting list of all countries, returning 200');
-
-      const countryObjs = countries.map((x) => { 
-        return { countryName: x.countryName, id: x._id };
-      });
-
-      return response.json(countryObjs);
-    })
-    .catch(next);
-});
-
 // returns request country json
 countryRouter.get('/countries/:_id', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
@@ -124,10 +108,10 @@ countryRouter.get('/countries/:_id', (request, response, next) => {
 });
 
 // returns updated country json
-countryRouter.put('/countries/:id', jsonParser, (request, response, next) => {
+countryRouter.put('/countries/:_id', jsonParser, (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
   
-  return Country.findById(request.params.id)
+  return Country.findById(request.params._id)
     .then((country) => {
       const dateDB = country.lastUpdated;
       const dateData = data.countries[country.countryName].metadata.date;
@@ -156,10 +140,10 @@ countryRouter.put('/countries/:id', jsonParser, (request, response, next) => {
     .catch(next);
 });
 
-countryRouter.delete('/countries/:id', (request, response, next) => {
+countryRouter.delete('/countries/:_id', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
-  return Country.findById(request.params.id)
+  return Country.findById(request.params._id)
     .then((country) => {
       const countryExists = Object.keys(data.countries).filter(key => key === country.countryName);
 
@@ -167,7 +151,7 @@ countryRouter.delete('/countries/:id', (request, response, next) => {
         return next(new HttpError(400, 'Cannot delete existing country'));
       }
 
-      return Country.findByIdAndRemove(request.params.id)
+      return Country.findByIdAndRemove(request.params._id)
         .then((countryToDelete) => {
           return System.findOneAndRemove({ countryId: countryToDelete._id })
             .then((system) => {
