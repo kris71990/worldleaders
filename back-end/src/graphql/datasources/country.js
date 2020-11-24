@@ -70,6 +70,13 @@ export default class CountryAPI extends RESTDataSource {
       });
   }
 
+  putFlag(id, flagUrl) {
+    return this.put(`/country-flag/${id}`, { flagUrl })
+      .then((responseCountry) => {
+        return this.countryReducer(responseCountry);
+      });
+  }
+
   deleteCountry(id) {
     return this.delete(`/countries/${id}`)
       .then((response) => {

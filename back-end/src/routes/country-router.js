@@ -10,6 +10,8 @@ import System from '../models/gov-system';
 import logger from '../lib/logger';
 import data from '../../data.json';
 
+import { flagUrlValidator } from '../lib/url-validator';
+
 const jsonParser = json();
 const countryRouter = new Router();
 
@@ -137,6 +139,23 @@ countryRouter.put('/country/:id', jsonParser, (request, response, next) => {
       return response.status(200).json(country);
     })
     .catch(next);
+});
+
+countryRouter.put('/country-flag/:id', jsonParser, (request, response, next) => {
+  if (!request.body.flagUrl || !request.params.id) return next(new HttpError(400, 'improper request'));
+  if (!flagUrlValidator(request.body.flagUrl)) return next(new HttpError(400, 'improper url'));
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  return Country.findById(request.params.id)
+    .then((country) => {
+      country.flagUrl = request.body.flagUrl;
+      country.save();
+      logger.log(logger.INFO, 'Return updated data with flag image');
+      return response.status(200).json(country);
+    })
+    .catch((error) => {
+      return next(error);
+    });
 });
 
 // removes country if it no longer exists in the world - gql

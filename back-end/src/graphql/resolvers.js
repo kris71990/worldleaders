@@ -17,9 +17,11 @@ export default {
   Mutation: {
     createCountry: (_, { countryName }, { dataSources }) => dataSources.countryAPI.postCountry(countryName),
     updateCountry: (_, { id }, { dataSources }) => dataSources.countryAPI.putCountry(id),
+    updateFlag: (_, { id, flagUrl }, { dataSources }) => dataSources.countryAPI.putFlag(id, flagUrl),
     removeCountry: (_, { id }, { dataSources }) => dataSources.countryAPI.deleteCountry(id),
 
     createSystem: (_, { countryId, countryName }, { dataSources }) => dataSources.systemAPI.postSystem({ countryId, countryName }),
     updateSystem: (_, { country }, { dataSources }) => dataSources.systemAPI.putSystem(country),
+
   },
 };
