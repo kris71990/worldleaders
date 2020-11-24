@@ -15,7 +15,7 @@ import * as create from '../lib/create-data';
 const jsonParser = json();
 const govSystemRouter = new Router();
 
-// creates system for a country
+// creates system for a country - gql
 govSystemRouter.post('/system', jsonParser, (request, response, next) => {
   if (!request.body.countryId || !request.body.countryName) {
     return next(new HttpError(400, 'bad request - missing argument'));
@@ -82,7 +82,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
     .catch(next);
 });
 
-// return all systems 
+// return all systems - gql
 govSystemRouter.get('/systems/all', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
@@ -94,7 +94,7 @@ govSystemRouter.get('/systems/all', (request, response, next) => {
     .catch(next);
 });
 
-// *** returns object of all types of political systems
+// REST - returns object of all types of political systems
 govSystemRouter.get('/systems/types', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
@@ -107,6 +107,7 @@ govSystemRouter.get('/systems/types', (request, response, next) => {
     .catch(next);
 });
 
+// gets a system for a country - gql
 govSystemRouter.get('/system/:country', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
@@ -122,6 +123,7 @@ govSystemRouter.get('/system/:country', (request, response, next) => {
     .catch(next);
 });
 
+// updates system data - gql
 govSystemRouter.put('/system/:country', jsonParser, (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 

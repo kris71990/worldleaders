@@ -5,13 +5,13 @@ import { gql } from 'apollo-server-express';
 const typeDefs = gql`
   extend type Query {
     countries: [Country]
-    country(_id: String!): Country
+    country(id: String!): Country
   }
 
   extend type Mutation {
     createCountry(countryName: String!): Country
-    editCountry(_id: ID!): Country
-    removeCountry(_id: ID!): String
+    updateCountry(id: ID!): Country
+    removeCountry(id: ID!): String
   }
 
   type Country {

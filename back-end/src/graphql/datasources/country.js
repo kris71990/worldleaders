@@ -34,6 +34,14 @@ export default class CountryAPI extends RESTDataSource {
     };
   }
 
+  // create country from cia data
+  postCountry(countryName) {
+    return this.post('/countries', { countryName })
+      .then((newCountry) => {
+        return this.countryReducer(newCountry);
+      });
+  }
+
   // get all countries in database
   getCountries() {
     return this.get('/countries/db')
@@ -47,31 +55,23 @@ export default class CountryAPI extends RESTDataSource {
   }
 
   // get one country by id
-  getCountry(_id) {
-    return this.get(`/countries/${_id}`)
+  getCountry(id) {
+    return this.get(`/countries/${id}`)
       .then((responseCountry) => {
         return this.countryReducer(responseCountry);
-      });
-  }
-
-  // create country from cia data
-  postCountry(countryName) {
-    return this.post('/countries', { countryName })
-      .then((newCountry) => {
-        return this.countryReducer(newCountry);
       });
   }
 
   // gets updated country information
-  putCountry(_id) {
-    return this.put(`/countries/${_id}`)
+  putCountry(id) {
+    return this.put(`/countries/${id}`)
       .then((responseCountry) => {
         return this.countryReducer(responseCountry);
       });
   }
 
-  deleteCountry(_id) {
-    return this.delete(`/countries/${_id}`)
+  deleteCountry(id) {
+    return this.delete(`/countries/${id}`)
       .then((response) => {
         return response;
       });

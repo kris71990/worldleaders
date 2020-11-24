@@ -59,8 +59,8 @@ export default class SystemAPI extends RESTDataSource {
       });
   }
 
-  putSystem(_id) {
-    return this.put(`/system/${_id}`)
+  putSystem(country) {
+    return this.put(`/system/${country}`)
       .then((responseSystem) => {
         return this.systemReducer(responseSystem);
       });
