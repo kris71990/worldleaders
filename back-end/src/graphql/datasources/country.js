@@ -54,6 +54,14 @@ export default class CountryAPI extends RESTDataSource {
       });
   }
 
+  // create country from cia data
+  postCountry(countryName) {
+    return this.post('/countries', { countryName })
+      .then((newCountry) => {
+        return this.countryReducer(newCountry);
+      });
+  }
+
   // async getExistingCountries() {
   //   const response = await this.get('/countries/existing');
   //   return (

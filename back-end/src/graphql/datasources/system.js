@@ -40,6 +40,14 @@ export default class SystemAPI extends RESTDataSource {
       });
   }
 
+  // create system for new country
+  postSystem({ countryId, countryName }) {
+    return this.post('/system', { countryId, countryName })
+      .then((newSystem) => {
+        return this.systemReducer(newSystem);
+      });
+  }
+
   // get number of systems of a type
   // getSystemCount() {
   //   return this.get('/systems/all');

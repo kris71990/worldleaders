@@ -9,7 +9,7 @@ const typeDefs = gql`
   }
 
   extend type Mutation {
-    createCountry(country: String!): Country
+    createCountry(countryName: String!): Country
     editCountry(_id: ID!): Country
   }
 
