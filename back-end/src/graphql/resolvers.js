@@ -3,10 +3,15 @@
 export default {
   Query: {
     countries: (_, __, { dataSources }) => dataSources.countryAPI.getCountries(),
-    systems: (_, __, { dataSources }) => dataSources.systemAPI.getSystems(),
-
     country: (_, { id }, { dataSources }) => dataSources.countryAPI.getCountry(id),
+
+    systems: (_, __, { dataSources }) => dataSources.systemAPI.getSystems(),
     system: (_, { country }, { dataSources }) => dataSources.systemAPI.getSystem(country),
+
+    rankingsGDP: (_, __, { dataSources }) => dataSources.countryAPI.getGDPRankings(),
+    rankingsArea: (_, __, { dataSources }) => dataSources.countryAPI.getAreaRankings(),
+    rankingsPop: (_, __, { dataSources }) => dataSources.countryAPI.getPopRankings(),
+
   },
 
   Mutation: {

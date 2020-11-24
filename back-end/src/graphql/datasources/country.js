@@ -76,4 +76,50 @@ export default class CountryAPI extends RESTDataSource {
         return response;
       });
   }
+
+  // rankings
+  getGDPRankings() {
+    return this.get('/countries/db')
+      .then((responseCountries) => {
+        if (Array.isArray(responseCountries)) {
+          return (
+            responseCountries.sort((x, y) => {
+              return x.gdpPPPRank - y.gdpPPPRank;
+            })
+              .map(country => this.countryReducer(country))
+          );
+        }
+        return [];
+      });
+  }
+
+  getAreaRankings() {
+    return this.get('/countries/db')
+      .then((responseCountries) => {
+        if (Array.isArray(responseCountries)) {
+          return (
+            responseCountries.sort((x, y) => {
+              return x.areaRank - y.areaRank;
+            })
+              .map(country => this.countryReducer(country))
+          );
+        }
+        return [];
+      });
+  }
+
+  getPopRankings() {
+    return this.get('/countries/db')
+      .then((responseCountries) => {
+        if (Array.isArray(responseCountries)) {
+          return (
+            responseCountries.sort((x, y) => {
+              return x.populationRank - y.populationRank;
+            })
+              .map(country => this.countryReducer(country))
+          );
+        }
+        return [];
+      });
+  }
 }

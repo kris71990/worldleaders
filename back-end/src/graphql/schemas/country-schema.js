@@ -6,6 +6,10 @@ const typeDefs = gql`
   extend type Query {
     countries: [Country]
     country(id: String!): Country
+    rankingsGDP: [Country]
+    rankingsPop: [Country]
+    rankingsLang: [Country]
+    rankingsArea: [Country]
   }
 
   extend type Mutation {
