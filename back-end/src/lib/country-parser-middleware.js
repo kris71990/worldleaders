@@ -4,7 +4,6 @@ import HttpError from 'http-errors';
 import logger from './logger';
 
 export default (request, response, next) => {
-  console.log(request.body);
   if (!request.body.countryName) return next(new HttpError(400, 'improper request'));
   if (Object.keys(request.body).length !== 1) return next(new HttpError(400, 'improper request'));
 
