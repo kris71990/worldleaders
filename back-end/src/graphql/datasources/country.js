@@ -34,9 +34,17 @@ export default class CountryAPI extends RESTDataSource {
     };
   }
 
+  // create country from cia data
+  postCountry(countryName) {
+    return this.post('/country', { countryName })
+      .then((newCountry) => {
+        return this.countryReducer(newCountry);
+      });
+  }
+
   // get all countries in database
-  getAllCountries() {
-    return this.get('/countries/all')
+  getCountries() {
+    return this.get('/countries/db')
       .then((responseCountries) => {
         return (
           Array.isArray(responseCountries) 
@@ -47,19 +55,78 @@ export default class CountryAPI extends RESTDataSource {
   }
 
   // get one country by id
-  getCountry(_id) {
-    return this.get(`/countries/${_id}`)
+  getCountry(id) {
+    return this.get(`/country/${id}`)
       .then((responseCountry) => {
         return this.countryReducer(responseCountry);
       });
   }
 
-  // async getExistingCountries() {
-  //   const response = await this.get('/countries/existing');
-  //   return (
-  //     Array.isArray(response)
-  //       ? response.map(country => this.countryReducer(country))
-  //       : []
-  //   );
-  // }
+  // gets updated country information
+  putCountry(id) {
+    return this.put(`/country/${id}`)
+      .then((responseCountry) => {
+        return this.countryReducer(responseCountry);
+      });
+  }
+
+  putFlag(id, flagUrl) {
+    return this.put(`/country-flag/${id}`, { flagUrl })
+      .then((responseCountry) => {
+        return this.countryReducer(responseCountry);
+      });
+  }
+
+  deleteCountry(id) {
+    return this.delete(`/country/${id}`)
+      .then((response) => {
+        return response;
+      });
+  }
+
+  // rankings
+  getGDPRankings() {
+    return this.get('/countries/db')
+      .then((responseCountries) => {
+        if (Array.isArray(responseCountries)) {
+          return (
+            responseCountries.sort((x, y) => {
+              return x.gdpPPPRank - y.gdpPPPRank;
+            })
+              .map(country => this.countryReducer(country))
+          );
+        }
+        return [];
+      });
+  }
+
+  getAreaRankings() {
+    return this.get('/countries/db')
+      .then((responseCountries) => {
+        if (Array.isArray(responseCountries)) {
+          return (
+            responseCountries.sort((x, y) => {
+              return x.areaRank - y.areaRank;
+            })
+              .map(country => this.countryReducer(country))
+          );
+        }
+        return [];
+      });
+  }
+
+  getPopRankings() {
+    return this.get('/countries/db')
+      .then((responseCountries) => {
+        if (Array.isArray(responseCountries)) {
+          return (
+            responseCountries.sort((x, y) => {
+              return x.populationRank - y.populationRank;
+            })
+              .map(country => this.countryReducer(country))
+          );
+        }
+        return [];
+      });
+  }
 }

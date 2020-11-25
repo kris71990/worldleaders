@@ -5,12 +5,17 @@ import { gql } from 'apollo-server-express';
 const typeDefs = gql`
   extend type Query {
     countries: [Country]
-    country(_id: String!): Country
+    country(id: String!): Country
+    rankingsGDP: [Country]
+    rankingsPop: [Country]
+    rankingsArea: [Country]
   }
 
   extend type Mutation {
-    createCountry(country: String!): Country
-    editCountry(_id: ID!): Country
+    createCountry(countryName: String!): Country
+    updateCountry(id: ID!): Country
+    updateFlag(id: ID!, flagUrl: String!): Country
+    removeCountry(id: ID!): String
   }
 
   type Country {
@@ -46,6 +51,7 @@ const typeDefs = gql`
 
   type Language {
     name: String
+    percent: Float
     note: String
   }
 

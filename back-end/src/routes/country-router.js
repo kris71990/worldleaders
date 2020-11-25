@@ -10,11 +10,13 @@ import System from '../models/gov-system';
 import logger from '../lib/logger';
 import data from '../../data.json';
 
+import { flagUrlValidator } from '../lib/url-validator';
+
 const jsonParser = json();
 const countryRouter = new Router();
 
-// returns posted country json
-countryRouter.post('/countries', jsonParser, countryParser, (request, response, next) => {
+// returns posted country json - gql
+countryRouter.post('/country', jsonParser, countryParser, (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   const searchableCountry = request.body.countryName.replace(/([\s]+)/g, '_').toLowerCase();
@@ -65,8 +67,8 @@ countryRouter.post('/countries', jsonParser, countryParser, (request, response, 
     .catch(next);
 });
 
-// returns all countries in database
-countryRouter.get('/countries/all', (request, response, next) => {
+// returns all countries in application database - gql
+countryRouter.get('/countries/db', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return Country.find()
@@ -77,7 +79,8 @@ countryRouter.get('/countries/all', (request, response, next) => {
     .catch(next);
 });
 
-countryRouter.get('/countries/existing', (request, response) => {
+// REST - returns all countries in cia database
+countryRouter.get('/countries/cia', (request, response) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   const countries = Object.keys(data.countries);
@@ -93,29 +96,11 @@ countryRouter.get('/countries/existing', (request, response) => {
   return response.json(filteredCountries);
 });
 
-// returns a clean array of all countries in database
-// *** obsolete with graphql ***
-countryRouter.get('/countries/list', (request, response, next) => {
+// returns request country json - gql
+countryRouter.get('/country/:id', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
-  return Country.find()
-    .then((countries) => {
-      logger.log(logger.INFO, 'GET /country/list successful, getting list of all countries, returning 200');
-
-      const countryObjs = countries.map((x) => { 
-        return { countryName: x.countryName, id: x._id };
-      });
-
-      return response.json(countryObjs);
-    })
-    .catch(next);
-});
-
-// returns request country json
-countryRouter.get('/countries/:_id', (request, response, next) => {
-  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
-
-  return Country.findById(request.params._id)
+  return Country.findById(request.params.id)
     .then((country) => {
       logger.log(logger.INFO, 'GET /country/:id successful, returning 200');
       return response.json(country);
@@ -123,8 +108,8 @@ countryRouter.get('/countries/:_id', (request, response, next) => {
     .catch(next);
 });
 
-// returns updated country json
-countryRouter.put('/countries/:id', jsonParser, (request, response, next) => {
+// returns updated country json - gql
+countryRouter.put('/country/:id', jsonParser, (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
   
   return Country.findById(request.params.id)
@@ -156,7 +141,25 @@ countryRouter.put('/countries/:id', jsonParser, (request, response, next) => {
     .catch(next);
 });
 
-countryRouter.delete('/countries/:id', (request, response, next) => {
+countryRouter.put('/country-flag/:id', jsonParser, (request, response, next) => {
+  if (!request.body.flagUrl || !request.params.id) return next(new HttpError(400, 'improper request'));
+  if (!flagUrlValidator(request.body.flagUrl)) return next(new HttpError(400, 'improper url'));
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  return Country.findById(request.params.id)
+    .then((country) => {
+      country.flagUrl = request.body.flagUrl;
+      country.save();
+      logger.log(logger.INFO, 'Return updated data with flag image');
+      return response.status(200).json(country);
+    })
+    .catch((error) => {
+      return next(error);
+    });
+});
+
+// removes country if it no longer exists in the world - gql
+countryRouter.delete('/country/:id', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return Country.findById(request.params.id)

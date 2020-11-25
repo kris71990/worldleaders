@@ -7,15 +7,18 @@ import System from '../models/gov-system';
 import Country from '../models/country';
 import logger from '../lib/logger';
 import data from '../../data.json';
+
+import { leaderUrlValidator } from '../lib/url-validator';
 import { parseFullGov, countSystems } from '../lib/parse-govs';
 import { findHOGKeywords, findCOSKeywords } from '../lib/parse-leaders';
 import parseElectionDates from '../lib/parse-elections';
 import * as create from '../lib/create-data';
 
 const jsonParser = json();
-const govSystemRouter = new Router();
+const systemRouter = new Router();
 
-govSystemRouter.post('/system', jsonParser, (request, response, next) => {
+// creates system for a country - gql
+systemRouter.post('/system', jsonParser, (request, response, next) => {
   if (!request.body.countryId || !request.body.countryName) {
     return next(new HttpError(400, 'bad request - missing argument'));
   }
@@ -28,7 +31,7 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
       if (country.countryName !== request.body.countryName) {
         throw new HttpError(400, 'bad request - incorrect country');
       } else if (country.hasLinkedSystem) {
-        throw new HttpError(400, 'bad request - system already exists for this country');
+        throw new HttpError(409, 'duplicate - system already exists for this country');
       } else {
         const searchableCountry = request.body.countryName.replace(' ', '_').toLowerCase();
         const governmentInfo = data.countries[searchableCountry].data.government;
@@ -81,7 +84,20 @@ govSystemRouter.post('/system', jsonParser, (request, response, next) => {
     .catch(next);
 });
 
-govSystemRouter.get('/systems/all', (request, response, next) => {
+// return all systems - gql
+systemRouter.get('/systems/all', (request, response, next) => {
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  return System.find()
+    .then((systems) => {
+      logger.log(logger.INFO, 'GET /systems/all successful, getting all systems, returning 200');
+      return response.json(systems);
+    })
+    .catch(next);
+});
+
+// REST - returns object of all types of political systems
+systemRouter.get('/systems/types', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return System.find()
@@ -93,25 +109,8 @@ govSystemRouter.get('/systems/all', (request, response, next) => {
     .catch(next);
 });
 
-// *** obsolete with graphql ***
-govSystemRouter.get('/systems/elections', (request, response, next) => {
-  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
-
-  return System.find()
-    .then((countries) => {
-      const electionDates = countries.map((x) => {
-        return {
-          country: x.countryName,
-          id: x.countryId,
-          electionDates: x.electionDates,
-        };
-      });
-      return response.json(electionDates);
-    })
-    .catch(next);
-});
-
-govSystemRouter.get('/system/:country', (request, response, next) => {
+// gets a system for a country - gql
+systemRouter.get('/system/:country', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return System.find({ countryName: request.params.country })
@@ -126,7 +125,8 @@ govSystemRouter.get('/system/:country', (request, response, next) => {
     .catch(next);
 });
 
-govSystemRouter.put('/system/:country', jsonParser, (request, response, next) => {
+// updates system data - gql
+systemRouter.put('/system/:country', jsonParser, (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   const searchableCountry = request.params.country.replace(' ', '_').toLowerCase();
@@ -220,4 +220,32 @@ govSystemRouter.put('/system/:country', jsonParser, (request, response, next) =>
     .catch(next);
 });
 
-export default govSystemRouter;
+systemRouter.put('/system-leader/:id', jsonParser, (request, response, next) => {
+  if (!request.body.leaderUrl || !request.body.leaderType || !request.params.id) {
+    return next(new HttpError(400, 'improper request'));
+  }
+
+  if (!leaderUrlValidator(request.body.leaderUrl)) {
+    return next(new HttpError(400, 'improper url'));
+  }
+
+  logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
+
+  return System.findById(request.params.id)
+    .then((system) => {
+      if (request.body.leaderType === 'hog') {
+        system.headOfGovernmentImg = request.body.leaderUrl;
+      } else {
+        system.chiefOfStateImg = request.body.leaderUrl;
+      }
+
+      system.save();
+      logger.log(logger.INFO, 'Return updated data with new leader img');
+      return response.json(system);
+    })
+    .catch((error) => {
+      return next(error);
+    });
+});
+
+export default systemRouter;
