@@ -13,11 +13,11 @@
 
 ## Overview
 
-This is a full-stack application that informs the user about the current social, political, and economic state of the countries in the world. It is currently online at http://www.theworldrightnow.info/
+This is a full-stack application that informs the user about the current social, political, and economic state of the countries in the world. 
 
-The back-end server and REST API is built with Node and powered by Express and MongoDB. All data is collected from and verified against data from the CIA API (https://github.com/iancoleman/cia_world_factbook_api#data). This data comes in the form of a single very large JSON object, which The World Right Now utilizes to perform its CRUD functionality for the purposes of this app. The server does a very large amount of parsing and validation to a ensure a smooth and accurate user experience.
+The back-end server and APIs are built with ***Node***, ***Express***, and ***MongoDB***. All data is courtesy of the CIA World Factbook API (https://github.com/iancoleman/cia_world_factbook_api#data). This data comes in the form of a single very large JSON object, which the app utilizes to perform its basic CRUD functionality. The server does a very large amount of parsing and validation to a ensure a smooth and accurate user experience.
 
-The front-end is built with React. The user can select a country from the dropdown menu to view the latest social, political, and economic information about it. A series of rankings pages parses and organizes a very large amount of data so that the user can quickly see how different countries compare against eachother in a variety of different ways. 
+The front-end is built with React. The user can select a country from the dropdown menu to view the latest social, political, and economic information. A series of rankings pages parses and organizes the data so that the user can quickly see how different countries compare against eachother in a variety of different ways. 
 
 Political and electoral information is also examined. A country's political system page allows the user to see the type of government, the current leaders (with pictures), future elections, and much more.
 
