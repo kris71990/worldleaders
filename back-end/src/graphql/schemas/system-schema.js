@@ -28,7 +28,7 @@ const typeDefs = gql`
     headOfGovernmentKeywords: [String]
     chiefOfStateImg: String
     headOfGovernmentImg: String
-    electionDates: [DateSchema]
+    electionDates: DateSchema
     electionsExec: String
     electionResultsExec: String
     electionsLeg: String

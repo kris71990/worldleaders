@@ -32,6 +32,14 @@ export default class SystemAPI extends RESTDataSource {
     };
   }
 
+  // create system for new country
+  postSystem({ countryId, countryName }) {
+    return this.post('/system', { countryId, countryName })
+      .then((newSystem) => {
+        return this.systemReducer(newSystem);
+      });
+  }
+
   // get one system by country name
   getSystem(country) {
     return this.get(`/system/${country}`)
@@ -48,14 +56,6 @@ export default class SystemAPI extends RESTDataSource {
             ? responseSystems.map(system => this.systemReducer(system))
             : []
         );
-      });
-  }
-
-  // create system for new country
-  postSystem({ countryId, countryName }) {
-    return this.post('/system', { countryId, countryName })
-      .then((newSystem) => {
-        return this.systemReducer(newSystem);
       });
   }
 

@@ -51,6 +51,7 @@ const typeDefs = gql`
 
   type Language {
     name: String
+    percent: Float
     note: String
   }
 
