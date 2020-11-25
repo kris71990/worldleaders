@@ -15,9 +15,8 @@ import SystemAPI from '../graphql/datasources/system';
 
 import logger from './logger';
 import countryRouter from '../routes/country-router';
-import govSystemRouter from '../routes/gov-system-router';
+import systemRouter from '../routes/system-router';
 import rankingsRouter from '../routes/rankings-router';
-import photoRouter from '../routes/photo-router';
 import errorMiddleware from './error-middleware';
 
 mongoose.promise = bluebird;
@@ -37,8 +36,7 @@ const server = new ApolloServer({
 
 app.use(rankingsRouter);
 app.use(countryRouter);
-app.use(photoRouter);
-app.use(govSystemRouter);
+app.use(systemRouter);
 
 server.applyMiddleware({ app });
 

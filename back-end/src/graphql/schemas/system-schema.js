@@ -11,6 +11,7 @@ const typeDefs = gql`
   extend type Mutation {
     createSystem(countryId: ID!, countryName: String!): System
     updateSystem(country: String!): System
+    updateLeader(id: ID!, leaderUrl: String!, leaderType: String!): System
   }
 
   type System {

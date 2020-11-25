@@ -36,7 +36,7 @@ export default class CountryAPI extends RESTDataSource {
 
   // create country from cia data
   postCountry(countryName) {
-    return this.post('/countries', { countryName })
+    return this.post('/country', { countryName })
       .then((newCountry) => {
         return this.countryReducer(newCountry);
       });
@@ -56,7 +56,7 @@ export default class CountryAPI extends RESTDataSource {
 
   // get one country by id
   getCountry(id) {
-    return this.get(`/countries/${id}`)
+    return this.get(`/country/${id}`)
       .then((responseCountry) => {
         return this.countryReducer(responseCountry);
       });
@@ -64,7 +64,7 @@ export default class CountryAPI extends RESTDataSource {
 
   // gets updated country information
   putCountry(id) {
-    return this.put(`/countries/${id}`)
+    return this.put(`/country/${id}`)
       .then((responseCountry) => {
         return this.countryReducer(responseCountry);
       });
@@ -78,7 +78,7 @@ export default class CountryAPI extends RESTDataSource {
   }
 
   deleteCountry(id) {
-    return this.delete(`/countries/${id}`)
+    return this.delete(`/country/${id}`)
       .then((response) => {
         return response;
       });

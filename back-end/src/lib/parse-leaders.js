@@ -8,7 +8,7 @@ const findHOGKeywords = (string) => {
   const fullGov = string;
   const multsGov = fullGov.includes(';') ? fullGov.split('; ') : null;
   
-  const keywordsGov = {};
+  let keywordsGov = [];
   const regex = /\b([A-Za-z]+[-])?[A-Z]+\b/g;
 
   if (multsGov) {
@@ -19,12 +19,12 @@ const findHOGKeywords = (string) => {
       if (!root) return null;
       if (root.length === 1) {
         const main = split.indexOf(root[0]);
-        const sliced = split.slice(0, main + 1);
-        keywordsGov[i + 1] = sliced.map(y => y.toLowerCase());
+        const sliced = split.slice(0, main + 1).map(y => y.toLowerCase());
+        sliced.forEach(word => keywordsGov.push(word));
       } else {
         const arr = [];
         root.forEach(y => arr.push(y.toLowerCase())); 
-        keywordsGov[i + 1] = arr;
+        keywordsGov = arr;
       }
       return null;
     });
@@ -35,12 +35,12 @@ const findHOGKeywords = (string) => {
     if (root) {
       if (root.length === 1) {
         const main = fullGov.indexOf(root[0]);
-        const sliced = fullGov.slice(0, main + root[0].length);
-        keywordsGov[1] = sliced.split(' ').map(y => y.toLowerCase());
+        const sliced = fullGov.slice(0, main + root[0].length).split(' ').map(y => y.toLowerCase());
+        sliced.forEach(word => keywordsGov.push(word));
       } else {
         const arr = [];
         root.forEach(y => arr.push(y.toLowerCase())); 
-        keywordsGov[1] = arr;
+        keywordsGov = arr;
       }
     }
   }
@@ -54,11 +54,11 @@ const findCOSKeywords = (string) => {
   const fullState = string;
   const multsState = fullState.includes(';') ? fullState.split('; ') : null;
 
-  const keywordsState = {};
+  let keywordsState = [];
   const regex = /\b([A-Za-z]+[-])?[A-Z]+\b/g;
 
   if (multsState) {
-    multsState.map((x, i) => {
+    multsState.map((x) => {
       x = x.replace(/([,])?/g, '');
       const split = x.split(' ');
       const root = x.match(regex);
@@ -66,12 +66,12 @@ const findCOSKeywords = (string) => {
       if (!root) return null;
       if (root.length === 1) {
         const main = split.indexOf(root[0]);
-        const sliced = split.slice(0, main + 1);
-        keywordsState[i + 1] = sliced.map(y => y.toLowerCase());
+        const sliced = split.slice(0, main + 1).map(y => y.toLowerCase());
+        sliced.forEach(word => keywordsState.push(word));
       } else {
         const arr = [];
         root.forEach(y => arr.push(y.toLowerCase())); 
-        keywordsState[i + 1] = arr;
+        keywordsState = arr;
       }
       return null;
     });
@@ -82,12 +82,12 @@ const findCOSKeywords = (string) => {
     if (root) {
       if (root.length === 1) {
         const main = split.indexOf(root[0]);
-        const sliced = split.slice(0, main + 1);
-        keywordsState[1] = sliced.map(y => y.toLowerCase());
+        const sliced = split.slice(0, main + 1).map(y => y.toLowerCase());
+        sliced.forEach(word => keywordsState.push(word));
       } else {
         const arr = [];
         root.forEach(y => arr.push(y.toLowerCase())); 
-        keywordsState[1] = arr;
+        keywordsState = arr;
       }
     }
   }

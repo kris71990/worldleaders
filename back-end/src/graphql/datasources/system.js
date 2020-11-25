@@ -20,7 +20,7 @@ export default class SystemAPI extends RESTDataSource {
       chiefOfStateKeywords: system.chiefOfStateKeywords,
       headOfGovernmentKeywords: system.headOfGovernmentKeywords,
       chiefOfStateImg: system.chiefOfStateImg,
-      headOfGovernmentImg: system.headOfGovernmentFull,
+      headOfGovernmentImg: system.headOfGovernmentImg,
       electionDates: system.electionDates,
       electionsExec: system.electionsExec,
       electionResultsExec: system.electionResultsExec,
@@ -61,6 +61,13 @@ export default class SystemAPI extends RESTDataSource {
 
   putSystem(country) {
     return this.put(`/system/${country}`)
+      .then((responseSystem) => {
+        return this.systemReducer(responseSystem);
+      });
+  }
+
+  putLeader({ id, leaderUrl, leaderType }) {
+    return this.put(`/system-leader/${id}`, { leaderUrl, leaderType })
       .then((responseSystem) => {
         return this.systemReducer(responseSystem);
       });

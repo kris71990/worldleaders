@@ -3,7 +3,7 @@
 const leaderUrlValidator = (url) => {
   if (url.slice(0, 29) !== 'https://upload.wikimedia.org/') return false;
 
-  const imgTypes = ['.svg', '.jpg', '.png'];
+  const imgTypes = ['.svg', '.jpg', '.png', '.JPG'];
   if (imgTypes.indexOf(url.slice(url.length - 4)) === -1) return false;
   return true;
 };
@@ -14,7 +14,7 @@ const flagUrlValidator = (url) => {
     return false;
   }
 
-  const imgTypes = ['.svg', '.jpg', '.png'];
+  const imgTypes = ['.svg', '.jpg', '.png', '.JPG'];
   if (imgTypes.indexOf(url.slice(url.length - 4)) === -1) return false;
   return true;
 };

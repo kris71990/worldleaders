@@ -22,6 +22,6 @@ export default {
 
     createSystem: (_, { countryId, countryName }, { dataSources }) => dataSources.systemAPI.postSystem({ countryId, countryName }),
     updateSystem: (_, { country }, { dataSources }) => dataSources.systemAPI.putSystem(country),
-
+    updateLeader: (_, { id, leaderUrl, leaderType }, { dataSources }) => dataSources.systemAPI.putLeader({ id, leaderUrl, leaderType }),
   },
 };
