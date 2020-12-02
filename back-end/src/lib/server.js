@@ -5,6 +5,7 @@ import { ApolloServer } from 'apollo-server-express';
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 import HttpError from 'http-errors';
+import cors from 'cors';
 
 import baseTypeDefs from '../graphql/schemas/base-defs';
 import countryTypeDefs from '../graphql/schemas/country-schema';
@@ -22,6 +23,7 @@ import errorMiddleware from './error-middleware';
 mongoose.promise = bluebird;
 
 const app = express();
+app.use(cors());
 
 const server = new ApolloServer({ 
   introspection: true,

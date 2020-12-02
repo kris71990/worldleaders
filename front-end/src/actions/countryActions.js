@@ -46,17 +46,8 @@ const countriesExisting = countries => ({
   payload: countries,
 });
 
-// async actions that call backend API
-const countriesFetchRequest = () => (store) => {
-  return superagent.get(`${API_URL}${routes.COUNTRY_ROUTE}/all`)
-    .then((response) => {
-      store.dispatch(countriesFetch(response.body));
-      return response;
-    }); 
-};
-
 const countriesExistingFetch = () => (store) => {
-  return superagent.get(`${API_URL}${routes.COUNTRY_ROUTE}/existing`)
+  return superagent.get(`${GRAPHQL_API_URL}${routes.COUNTRY_ROUTE}/db`)
     .then((response) => {
       store.dispatch(countriesExisting(response.body));
       return response;
@@ -64,7 +55,7 @@ const countriesExistingFetch = () => (store) => {
 };
 
 const countryListGetRequest = () => (store) => {
-  return superagent.get(`${API_URL}${routes.COUNTRY_ROUTE}/list`)
+  return superagent.get(`${REST_API_URL}${routes.COUNTRY_ROUTE}/cia`)
     .then((response) => {
       store.dispatch(countryListGet(response.body));
       return response;
@@ -72,7 +63,7 @@ const countryListGetRequest = () => (store) => {
 };
 
 const countryGetRequest = country => (store) => {
-  return superagent.get(`${API_URL}${routes.COUNTRY_ROUTE}/${country}`)
+  return superagent.get(`${GRAPHQL_API_URL}/country/${country}`)
     .then((response) => {
       store.dispatch(countryGet(response.body));
       return response;
@@ -82,7 +73,7 @@ const countryGetRequest = country => (store) => {
 const countryCreateRequest = country => (store) => {
   delete country.countryNameDirty;
   delete country.countryNameError;
-  return superagent.post(`${API_URL}${routes.COUNTRY_ROUTE}`)
+  return superagent.post(`${GRAPHQL_API_URL}/country`)
     .send(country)
     .then((response) => {
       store.dispatch(countryCreate(response.body));
@@ -91,7 +82,7 @@ const countryCreateRequest = country => (store) => {
 };
 
 const countryUpdateRequest = country => (store) => {
-  return superagent.put(`${API_URL}${routes.COUNTRY_ROUTE}/${country._id}`)
+  return superagent.put(`${GRAPHQL_API_URL}/country/${country._id}`)
     .send(country)
     .then((response) => {
       store.dispatch(countryUpdate(response.body));
@@ -100,7 +91,7 @@ const countryUpdateRequest = country => (store) => {
 };
 
 const countryDeleteRequest = country => (store) => {
-  return superagent.post(`${API_URL}${routes.COUNTRY_ROUTE}/${country._id}`)
+  return superagent.post(`${GRAPHQL_API_URL}/country/${country._id}`)
     .then((response) => {
       store.dispatch(countryDelete(country));
       return response;
@@ -114,7 +105,6 @@ export {
   countryCreate,
   countryUpdate,
   countryDelete,
-  countriesFetchRequest, 
   countryGetRequest, 
   countryCreateRequest, 
   countryUpdateRequest, 

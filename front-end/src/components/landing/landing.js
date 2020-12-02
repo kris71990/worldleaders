@@ -58,6 +58,8 @@ class Landing extends React.Component {
       });
     }
 
+    console.log(countryList);
+
     return (
       <div className="landing">
         <p>Tracking { countriesExisting.length } countries and territories.</p>

@@ -15,7 +15,7 @@ import './style/main.scss';
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk, session)));
 
 const apollo = new ApolloClient({
-  uri: API_URL,
+  uri: GRAPHQL_API_URL,
   cache: new InMemoryCache(),
 });
 

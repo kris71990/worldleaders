@@ -19,7 +19,8 @@
       "<rootDir>/src/__test__/test.env.js"
     ],
     "globals": {
-      "API_URL": true
+      "REST_API_URL": true,
+      "GRAPHQL_API_URL": true
     }
   },
   "keywords": [],
