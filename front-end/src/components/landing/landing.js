@@ -2,13 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 
 import CountryForm from '../forms/countryForm/countryForm';
 import SelectMenu from '../select-country/select-country';
 import * as countryActions from '../../actions/countryActions';
 import GET_COUNTRIES from '../../graphql/queries';
+import ADD_COUNTRY from '../../graphql/mutations';
 import * as routes from '../../utils/routes';
+
+import { countriesCache } from '../../graphql/cache';
+
 import './landing.scss';
 
 function Landing(props) {
@@ -21,12 +25,15 @@ function Landing(props) {
     props.countryListFetch();
   }, []);
 
-  const handleCreateCountry = (country) => {
-    return props.countryCreate(country)
-      .then(() => {
-        props.history.push(routes.ROOT_ROUTE);
-      });
-  };
+  const [mutate, { loading, error }] = useMutation(ADD_COUNTRY, {
+    variables: { countryName: selected },
+    update(cache, { data: country }) {
+      countriesCache.push(country);
+    },
+  });
+    // .then(() => {
+    //   props.history.push(routes.ROOT_ROUTE);
+    // });
 
   const handleChange = (e) => {
     return setSelected(e.target.value);
@@ -62,7 +69,7 @@ function Landing(props) {
       }
       <p>---------------------</p>
       <CountryForm 
-        onComplete={ handleCreateCountry } 
+        onComplete={ () => mutate() } 
         countries={ props.countryList }
       />
       { redirect 
@@ -87,7 +94,7 @@ Landing.propTypes = {
 const mapStateToProps = (state) => {
   return {
     countryList: state.countries.countries,
-    countriesExisting: state.countries.existing,
+    countriesExisting: state.countries.countriesExisting,
   };
 };
 

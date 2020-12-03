@@ -1,64 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import autoBind from '../../../utils/autoBind';
 
 import './countryForm.scss';
 
-const defaultState = {
-  countryName: '',
-  countryNameDirty: false,
-  countryNameError: 'Country already on list',
-};
+function CountryForm(props) {
+  const [countryName, setCountryName] = useState('');
+  const [countryNameDirty, setCountryNameDirty] = useState(false);
+  const [countryNameError, setError] = useState('');
 
-class CountryForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = defaultState;
-    autoBind.call(this, CountryForm);
-  }
+  const handleChange = (e) => {
+    setCountryName(e.target.value);
+    setCountryNameDirty(false);
+  };
 
-  handleChange(e) {
-    const { name, value } = e.target;
-    this.setState({
-      [name]: value,
-      countryNameDirty: false,
-    });
-  }
-
-  handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const { countries } = this.props;
+    const { countries } = props;
 
-    if (countries.includes(this.state.countryName)) {
-      this.setState({ countryNameDirty: true });
-    } else {
-      this.props.onComplete(this.state);
-      this.setState(defaultState);
-    }
-  }
+    // if (countries.includes(this.state.countryName)) {
+    //   this.setState({ countryNameDirty: true });
+    // } else {
+    return props.onComplete({ countryName })
+      .then(() => {
+        setCountryName('');
+        setCountryNameDirty(false);
+        setError('');
+      });
+  };
 
-  render() {
-    return (
-      <div className="country-container">
-        <h4>{'Don\'t see a country? Add it here:'}</h4>
-        <form className="country-form" onSubmit={ this.handleSubmit }>
-          <input
-            className="country-name"
-            name="countryName"
-            placeholder="Enter a country"
-            type="text"
-            value={ this.state.countryName }
-            onChange={ this.handleChange }
-          />
-          <button type="submit">Add</button>
-          { this.state.countryNameDirty ? 
-              <p>{ this.state.countryNameError }</p>
-            : null
-          }
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div className="country-container">
+      <h4>{'Don\'t see a country? Add it here:'}</h4>
+      <form className="country-form" onSubmit={ handleSubmit }>
+        <input
+          className="country-name"
+          name="countryName"
+          placeholder="Enter a country"
+          type="text"
+          value={ countryName }
+          onChange={ handleChange }
+        />
+        <button type="submit">Add</button>
+        { countryNameDirty ? 
+            <p>{ countryNameError }</p>
+          : null
+        }
+      </form>
+    </div>
+  );
 }
 
 CountryForm.propTypes = {
