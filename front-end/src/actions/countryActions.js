@@ -47,7 +47,7 @@ const countriesExisting = countries => ({
 });
 
 const countriesExistingFetch = () => (store) => {
-  return superagent.get(`${GRAPHQL_API_URL}${routes.COUNTRY_ROUTE}/db`)
+  return superagent.get(`${REST_API_URL}/countries/db`)
     .then((response) => {
       store.dispatch(countriesExisting(response.body));
       return response;
@@ -55,7 +55,7 @@ const countriesExistingFetch = () => (store) => {
 };
 
 const countryListGetRequest = () => (store) => {
-  return superagent.get(`${REST_API_URL}${routes.COUNTRY_ROUTE}/cia`)
+  return superagent.get(`${REST_API_URL}/countries/cia`)
     .then((response) => {
       store.dispatch(countryListGet(response.body));
       return response;

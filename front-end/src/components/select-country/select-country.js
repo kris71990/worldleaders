@@ -23,7 +23,7 @@ const SelectMenu = (props) => {
           { countries
             ? countries.map((country) => {
               return (
-                <option name={ country.countryName } value={ country.id } key={ country.id }>
+                <option name={ country.countryName } value={ country._id } key={ country._id }>
                   { parser.parseCountryName(country.countryName) }
                 </option>
               );

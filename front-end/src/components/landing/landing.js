@@ -46,28 +46,25 @@ class Landing extends React.Component {
     this.setState({ selected: this.state.selected, redirect: true });
   }
 
+  handleCountBlurb(countryCount) {
+    if (countryCount === 1) {
+      return `Tracking ${countryCount} country`;
+    }
+    return `Tracking ${countryCount} countries and territories`;
+  }
+
   render() {
     const { redirect } = this.state;
     const { countryList, countriesExisting } = this.props;
 
-    if (countryList) {
-      countryList.sort((x, y) => {
-        const countryA = x.countryName;
-        const countryB = y.countryName;
-        return ((countryA < countryB) ? -1 : ((countryA > countryB) ? 1 : 0));
-      });
-    }
-
-    console.log(countryList);
-
     return (
       <div className="landing">
-        <p>Tracking { countriesExisting.length } countries and territories.</p>
+        <p>{ this.handleCountBlurb(countriesExisting.length) }</p>
         <SelectMenu 
           onClick={ this.handleSearch } 
           onChange={ this.handleChange }
           value={ this.state.selected }
-          countries={ countryList }
+          countries={ countriesExisting }
         />
         <p>---------------------</p>
         <CountryForm 

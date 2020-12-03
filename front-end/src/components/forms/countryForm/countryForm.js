@@ -28,11 +28,8 @@ class CountryForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const { countries } = this.props;
-    const countryNames = countries.map((x) => {
-      return x.countryName;
-    });
 
-    if (countryNames.includes(this.state.countryName)) {
+    if (countries.includes(this.state.countryName)) {
       this.setState({ countryNameDirty: true });
     } else {
       this.props.onComplete(this.state);
