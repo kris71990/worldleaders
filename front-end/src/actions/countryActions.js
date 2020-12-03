@@ -1,16 +1,5 @@
 import superagent from 'superagent';
-import * as routes from '../utils/routes';
 
-/* backend routes - country router
-    POST /countries
-    GET /countries/all
-    GET /countries/list
-    GET /countries/:id
-    PUT /countries/:id
-    DELETE /countries/:id
-*/
-
-// regular actions
 const countriesFetch = countries => ({
   type: 'COUNTRIES_FETCH',
   payload: countries,
@@ -47,7 +36,7 @@ const countriesExisting = countries => ({
 });
 
 const countriesExistingFetch = () => (store) => {
-  return superagent.get(`${REST_API_URL}/countries/db`)
+  return superagent.get(`${GRAPHQL_API_URL}/countries/db`)
     .then((response) => {
       store.dispatch(countriesExisting(response.body));
       return response;

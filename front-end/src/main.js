@@ -22,7 +22,7 @@ const apollo = new ApolloClient({
 const container = document.createElement('div');
 document.body.appendChild(container);
 reactDomRender(
-  <ApolloProvider client={ apollo }>
+  <ApolloProvider client={ apollo } store={ store }>
     <Provider store={ store }>
       <App/>
     </Provider>
