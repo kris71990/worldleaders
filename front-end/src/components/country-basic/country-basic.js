@@ -157,12 +157,6 @@ CountryBasic.propTypes = {
   countryGet: PropTypes.func,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    selected: state.country,
-  };
-};
-
 const mapDispatchToProps = dispatch => ({
   systemPost: country => dispatch(
     systemActions.systemCreateRequest(country._id, country.countryName),
@@ -171,4 +165,4 @@ const mapDispatchToProps = dispatch => ({
   countryUpdate: country => dispatch(countryActions.countryUpdateRequest(country)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CountryBasic);
+export default connect(null, mapDispatchToProps)(CountryBasic);

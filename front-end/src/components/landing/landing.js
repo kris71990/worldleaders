@@ -61,7 +61,10 @@ function Landing(props) {
         history={ props.history }
       />
       { redirect 
-        ? <Redirect to={{ pathname: '/countries', state: { selected } }}/> 
+        ? <Redirect to={{ 
+          pathname: '/countries', 
+          state: { selected, countryList: props.countryList },
+        }}/> 
         : null 
       }
     </div>
