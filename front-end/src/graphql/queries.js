@@ -9,4 +9,52 @@ const GET_COUNTRIES = gql`
   }
 `;
 
-export default GET_COUNTRIES;
+const GET_COUNTRY = gql`
+  query country($id: String!) {
+    country(id: $id) {
+      _id
+      countryName
+      lastUpdated
+      hasLinkedSystem
+      location
+      area
+      areaRank
+      population
+      populationRank
+      lifeExpectancy
+      lifeExpectancyRank
+      gdpPPPRank
+      typeOfGovernment
+      borderCountries
+      naturalResources
+      ethnicities {
+        name
+        percent
+      }
+      languages {
+        name
+        note
+      }
+      religions {
+        name
+        percent
+        breakdown {
+          name
+          percent
+        }
+      }
+      exports
+      imports
+      exportPartners {
+        name
+        percent
+      }
+      importPartners {
+        name
+        percent
+      }
+    }
+  }
+`;
+
+export { GET_COUNTRIES, GET_COUNTRY };

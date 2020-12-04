@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import { useMutation } from '@apollo/client';
 import ADD_COUNTRY from '../../../graphql/mutations';
 
+import { parseCountryName } from '../../../utils/parser';
+
 import './countryForm.scss';
 
-function CountryForm(props) {
+function CountryForm() {
   const [countryName, setCountryName] = useState('');
   const [countryNameDirty, setCountryNameDirty] = useState(false);
   const [countryNameError, setError] = useState('');
+  const [countryAddSuccess, setSuccess] = useState('');
 
   const [addCountry, { data, error }] = useMutation(ADD_COUNTRY, { // eslint-disable-line
     variables: { countryName },
@@ -17,17 +19,28 @@ function CountryForm(props) {
       setCountryName('');
       setCountryNameDirty(false);
       setError('');
-      props.history.push('/');
+    },
+    update(cache, { data: { createCountry } }) { // eslint-disable-line
+      cache.modify({
+        fields: {
+          countries(existingCountries) {
+            return [...existingCountries, createCountry];
+          },
+        },
+      });
+      setSuccess(`${parseCountryName(createCountry.countryName)} added`);
     },
     onError(error) { // eslint-disable-line
       setCountryNameDirty(true);
       setError(`Error: ${error.message}`);
+      setSuccess('');
     },
   });
 
   const handleChange = (e) => {
     setCountryName(e.target.value);
     setCountryNameDirty(false);
+    setSuccess('');
   };
 
   const handleSubmit = (e) => {
@@ -54,15 +67,15 @@ function CountryForm(props) {
           </form>
       }
       { countryNameDirty ? 
-          <p>{ countryNameError }</p>
+          <p id="error">{ countryNameError }</p>
+        : null
+      }
+      { countryAddSuccess ? 
+          <p id="success">{ countryAddSuccess }</p>
         : null
       }
     </div>
   );
 }
-
-CountryForm.propTypes = {
-  history: PropTypes.object,
-};
 
 export default CountryForm;

@@ -6,8 +6,9 @@ import { useQuery } from '@apollo/client';
 
 import CountryForm from '../forms/countryForm/countryForm';
 import SelectMenu from '../select-country/select-country';
+
 import * as countryActions from '../../actions/countryActions';
-import GET_COUNTRIES from '../../graphql/queries';
+import { GET_COUNTRIES } from '../../graphql/queries';
 
 import './landing.scss';
 
@@ -69,25 +70,18 @@ function Landing(props) {
 
 Landing.propTypes = {
   countryList: PropTypes.array,
-  countriesExisting: PropTypes.array,
   countryListFetch: PropTypes.func,
-  countriesFetch: PropTypes.func,
-  countryCreate: PropTypes.func,
   history: PropTypes.object,
-  selected: PropTypes.string,
-  redirect: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {
   return {
     countryList: state.countries.countries,
-    countriesExisting: state.countries.countriesExisting,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   countryListFetch: () => dispatch(countryActions.countryListGetRequest()),
-  countryCreate: country => dispatch(countryActions.countryCreateRequest(country)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Landing);

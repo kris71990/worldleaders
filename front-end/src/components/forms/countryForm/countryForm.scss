@@ -1,3 +1,5 @@
+@import '../../../style/vars';
+
 .country-container {
   .country-form {
     input {
@@ -8,7 +10,11 @@
     }
   }
   
-  p {
-    color: red;
+  #error {
+    color: $error;
+  }
+
+  #success {
+    color: $header-background;
   }
 }

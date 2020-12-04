@@ -2,27 +2,26 @@ import { InMemoryCache, makeVar } from '@apollo/client';
 
 const cache = new InMemoryCache({
   // typePolicies: {
-  //   Mutation: {
+  //   Query: {
   //     fields: {
-  //       country: {
+  //       countries: {
   //         keyArgs: false,
   //         merge(existing, incoming) {
-  //           let launches = [];
-  //           if (existing && existing.launches) {
-  //             launches = launches.concat(existing.launches);
+  //           console.log(existing);
+  //           console.log(incoming);
+  //           let countriesUpdated = [];
+  //           if (existing) {
+  //             countriesUpdated = countriesUpdated.concat(existing);
   //           }
-  //           if (incoming && incoming.launches) {
-  //             launches = launches.concat(incoming.launches);
+  //           if (incoming) {
+  //             countriesUpdated = countriesUpdated.concat(incoming);
   //           }
-  //           return {
-  //             ...incoming,
-  //             launches
-  //           };
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
+  //           return countriesUpdated;
+  //         },
+  //       },
+  //     },
+  //   },
+  // },
 });
 
 export const countriesCache = makeVar([]);

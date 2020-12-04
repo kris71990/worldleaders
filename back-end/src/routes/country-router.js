@@ -93,14 +93,7 @@ countryRouter.get('/countries/cia', (request, response) => {
     }
     return null;
   });
-
-  // return Country.find()
-  //   .then((countries) => {
-  //     logger.log(logger.INFO, 'GET /country/cia successful, returning all available countries');
-  //     countries.forEach((country) => {
-  //       if (filteredCountries.includes())
-  //     })
-  //   })
+  
   return response.json(filteredCountries);
 });
 
