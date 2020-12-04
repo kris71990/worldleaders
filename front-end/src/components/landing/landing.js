@@ -2,16 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
 import CountryForm from '../forms/countryForm/countryForm';
 import SelectMenu from '../select-country/select-country';
 import * as countryActions from '../../actions/countryActions';
 import GET_COUNTRIES from '../../graphql/queries';
-import ADD_COUNTRY from '../../graphql/mutations';
-import * as routes from '../../utils/routes';
-
-import { countriesCache } from '../../graphql/cache';
 
 import './landing.scss';
 
@@ -25,15 +21,6 @@ function Landing(props) {
     props.countryListFetch();
   }, []);
 
-  const [mutate, { loading, error }] = useMutation(ADD_COUNTRY, {
-    variables: { countryName: selected },
-    update(cache, { data: country }) {
-      countriesCache.push(country);
-    },
-  });
-    // .then(() => {
-    //   props.history.push(routes.ROOT_ROUTE);
-    // });
 
   const handleChange = (e) => {
     return setSelected(e.target.value);
@@ -58,7 +45,7 @@ function Landing(props) {
     <div className="landing">
       { data ? <p>{ handleCountBlurb(data.countries.length) }</p> : null }
       {
-        data ? 
+        data ?
           <SelectMenu 
             onClick={ handleSearch } 
             onChange={ handleChange }
@@ -69,8 +56,8 @@ function Landing(props) {
       }
       <p>---------------------</p>
       <CountryForm 
-        onComplete={ () => mutate() } 
         countries={ props.countryList }
+        history={ props.history }
       />
       { redirect 
         ? <Redirect to={{ pathname: '/countries', state: { selected } }}/> 
