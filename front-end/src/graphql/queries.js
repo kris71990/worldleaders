@@ -57,4 +57,14 @@ const GET_COUNTRY = gql`
   }
 `;
 
-export { GET_COUNTRIES, GET_COUNTRY };
+const GET_GDP_RANK = gql`
+  query {
+    rankingsGDP {
+      _id
+      countryName
+      gdpPPPRank
+    }
+  }
+`;
+
+export { GET_COUNTRIES, GET_COUNTRY, GET_GDP_RANK };
