@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/client';
 import * as routes from '../../../utils/routes';
 
 import { GET_GDP_RANK } from '../../../graphql/queries';
-import * as rankingActions from '../../../actions/rankingActions';
 import * as parser from '../../../utils/parser';
 
 import './gdp-rank.scss';
@@ -18,8 +16,6 @@ function GDPRank() {
   useEffect(() => {
     if (data) setRank(data.rankingsGDP);
   }, [data]);
-
-  console.log(rank);
   
   if (loading) return 'Loading...';
   if (error) return `Error: ${error.message}`;
@@ -61,11 +57,6 @@ function GDPRank() {
 
 GDPRank.propTypes = {
   history: PropTypes.object,
-  gdpGet: PropTypes.func,
 };
 
-const mapDispatchToProps = dispatch => ({
-  gdpGet: () => dispatch(rankingActions.gdpFetchRequest()),
-});
-
-export default connect(null, mapDispatchToProps)(GDPRank);
+export default GDPRank;

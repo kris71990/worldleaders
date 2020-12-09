@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { useMutation } from '@apollo/client';
-import ADD_COUNTRY from '../../../graphql/mutations';
+import { ADD_COUNTRY } from '../../../graphql/mutations';
 
 import { parseCountryName } from '../../../utils/parser';
 

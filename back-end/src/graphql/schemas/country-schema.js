@@ -14,7 +14,7 @@ const typeDefs = gql`
   extend type Mutation {
     createCountry(countryName: String!): Country
     updateCountry(id: ID!): Country
-    updateFlag(id: ID!, flagUrl: String!): Country
+    updateFlag(id: String!, flagUrl: String!): Country
     removeCountry(id: ID!): String
   }
 

@@ -15,6 +15,7 @@ const GET_COUNTRY = gql`
       _id
       countryName
       lastUpdated
+      flagUrl
       hasLinkedSystem
       location
       area
@@ -67,4 +68,28 @@ const GET_GDP_RANK = gql`
   }
 `;
 
-export { GET_COUNTRIES, GET_COUNTRY, GET_GDP_RANK };
+const GET_POP_RANK = gql`
+  query {
+    rankingsPop {
+      _id
+      countryName
+      population
+      populationRank
+    }
+  }
+`;
+
+const GET_AREA_RANK = gql`
+  query {
+    rankingsArea {
+      _id
+      countryName
+      area
+      areaRank
+    }
+  }
+`;
+
+export { 
+  GET_COUNTRIES, GET_COUNTRY, GET_GDP_RANK, GET_POP_RANK, GET_AREA_RANK,
+};
