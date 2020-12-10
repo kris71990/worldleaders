@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
 
 import FlagForm from '../forms/flagForm/flag-form';
 import CustomButton from '../common/button/button';
@@ -9,18 +10,30 @@ import Divider from '../common/divider/divider';
 
 import * as routes from '../../utils/routes';
 import * as systemActions from '../../actions/systemActions';
+import { ADD_SYSTEM } from '../../graphql/mutations';
 import * as parser from '../../utils/parser';
 
 import './country-basic.scss';
 
 function CountryBasic(props) {
   const { selected, existingCount } = props;
+  const [systemAdded, setSystemAdded] = useState(false);
+
+  const [addSystem, { data, error }] = useMutation(ADD_SYSTEM, { // eslint-disable-line
+    variables: { 
+      countryId: selected._id, 
+      countryName: selected.countryName,
+    },
+    onCompleted() {
+      setSystemAdded(true);
+    },
+    onError() {
+      setSystemAdded(false);
+    },
+  });
 
   const handleCreateSystem = () => {
-    return props.systemPost(selected);
-    // .then(() => {
-    //   return props.countryGet(selected);
-    // }); 
+    return addSystem(selected._id, selected.countryName);
   };
 
   const handleUpdateSystem = () => {
@@ -112,7 +125,7 @@ function CountryBasic(props) {
         <div>
           <p>Last Updated: { selected.lastUpdated }</p>
           { 
-            selected.hasLinkedSystem ?
+            selected.hasLinkedSystem || systemAdded ?
               <CustomButton action={ handleUpdateSystem } text='Update'/>
               : null
           }
@@ -121,7 +134,7 @@ function CountryBasic(props) {
       <h1>{ countryNameJSX }</h1>
       { flagJSX }
       {
-        selected.hasLinkedSystem ?
+        selected.hasLinkedSystem || systemAdded ?
         <Link to=
           {
             { 
