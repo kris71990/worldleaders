@@ -58,6 +58,41 @@ const GET_COUNTRY = gql`
   }
 `;
 
+const GET_SYSTEM = gql`
+  query system($country: String!) {
+    system(country: $country) {
+      _id
+      lastUpdated
+      countryId
+      countryName
+      fullName
+      capital
+      capitalCoordinates
+      independence
+      typeOfGovernmentFull
+      typeOfGovernment
+      chiefOfStateFull
+      chiefOfStateKeywords
+      headOfGovernmentFull
+      headOfGovernmentKeywords
+      electionDates {
+        exec {
+          next
+          last
+        }
+        leg {
+          next
+          last
+        }
+      }
+      electionsExec
+      electionResultsExec
+      electionsLeg
+      electionResultsLeg
+    }
+  }
+`;
+
 const GET_GDP_RANK = gql`
   query {
     rankingsGDP {
@@ -91,5 +126,5 @@ const GET_AREA_RANK = gql`
 `;
 
 export { 
-  GET_COUNTRIES, GET_COUNTRY, GET_GDP_RANK, GET_POP_RANK, GET_AREA_RANK,
+  GET_COUNTRIES, GET_COUNTRY, GET_GDP_RANK, GET_POP_RANK, GET_AREA_RANK, GET_SYSTEM,
 };

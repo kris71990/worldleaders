@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import autoBind from '../../utils/autoBind';
+
+import { useQuery } from '@apollo/client';
+import { GET_SYSTEM } from '../../graphql/queries';
 
 // import CapitalMap from '../capital-map/capital-map';
 import SystemElections from '../system-elections/system-elections';
@@ -11,96 +13,96 @@ import * as systemActions from '../../actions/systemActions';
 import * as parser from '../../utils/parser';
 import './system.scss';
 
-class System extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = this.props.location.state;
-    autoBind.call(this, System);
-  }
+function System(props) {
+  const [country] = useState(props.location.state.selected);
+  const [system, setSystem] = useState({});
 
-  componentDidMount() {
-    this.props.systemGet(this.state.selected.countryName)
-      .then((response) => {
-        this.setState({ selected: response.body });
-      });
-  }
+  const { loading, error, data } = useQuery(GET_SYSTEM, {
+    variables: { country: country.countryName },
+  });
 
-  handleUpdateSystem() {
-    this.props.systemUpdate(this.props.selected)
+  useEffect(() => {
+    if (data && data.system) {
+      setSystem(data.system);
+    }
+  }, [data]);
+
+  const handleUpdateSystem = () => {
+    props.systemUpdate(props.selected)
       .then(() => {
-        this.props.systemGet(this.props.selected.countryName);
+        props.systemGet(props.selected.countryName);
       });
-  }
+  };
 
-  render() {
-    const { selected } = this.props;
-    let nameJSX = null;
-    let capitalJSX = null;
-    let typeJSX = null;
-    let independenceJSX = null;
+  if (loading) return 'Loading...';
+  if (error) return `Error: ${error.message}`;
 
-    if (selected) {
-      if (selected.fullName === 'none') {
-        nameJSX = <h1>{ parser.parseCountryName(selected.countryName) }</h1>;
-      } else if (selected.fullName) {
-        nameJSX = <h1>{ parser.parseFullCountryName(selected.fullName) }</h1>;
-      }
+  let nameJSX = null;
+  let capitalJSX = null;
+  let typeJSX = null;
+  let independenceJSX = null;
 
-      if (selected.typeOfGovernment) {
-        typeJSX = 
-          <div id="type">
-            <h4>Type</h4>
-            <p>{ selected ? parser.capitalize(selected.typeOfGovernment) : null }</p>
-          </div>;
-      }
-
-      if (selected.independence) {
-        independenceJSX = 
-          <div id="independence">
-            <h4>Independence</h4>
-            <p>{ selected ? parser.parseDate(selected.independence) : null }</p>
-          </div>;
-      }
-
-      if (selected.capital) {
-        capitalJSX = 
-          <div id="capitals">
-            <h4>Capital</h4>
-            <ul>
-              {
-                selected.capital.map((x) => {
-                  return (
-                    <li key={x}>{ x }</li>
-                  );
-                })
-              }
-            </ul>
-          </div>;
-      }
+  if (system) {
+    if (system.fullName === 'none') {
+      nameJSX = <h1>{ parser.parseCountryName(system.countryName) }</h1>;
+    } else if (system.fullName) {
+      nameJSX = <h1>{ parser.parseFullCountryName(system.fullName) }</h1>;
     }
 
-    return (
-      <div className="system-info">
-        <div id="info-status">
-          <div>
-            <p>Last Updated: { selected ? selected.lastUpdated : null }</p>
-            <button onClick={ this.handleUpdateSystem }>Update</button> 
-          </div>
-        </div>
-        { nameJSX }
-        <div id="basic-system-info">
-          { typeJSX }
-          { capitalJSX }
-          {
-            // selected ? <CapitalMap selected={selected}/> : null
-          }
-          { independenceJSX }
-        </div>
-        <SystemLeaders selected={ selected }/>
-        <SystemElections selected={ selected }/>
-      </div>
-    );
+    if (system.typeOfGovernment) {
+      typeJSX = 
+        <div id="type">
+          <h4>Type</h4>
+          <p>{ system ? parser.capitalize(system.typeOfGovernment) : null }</p>
+        </div>;
+    }
+
+    if (system.independence) {
+      independenceJSX = 
+        <div id="independence">
+          <h4>Independence</h4>
+          <p>{ system ? parser.parseDate(system.independence) : null }</p>
+        </div>;
+    }
+
+    if (system.capital) {
+      capitalJSX = 
+        <div id="capitals">
+          <h4>Capital</h4>
+          <ul>
+            {
+              system.capital.map((x) => {
+                return (
+                  <li key={x}>{ x }</li>
+                );
+              })
+            }
+          </ul>
+        </div>;
+    }
   }
+
+  return (
+    <div className="system-info">
+      <div id="info-status">
+        <div>
+          <p>Last Updated: { system ? system.lastUpdated : null }</p>
+          <button onClick={ handleUpdateSystem }>Update</button> 
+        </div>
+      </div>
+      { nameJSX }
+      <div id="basic-system-info">
+        { typeJSX }
+        { capitalJSX }
+        {
+          // selected ? <CapitalMap selected={selected}/> : null
+        }
+        { independenceJSX }
+      </div>
+      <SystemLeaders selected={ system }/>
+      <SystemElections selected={ system }/>
+    </div>
+  );
 }
 
 System.propTypes = {
@@ -111,15 +113,10 @@ System.propTypes = {
   systemUpdate: PropTypes.func,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    selected: state.system,
-  };
-};
 
 const mapDispatchToProps = dispatch => ({
   systemGet: system => dispatch(systemActions.systemGetRequest(system)),
   systemUpdate: country => dispatch(systemActions.systemUpdateRequest(country)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(System);
+export default connect(null, mapDispatchToProps)(System);

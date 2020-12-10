@@ -7,10 +7,10 @@ export default {
     rankingsGDP: (_, __, { dataSources }) => dataSources.countryAPI.getGDPRankings(),
     rankingsArea: (_, __, { dataSources }) => dataSources.countryAPI.getAreaRankings(),
     rankingsPop: (_, __, { dataSources }) => dataSources.countryAPI.getPopRankings(),
+    system: (_, { country }, { dataSources }) => dataSources.systemAPI.getSystem(country),
 
     // **
     systems: (_, __, { dataSources }) => dataSources.systemAPI.getSystems(),
-    system: (_, { country }, { dataSources }) => dataSources.systemAPI.getSystem(country),
     // **
 
 
