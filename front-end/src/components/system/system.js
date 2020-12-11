@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { useQuery, useMutation } from '@apollo/client';
@@ -10,7 +9,6 @@ import { UPDATE_SYSTEM } from '../../graphql/mutations/system';
 import SystemElections from '../system-elections/system-elections';
 import SystemLeaders from '../system-leaders/system-leaders';
 
-import * as systemActions from '../../actions/systemActions';
 import * as parser from '../../utils/parser';
 import './system.scss';
 
@@ -52,10 +50,6 @@ function System(props) {
 
   const handleUpdateSystem = () => {
     return updateSystem(country.countryName);
-    // props.systemUpdate(props.selected)
-    //   .then(() => {
-    //     props.systemGet(props.selected.countryName);
-    //   });
   };
 
   if (loading) return 'Loading...';
@@ -134,14 +128,6 @@ System.propTypes = {
   history: PropTypes.object,
   selected: PropTypes.object,
   location: PropTypes.object,
-  systemGet: PropTypes.func,
-  systemUpdate: PropTypes.func,
 };
 
-
-const mapDispatchToProps = dispatch => ({
-  systemGet: system => dispatch(systemActions.systemGetRequest(system)),
-  systemUpdate: country => dispatch(systemActions.systemUpdateRequest(country)),
-});
-
-export default connect(null, mapDispatchToProps)(System);
+export default System;

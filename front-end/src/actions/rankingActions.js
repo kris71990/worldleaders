@@ -6,7 +6,6 @@ const languagePrevalenceFetch = countries => ({
   payload: countries,
 });
 
-
 const languagePrevalenceFetchRequest = () => (store) => {
   return superagent.get(`${REST_API_URL}${routes.LANGUAGE_PREVALENCE_ROUTE}`)
     .then((response) => {

@@ -24,7 +24,7 @@ class App extends React.Component {
             <Route exact path="/rankings-gdp" component={ GDPRank }/>
             <Route exact path="/rankings-population" component={ PopulationRank }/>
             <Route exact path="/rankings-area" component={ AreaRank }/>
-            <Route exact path="/rankings-language-prevalence" component={ LanguageRank }/>
+            <Route exact path="/rankings/language-prevalence" component={ LanguageRank }/>
             <Route exact path="/countries" component={ Country }/>
             <Route exact path="/systems-all" component={ SystemRank }/>
             <Route path="/system-:country" component={ System }/>

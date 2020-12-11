@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+
 import { useMutation } from '@apollo/client';
+import { ADD_SYSTEM } from '../../graphql/mutations/system';
+import { UPDATE_COUNTRY } from '../../graphql/mutations/country';
 
 import FlagForm from '../forms/flagForm/flag-form';
 import CustomButton from '../common/button/button';
 import Divider from '../common/divider/divider';
 
 import * as routes from '../../utils/routes';
-import * as systemActions from '../../actions/systemActions';
-import { ADD_SYSTEM } from '../../graphql/mutations/system';
-import { UPDATE_COUNTRY } from '../../graphql/mutations/country';
 import * as parser from '../../utils/parser';
 
 import './country-basic.scss';
@@ -176,13 +175,7 @@ CountryBasic.propTypes = {
   history: PropTypes.object,
   selected: PropTypes.object,
   existingCount: PropTypes.number,
-  systemPost: PropTypes.func,
 };
 
-const mapDispatchToProps = dispatch => ({
-  systemPost: country => dispatch(
-    systemActions.systemCreateRequest(country._id, country.countryName),
-  ),
-});
 
-export default connect(null, mapDispatchToProps)(CountryBasic);
+export default CountryBasic;

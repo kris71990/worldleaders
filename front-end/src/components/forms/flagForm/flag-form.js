@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import { useMutation } from '@apollo/client';
 import { UPDATE_FLAG } from '../../../graphql/mutations/country';
 
 import CustomButton from '../../common/button/button';
 import { parseCountryName } from '../../../utils/parser';
-import * as photoActions from '../../../actions/photoActions';
+
 import './flag-form.scss';
 
 function FlagForm(props) {
@@ -79,12 +78,7 @@ function FlagForm(props) {
 }
 
 FlagForm.propTypes = {
-  flagCreate: PropTypes.func,
   country: PropTypes.object,
 };
 
-const mapDispatchToProps = dispatch => ({
-  flagCreate: (flag, countryId) => dispatch(photoActions.flagCreateRequest(flag, countryId)),
-});
-
-export default connect(null, mapDispatchToProps)(FlagForm);
+export default FlagForm;

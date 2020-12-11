@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useQuery } from '@apollo/client';
 
+import { useQuery } from '@apollo/client';
 import { GET_AREA_RANK } from '../../../graphql/queries/ranks';
+
 import * as routes from '../../../utils/routes';
 import * as parser from '../../../utils/parser';
 
@@ -29,7 +30,7 @@ function AreaRank() {
           rank.map((x) => {
             const area = Number(x.area).toLocaleString();
             return (
-              <li key={ x.id }>
+              <li key={ x._id }>
                 <p className="country-ranking">{ x.areaRank }</p>
                 {
                   <p className="country-name">

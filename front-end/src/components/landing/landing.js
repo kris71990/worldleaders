@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import { useQuery } from '@apollo/client';
+import * as countryActions from '../../actions/countryActions';
+import { GET_COUNTRIES } from '../../graphql/queries/country';
 
 import CountryForm from '../forms/countryForm/countryForm';
 import SelectMenu from '../select-country/select-country';
-
-import * as countryActions from '../../actions/countryActions';
-import { GET_COUNTRIES } from '../../graphql/queries/country';
 
 import './landing.scss';
 

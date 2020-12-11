@@ -8,7 +8,7 @@ const rankingsRouter = new Router();
 
 // REST - return array of languages spoken in the world, from most to least
 // other rankings routes refactored to country gql api
-rankingsRouter.get('/rankings-language-prevalence', (request, response, next) => {
+rankingsRouter.get('/rankings/language-prevalence', (request, response, next) => {
   logger.log(logger.INFO, `Processing a ${request.method} on ${request.url}`);
 
   return Country.find()

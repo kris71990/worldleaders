@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import * as rankingActions from '../../../actions/rankingActions';
 import './language-rank.scss';
 
-
 class LanguageRank extends React.Component {
   constructor(props) {
     super(props);
