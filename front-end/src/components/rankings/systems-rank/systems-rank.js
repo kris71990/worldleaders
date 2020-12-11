@@ -6,12 +6,14 @@ import { useQuery } from '@apollo/client';
 import { GET_SYSTEMS } from '../../../graphql/queries/system';
 
 import * as systemActions from '../../../actions/systemActions';
-import { parseSystemType } from '../../../utils/parser';
+import { parseCountryName, parseSystemType } from '../../../utils/parser';
 import './systems-rank.scss';
 
 
 function SystemsRank(props) {
   const [systems, setSystems] = useState({});
+  const [toggleSystem, setToggleSystem] = useState(false);
+  const [toggleLi, setToggleLi] = useState('');
 
   const { loading, error, data } = useQuery(GET_SYSTEMS);
 
@@ -21,6 +23,18 @@ function SystemsRank(props) {
       props.systemsGet();
     }
   }, [data]);
+
+  const handleToggleSystem = (e) => {
+    setToggleSystem(!toggleSystem);
+    setToggleLi(e.target.textContent);
+  };
+
+  const filterSystemsByType = () => {
+    return systems.filter((x) => {
+      if (toggleLi.toLowerCase() === x.typeOfGovernment) return x;
+      return null;
+    });
+  };
 
   if (loading) return 'Loading...';
   if (error) return `Error: ${error.message}`;
@@ -36,19 +50,37 @@ function SystemsRank(props) {
           sortedKeys.map((x) => {
             const readableSystem = parseSystemType(x);
             const className = readableSystem.includes(' ') ? readableSystem.toLowerCase().split(' ').join('_') : readableSystem;
-            const systemUrl = `https://en.wikipedia.org/wiki/${className}`;
+            // const systemUrl = `https://en.wikipedia.org/wiki/${className}`;
 
             return (
-              <li key={x} className={ className }>
+              <div key={ x }>
+                <li className={ className } onClick={ handleToggleSystem }>
+                  {
+                    <p className="country-ranking">{ systemsRank[x] }</p>
+                  }
+                  {
+                    <p className="country-name">
+                      {/* <a target="_blank" rel="noopener noreferrer" href={ systemUrl }>{ readableSystem }</a> */}
+                      { readableSystem }
+                    </p>
+                  }
+                </li>
                 {
-                  <p className="country-ranking">{ systemsRank[x] }</p>
+                  toggleSystem && toggleLi === readableSystem ? 
+                    <div className="country-list">
+                      <ul>
+                      {
+                        filterSystemsByType().map((y) => {
+                          return (
+                            <li key={ y._id }>{ parseCountryName(y.countryName) }</li>
+                          );
+                        })
+                      }
+                      </ul>
+                    </div>
+                    : null
                 }
-                {
-                  <p className="country-name">
-                    <a target="_blank" rel="noopener noreferrer" href={ systemUrl }>{ readableSystem }</a>
-                  </p>
-                }
-              </li>
+              </div>
             );
           })
         }

@@ -51,7 +51,7 @@ function CountryBasic(props) {
     },
     onError(error) { // eslint-disable-line
       setCountryUpdate('');
-      console.log(error.message);
+      console.log(error.message); // eslint-disable-line
     },
   });
 
