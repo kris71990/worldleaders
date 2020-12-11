@@ -92,7 +92,7 @@ LeaderPhotoForm.propTypes = {
   headOfStatePhotoCreate: PropTypes.func,
   systemGet: PropTypes.func,
   system: PropTypes.object,
-  keywords: PropTypes.object,
+  keywords: PropTypes.array,
   type: PropTypes.string,
 };
 

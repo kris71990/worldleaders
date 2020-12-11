@@ -17,11 +17,11 @@ export default {
     createCountry: (_, { countryName }, { dataSources }) => dataSources.countryAPI.postCountry(countryName),
     updateFlag: (_, { id, flagUrl }, { dataSources }) => dataSources.countryAPI.putFlag(id, flagUrl),
     createSystem: (_, { countryId, countryName }, { dataSources }) => dataSources.systemAPI.postSystem({ countryId, countryName }),
+    updateCountry: (_, { id }, { dataSources }) => dataSources.countryAPI.putCountry(id),
+    updateSystem: (_, { country }, { dataSources }) => dataSources.systemAPI.putSystem(country),
 
     // **
-    updateCountry: (_, { id }, { dataSources }) => dataSources.countryAPI.putCountry(id),
     removeCountry: (_, { id }, { dataSources }) => dataSources.countryAPI.deleteCountry(id),
-    updateSystem: (_, { country }, { dataSources }) => dataSources.systemAPI.putSystem(country),
     updateLeader: (_, { id, leaderUrl, leaderType }, { dataSources }) => dataSources.systemAPI.putLeader({ id, leaderUrl, leaderType }),
     // **
   },

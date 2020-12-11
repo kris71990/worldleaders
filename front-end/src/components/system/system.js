@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { GET_SYSTEM } from '../../graphql/queries/system';
+import { UPDATE_SYSTEM } from '../../graphql/mutations/system';
 
 // import CapitalMap from '../capital-map/capital-map';
 import SystemElections from '../system-elections/system-elections';
@@ -16,9 +17,31 @@ import './system.scss';
 function System(props) {
   const [country] = useState(props.location.state.selected);
   const [system, setSystem] = useState({});
+  const [systemUpdate, setSystemUpdate] = useState('');
 
   const { loading, error, data } = useQuery(GET_SYSTEM, {
     variables: { country: country.countryName },
+  });
+
+  const [updateSystem, { data: dataUpdate, error: errorUpdate }] = useMutation(UPDATE_SYSTEM, { // eslint-disable-line
+    variables: { country: country.countryName },
+    update(cache, { data: { updateSystem } }) { // eslint-disable-line
+      cache.modify({
+        fields: {
+          system() {
+            return updateSystem;
+          },
+        },
+      });
+    },
+    onCompleted(dataUpdate) { // eslint-disable-line
+      setSystemUpdate('');
+      setSystemUpdate(`${dataUpdate.updateSystem.countryName} up to date`);
+    },
+    onError(error) { // eslint-disable-line 
+      setSystemUpdate('');
+      console.log(error.message);
+    },
   });
 
   useEffect(() => {
@@ -28,10 +51,11 @@ function System(props) {
   }, [data]);
 
   const handleUpdateSystem = () => {
-    props.systemUpdate(props.selected)
-      .then(() => {
-        props.systemGet(props.selected.countryName);
-      });
+    return updateSystem(country.countryName);
+    // props.systemUpdate(props.selected)
+    //   .then(() => {
+    //     props.systemGet(props.selected.countryName);
+    //   });
   };
 
   if (loading) return 'Loading...';
@@ -88,6 +112,7 @@ function System(props) {
         <div>
           <p>Last Updated: { system ? system.lastUpdated : null }</p>
           <button onClick={ handleUpdateSystem }>Update</button> 
+          { systemUpdate ? <p id="update-status">{ systemUpdate }</p> : null }
         </div>
       </div>
       { nameJSX }

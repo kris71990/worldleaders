@@ -30,6 +30,16 @@
       font-style: italic;
       font-size: 90%;
     }
+
+    @keyframes fade {
+      0% { opacity: 1 }
+    }
+
+    #update-status {
+      position: absolute;
+      opacity: 0;
+      animation: fade 5s;
+    }
   }
   
   #basic-system-info {

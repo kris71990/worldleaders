@@ -45,5 +45,4 @@ const UPDATE_SYSTEM = gql`
   }
 `;
 
-
 export { ADD_SYSTEM, UPDATE_SYSTEM };

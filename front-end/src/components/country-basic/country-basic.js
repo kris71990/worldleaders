@@ -46,6 +46,7 @@ function CountryBasic(props) {
       });
     },
     onCompleted(data) {
+      setCountryUpdate('');
       setCountryUpdate(`${data.updateCountry.countryName} up to date`);
     },
     onError(error) { // eslint-disable-line
@@ -60,10 +61,6 @@ function CountryBasic(props) {
 
   const handleUpdateCountry = () => {
     return updateCountry(selected._id);
-    // this.props.countryUpdate(this.props.selected)
-    //   .then(() => {
-    //     this.props.countryGet(this.props.selected);
-    //   }); 
   };
 
   const handleCreateReadablePopulation = (population) => {
