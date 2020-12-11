@@ -45,4 +45,24 @@ const GET_SYSTEMS = gql`
   }
 `;
 
-export { GET_SYSTEM, GET_SYSTEMS };
+const GET_ELECTIONS = gql`
+  query {
+    systems {
+      _id
+      countryName
+      typeOfGovernment
+      electionDates {
+        exec {
+          next
+          last
+        }
+        leg {
+          next
+          last
+        }
+      }
+    }
+  }
+`;
+
+export { GET_SYSTEM, GET_SYSTEMS, GET_ELECTIONS };

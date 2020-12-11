@@ -41,24 +41,24 @@ const parseElectionDates = (dates) => {
 
 const sortElectionDates = (elections, type) => {
   if (type === 'leg') {
-    const sortedElections = elections.sort((a, b) => {
-      if (a.electionDates.leg.next === 'unknown') return b - a;
+    const sortedElections = elections.slice().sort((a, b) => {
+      if (a.electionDates.leg.next[0] === 'unknown') return b - a;
 
       const legNextA = new Date(a.electionDates.leg.next[0]);
       const legNextB = new Date(b.electionDates.leg.next[0]);
       return legNextA - legNextB;
-    });
+    }, []);
     return sortedElections;
   }
   
   if (type === 'exec') {
-    const sortedElections = elections.sort((a, b) => {
-      if (a.electionDates.exec.next === 'unknown') return b - a;
+    const sortedElections = elections.slice().sort((a, b) => {
+      if (a.electionDates.exec.next[0] === 'unknown') return b - a;
 
       const execNextA = new Date(a.electionDates.exec.next[0]);
       const execNextB = new Date(b.electionDates.exec.next[0]);
       return execNextA - execNextB;
-    });
+    }, []);
     return sortedElections;
   }
   return elections;
