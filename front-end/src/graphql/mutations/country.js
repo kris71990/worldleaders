@@ -107,16 +107,6 @@ const UPDATE_FLAG = gql`
   }
 `;
 
-const ADD_SYSTEM = gql`
-  mutation createSystem($countryId: String!, $countryName: String!) {
-    createSystem(countryId: $countryId, countryName: $countryName) {
-      _id
-      countryName
-      typeOfGovernment
-    }
-  }
-`;
-
 export { 
-  ADD_COUNTRY, UPDATE_COUNTRY, UPDATE_FLAG, ADD_SYSTEM, 
+  ADD_COUNTRY, UPDATE_COUNTRY, UPDATE_FLAG,
 };

@@ -8,7 +8,7 @@ import CountryCulture from '../country-culture/country-culture';
 import CountryEconomy from '../country-economy/country-economy';
 
 import * as countryActions from '../../actions/countryActions';
-import { GET_COUNTRY } from '../../graphql/queries';
+import { GET_COUNTRY } from '../../graphql/queries/country';
 import './country.scss';
 
 function Country(props) {

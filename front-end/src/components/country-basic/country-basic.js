@@ -10,7 +10,8 @@ import Divider from '../common/divider/divider';
 
 import * as routes from '../../utils/routes';
 import * as systemActions from '../../actions/systemActions';
-import { ADD_SYSTEM } from '../../graphql/mutations';
+import { ADD_SYSTEM } from '../../graphql/mutations/system';
+import { UPDATE_COUNTRY } from '../../graphql/mutations/country';
 import * as parser from '../../utils/parser';
 
 import './country-basic.scss';
@@ -18,8 +19,9 @@ import './country-basic.scss';
 function CountryBasic(props) {
   const { selected, existingCount } = props;
   const [systemAdded, setSystemAdded] = useState(false);
+  const [countryUpdate, setCountryUpdate] = useState('');
 
-  const [addSystem, { data, error }] = useMutation(ADD_SYSTEM, { // eslint-disable-line
+  const [addSystem, { data: dataSystem, error: errorAdd }] = useMutation(ADD_SYSTEM, { // eslint-disable-line
     variables: { 
       countryId: selected._id, 
       countryName: selected.countryName,
@@ -32,15 +34,36 @@ function CountryBasic(props) {
     },
   });
 
+  const [updateCountry, { data: dataUpdate, error: errorUpdate}] = useMutation(UPDATE_COUNTRY, { // eslint-disable-line
+    variables: { id: selected._id },
+    update(cache, { data: { updateCountry } }) { // eslint-disable-line
+      cache.modify({
+        fields: {
+          country() {
+            return updateCountry;
+          },
+        },
+      });
+    },
+    onCompleted(data) {
+      setCountryUpdate(`${data.updateCountry.countryName} up to date`);
+    },
+    onError(error) { // eslint-disable-line
+      setCountryUpdate('');
+      console.log(error.message);
+    },
+  });
+
   const handleCreateSystem = () => {
     return addSystem(selected._id, selected.countryName);
   };
 
-  const handleUpdateSystem = () => {
-    this.props.countryUpdate(this.props.selected)
-      .then(() => {
-        this.props.countryGet(this.props.selected);
-      }); 
+  const handleUpdateCountry = () => {
+    return updateCountry(selected._id);
+    // this.props.countryUpdate(this.props.selected)
+    //   .then(() => {
+    //     this.props.countryGet(this.props.selected);
+    //   }); 
   };
 
   const handleCreateReadablePopulation = (population) => {
@@ -117,7 +140,6 @@ function CountryBasic(props) {
       } 
     </div>;
     
-
   return (
     <div className="basic-info">
       <div id="info-status">
@@ -126,9 +148,10 @@ function CountryBasic(props) {
           <p>Last Updated: { selected.lastUpdated }</p>
           { 
             selected.hasLinkedSystem || systemAdded ?
-              <CustomButton action={ handleUpdateSystem } text='Update'/>
+              <CustomButton action={ handleUpdateCountry } text='Update'/>
               : null
           }
+          { countryUpdate ? <p id="update-status">{ countryUpdate }</p> : null }
         </div>
       </div>
       <h1>{ countryNameJSX }</h1>

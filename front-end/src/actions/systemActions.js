@@ -6,46 +6,19 @@ const systemsGetAll = systemsObj => ({
   payload: systemsObj,
 });
 
-const systemGet = system => ({
-  type: 'SYSTEM_GET',
-  payload: system,
-});
-
-const systemCreate = system => ({
-  type: 'SYSTEM_CREATE',
-  payload: system,
-});
-
 const systemUpdate = system => ({
   type: 'SYSTEM_UPDATE',
   payload: system,
 });
 
-const systemsGetAllRequest = () => (store) => {
-  return superagent.get(`${API_URL}${routes.SYSTEMS_ROUTE}`)
+const systemsGetTypesRequest = () => (store) => {
+  return superagent.get(`${REST_API_URL}/systems/types`)
     .then((response) => {
       store.dispatch(systemsGetAll(response.body));
       return response;
     });
 };
 
-const systemGetRequest = country => (store) => {
-  return superagent.get(`${API_URL}${routes.SYSTEM_ROUTE}/${country}`)
-    .then((response) => {
-      store.dispatch(systemGet(response.body));
-      return response;
-    }); 
-};
-
-const systemCreateRequest = (countryId, countryName) => (store) => {
-  return superagent.post(`${API_URL}${routes.SYSTEM_ROUTE}`)
-    .send({ countryId })
-    .send({ countryName })
-    .then((response) => {
-      store.dispatch(systemCreate(response.body));
-      return response;
-    });
-};
 
 const systemUpdateRequest = country => (store) => {
   return superagent.put(`${API_URL}${routes.SYSTEM_ROUTE}/${country.countryName}`)
@@ -58,11 +31,7 @@ const systemUpdateRequest = country => (store) => {
 
 export { 
   systemsGetAll, 
-  systemsGetAllRequest, 
-  systemGetRequest, 
-  systemGet, 
-  systemCreateRequest,
-  systemCreate,
+  systemsGetTypesRequest, 
   systemUpdateRequest,
   systemUpdate,
 };

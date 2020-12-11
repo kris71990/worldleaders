@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { useMutation } from '@apollo/client';
-import { UPDATE_FLAG } from '../../../graphql/mutations';
+import { UPDATE_FLAG } from '../../../graphql/mutations/country';
 
 import CustomButton from '../../common/button/button';
 import { parseCountryName } from '../../../utils/parser';

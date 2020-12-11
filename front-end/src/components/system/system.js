@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { useQuery } from '@apollo/client';
-import { GET_SYSTEM } from '../../graphql/queries';
+import { GET_SYSTEM } from '../../graphql/queries/system';
 
 // import CapitalMap from '../capital-map/capital-map';
 import SystemElections from '../system-elections/system-elections';

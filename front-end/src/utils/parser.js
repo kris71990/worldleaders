@@ -18,6 +18,15 @@ const capitalize = (string) => {
   return splitStr[0].charAt(0).toUpperCase() + splitStr.slice(1);
 };
 
+const parseSystemType = (system) => {
+  const rx = /[A-Z]/g;
+  const index = system.search(rx);
+
+  if (index === -1) return capitalize(system);
+  const splitOnIndex = [system.slice(0, index), system.slice(index)];
+  return `${splitOnIndex[0].charAt(0).toUpperCase()}${splitOnIndex[0].slice(1)} ${splitOnIndex[1]}`;
+};
+
 const parseDate = (date) => {
   return new Date(date).toDateString();
 };
@@ -56,5 +65,5 @@ const sortElectionDates = (elections, type) => {
 };
 
 export { 
-  parseCountryName, parseFullCountryName, parseElectionDates, sortElectionDates, capitalize, parseDate,
+  parseCountryName, parseFullCountryName, parseElectionDates, sortElectionDates, capitalize, parseDate, parseSystemType,
 };

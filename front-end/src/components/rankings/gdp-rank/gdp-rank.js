@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/client';
 import * as routes from '../../../utils/routes';
 
-import { GET_GDP_RANK } from '../../../graphql/queries';
+import { GET_GDP_RANK } from '../../../graphql/queries/ranks';
 import * as parser from '../../../utils/parser';
 
 import './gdp-rank.scss';

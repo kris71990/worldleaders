@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/client';
 
-import { GET_POP_RANK } from '../../../graphql/queries';
+import { GET_POP_RANK } from '../../../graphql/queries/ranks';
 import * as routes from '../../../utils/routes';
 import * as parser from '../../../utils/parser';
 

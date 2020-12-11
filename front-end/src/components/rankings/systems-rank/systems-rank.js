@@ -1,64 +1,66 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import { useQuery } from '@apollo/client';
+import { GET_SYSTEMS } from '../../../graphql/queries/system';
+
 import * as systemActions from '../../../actions/systemActions';
-import { capitalize } from '../../../utils/parser';
+import { parseSystemType } from '../../../utils/parser';
 import './systems-rank.scss';
 
 
-class SystemsRank extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+function SystemsRank(props) {
+  const [systems, setSystems] = useState({});
 
-  componentDidMount() {
-    this.props.systemsGet()
-      .then((response) => {
-        this.setState({ systemsRank: response.body });
-      });
-  }
+  const { loading, error, data } = useQuery(GET_SYSTEMS);
 
-  render() {
-    const { systemsRank } = this.props;
-    let systemsRankJSX = null;
-
-    if (systemsRank) {
-      const sortedKeys = Object.keys(systemsRank).sort((a, b) => systemsRank[b] - systemsRank[a]);
-
-      systemsRankJSX = 
-        <ul className="systems-list">
-          {
-            sortedKeys.map((x) => {
-              const className = x.includes(' ') ? x.replace(' ', '-') : x;
-              const systemUrl = `https://en.wikipedia.org/wiki/${x}`;
-
-              return (
-                <li key={x} className={ className }>
-                  {
-                    <p className="country-ranking">{ systemsRank[x] }</p>
-                  }
-                  {
-                    <p className="country-name">
-                      <a target="_blank" rel="noopener noreferrer" href={ systemUrl }>{ capitalize(x) }</a>
-                    </p>
-                  }
-                </li>
-              );
-            })
-          }
-        </ul>;
+  useEffect(() => {
+    if (data && data.systems) {
+      setSystems(data.systems);
+      props.systemsGet();
     }
+  }, [data]);
 
-    return (
-      <div className="rankings"> 
-        <h1>Distribution of Political Systems</h1>
-        { systemsRankJSX }
-      </div>
-    );
+  if (loading) return 'Loading...';
+  if (error) return `Error: ${error.message}`;
+  const { systemsRank } = props;
+  let systemsRankJSX = null;
+
+  if (systemsRank) {
+    const sortedKeys = Object.keys(systemsRank).sort((a, b) => systemsRank[b] - systemsRank[a]);
+
+    systemsRankJSX = 
+      <ul className="systems-list">
+        {
+          sortedKeys.map((x) => {
+            const readableSystem = parseSystemType(x);
+            const className = readableSystem.includes(' ') ? readableSystem.toLowerCase().split(' ').join('_') : readableSystem;
+            const systemUrl = `https://en.wikipedia.org/wiki/${className}`;
+
+            return (
+              <li key={x} className={ className }>
+                {
+                  <p className="country-ranking">{ systemsRank[x] }</p>
+                }
+                {
+                  <p className="country-name">
+                    <a target="_blank" rel="noopener noreferrer" href={ systemUrl }>{ readableSystem }</a>
+                  </p>
+                }
+              </li>
+            );
+          })
+        }
+      </ul>;
   }
+
+  return (
+    <div className="rankings"> 
+      <h1>Distribution of Political Systems</h1>
+      { systemsRankJSX }
+    </div>
+  );
 }
 
 SystemsRank.propTypes = {
@@ -74,7 +76,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  systemsGet: () => dispatch(systemActions.systemsGetAllRequest()),
+  systemsGet: () => dispatch(systemActions.systemsGetTypesRequest()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SystemsRank);

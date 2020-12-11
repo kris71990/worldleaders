@@ -8,7 +8,7 @@ import CountryForm from '../forms/countryForm/countryForm';
 import SelectMenu from '../select-country/select-country';
 
 import * as countryActions from '../../actions/countryActions';
-import { GET_COUNTRIES } from '../../graphql/queries';
+import { GET_COUNTRIES } from '../../graphql/queries/country';
 
 import './landing.scss';
 
