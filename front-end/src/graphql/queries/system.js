@@ -15,8 +15,10 @@ const GET_SYSTEM = gql`
       typeOfGovernment
       chiefOfStateFull
       chiefOfStateKeywords
+      chiefOfStateImg
       headOfGovernmentFull
       headOfGovernmentKeywords
+      headOfGovernmentImg
       electionDates {
         exec {
           next

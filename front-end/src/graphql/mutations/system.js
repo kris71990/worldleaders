@@ -25,8 +25,10 @@ const UPDATE_SYSTEM = gql`
       typeOfGovernment
       chiefOfStateFull
       chiefOfStateKeywords
+      chiefOfStateImg
       headOfGovernmentFull
       headOfGovernmentKeywords
+      headOfGovernmentImg
       electionDates {
         exec {
           next
@@ -45,4 +47,41 @@ const UPDATE_SYSTEM = gql`
   }
 `;
 
-export { ADD_SYSTEM, UPDATE_SYSTEM };
+const UPDATE_LEADER = gql`
+  mutation updateLeader($id: String!, $leaderUrl: String!, $leaderType: String!) {
+    updateLeader(id: $id, leaderUrl: $leaderUrl, leaderType: $leaderType) {
+      _id
+      lastUpdated
+      countryId
+      countryName
+      fullName
+      capital
+      capitalCoordinates
+      independence
+      typeOfGovernmentFull
+      typeOfGovernment
+      chiefOfStateFull
+      chiefOfStateKeywords
+      chiefOfStateImg
+      headOfGovernmentFull
+      headOfGovernmentKeywords
+      headOfGovernmentImg
+      electionDates {
+        exec {
+          next
+          last
+        }
+        leg {
+          next
+          last
+        }
+      }
+      electionsExec
+      electionResultsExec
+      electionsLeg
+      electionResultsLeg
+    }
+  }
+`;
+
+export { ADD_SYSTEM, UPDATE_SYSTEM, UPDATE_LEADER };

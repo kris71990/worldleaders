@@ -100,7 +100,7 @@ class SystemLeaders extends React.Component {
                 <Divider/>
                 <LeaderPhotoForm 
                   system={ selected } 
-                  type={ 'hos' } 
+                  type={ 'cos' } 
                   keywords={ selected.chiefOfStateKeywords }
                 />
               </div>
