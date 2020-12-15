@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import { useMutation } from '@apollo/client';
 import { UPDATE_LEADER } from '../../../graphql/mutations/system';
-
-import * as photoActions from '../../../actions/photoActions';
 
 import './leader-form.scss';
 
@@ -104,18 +101,9 @@ function LeaderPhotoForm(props) {
 }
 
 LeaderPhotoForm.propTypes = {
-  headOfGovernmentPhotoCreate: PropTypes.func,
-  headOfStatePhotoCreate: PropTypes.func,
   system: PropTypes.object,
   keywords: PropTypes.array,
   type: PropTypes.string,
 };
 
-const mapDispatchToProps = dispatch => ({
-  headOfGovernmentPhotoCreate: 
-  (leader, systemId) => dispatch(photoActions.headOfGovernmentPhotoCreateRequest(leader, systemId)),
-  headOfStatePhotoCreate: 
-  (leader, systemId) => dispatch(photoActions.headOfStatePhotoCreateRequest(leader, systemId)),
-});
-
-export default connect(null, mapDispatchToProps)(LeaderPhotoForm);
+export default LeaderPhotoForm;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -7,6 +8,7 @@ import { GET_SYSTEMS } from '../../../graphql/queries/system';
 
 import * as systemActions from '../../../actions/systemActions';
 import { parseCountryName, parseSystemType } from '../../../utils/parser';
+// import * as routes from '../../../utils/routes';
 import './systems-rank.scss';
 
 
@@ -72,7 +74,14 @@ function SystemsRank(props) {
                       {
                         filterSystemsByType().map((y) => {
                           return (
-                            <li key={ y._id }>{ parseCountryName(y.countryName) }</li>
+                            <li key={ y._id }>
+                              {/* <Link to={{ 
+                                pathname: `${routes.SYSTEM_ROUTE}/${y.countryName.toLowerCase()}`, 
+                                state: { selected: x },
+                              }}></Link>
+                                 */}
+                              { parseCountryName(y.countryName) }
+                            </li>
                           );
                         })
                       }

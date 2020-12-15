@@ -36,7 +36,10 @@ function PopulationRank() {
                 {
                   <p className="country-name">
                   {
-                    <Link to={{ pathname: routes.COUNTRY_ROUTE, state: { selected: x.id } }}>
+                    <Link to={{ 
+                      pathname: `${routes.COUNTRY_ROUTE}/${x._id}`, 
+                      state: { selected: x._id, countryList: rank },
+                    }}>
                       { parser.parseCountryName(x.countryName) }
                     </Link>
                     }
