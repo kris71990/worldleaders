@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, useRouteMatch } from 'react-router-dom';
 
-import LanguageRank from '../language-rank/language-rank';
-import GDPRank from '../gdp-rank/gdp-rank';
-import AreaRank from '../area-rank/area-rank';
-import PopulationRank from '../population-rank/population-rank';
-import SystemsRank from '../systems-rank/systems-rank';
+import LanguageRank from '../rankings/language-rank/language-rank';
+import GDPRank from '../rankings/gdp-rank/gdp-rank';
+import AreaRank from '../rankings/area-rank/area-rank';
+import PopulationRank from '../rankings/population-rank/population-rank';
+import SystemsRank from '../rankings/systems-rank/systems-rank';
 
-const RankingsMain = () => {
+const RankingsContainer = () => {
   const { path } = useRouteMatch();
 
   return (
@@ -21,4 +21,4 @@ const RankingsMain = () => {
   );
 };
 
-export default RankingsMain;
+export default RankingsContainer;

@@ -157,7 +157,7 @@ function CountryBasic(props) {
         <Link to=
           {
             { 
-              pathname: `${routes.SYSTEM_ROUTE}-${selected.countryName}`, state: { selected },
+              pathname: `${routes.SYSTEM_ROUTE}/${selected.countryName}`, state: { selected },
             }
           }>Government</Link>
           : 

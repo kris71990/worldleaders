@@ -4,9 +4,9 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
 import Landing from '../landing/landing';
-import RankingsMain from '../rankings/rankings-main/rankings-main';
-import Country from '../country/country';
-import System from '../system/system';
+import RankingsContainer from '../containers/rankings';
+import SystemContainer from '../containers/system';
+import CountryContainer from '../containers/country';
 import Elections from '../election/elections';
 
 class App extends React.Component {
@@ -17,9 +17,9 @@ class App extends React.Component {
           <div>
             <Header/>
             <Route exact path="/" component={ Landing }/>
-            <Route path="/rankings" component={ RankingsMain }/>
-            <Route exact path="/countries" component={ Country }/>
-            <Route path="/system-:country" component={ System }/>
+            <Route path="/rankings" component={ RankingsContainer }/>
+            <Route path="/country" component={ CountryContainer }/>
+            <Route path="/system" component={ SystemContainer }/>
             <Route path="/elections" component={ Elections }/>
             <Footer/>
           </div>

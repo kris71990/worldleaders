@@ -62,7 +62,7 @@ function Landing(props) {
       />
       { redirect 
         ? <Redirect to={{ 
-          pathname: '/countries', 
+          pathname: `/country/${selected}`, 
           state: { selected, countryList: props.countryList },
         }}/> 
         : null 

@@ -1,5 +1,5 @@
 export const ROOT_ROUTE = '/';
-export const COUNTRY_ROUTE = '/countries';
+export const COUNTRY_ROUTE = '/country';
 export const SYSTEM_ROUTE = '/system';
 export const FLAG_ROUTE = '/flags';
 export const LEADER_ROUTE = '/leaders';
