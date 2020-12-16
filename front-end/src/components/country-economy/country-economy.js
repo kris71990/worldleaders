@@ -36,9 +36,9 @@ class CountryEconomy extends React.Component {
           <ul>
           {
             selected.imports ?
-              selected.imports.map((x) => {
+              selected.imports.map((x, i) => {
                 return (
-                  <li key={x}>{x}</li>
+                  <li key={i}>{x}</li>
                 );
               })
               : null
@@ -52,9 +52,9 @@ class CountryEconomy extends React.Component {
           <ul>
           {
             selected.importPartners ?
-              selected.importPartners.map((x) => {
+              selected.importPartners.map((x, i) => {
                 return (
-                  <li key={x.name}>{`${x.name} - ${x.percent}%`}</li>
+                  <li key={i}>{`${x.name} - ${x.percent}%`}</li>
                 );
               })
               : null
@@ -68,9 +68,9 @@ class CountryEconomy extends React.Component {
           <ul>
           {
             selected.exports ?
-              selected.exports.map((x) => {
+              selected.exports.map((x, i) => {
                 return (
-                  <li key={x}>{x}</li>
+                  <li key={i}>{x}</li>
                 );
               })
               : null
@@ -84,9 +84,9 @@ class CountryEconomy extends React.Component {
           <ul>
           {
             selected.exportPartners ?
-              selected.exportPartners.map((x) => {
+              selected.exportPartners.map((x, i) => {
                 return (
-                  <li key={x.name}>{`${x.name} - ${x.percent}%`}</li>
+                  <li key={i}>{`${x.name} - ${x.percent}%`}</li>
                 );
               })
               : null

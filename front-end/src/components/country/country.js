@@ -1,67 +1,53 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+
+import { useQuery } from '@apollo/client';
+import { GET_COUNTRY } from '../../graphql/queries/country';
 
 import CountryBasic from '../country-basic/country-basic';
 import CountryCulture from '../country-culture/country-culture';
 import CountryEconomy from '../country-economy/country-economy';
 
-import * as countryActions from '../../actions/countryActions';
-// import * as routes from '../../utils/routes';
 import './country.scss';
 
-class Country extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = this.props.location.state;
-  }
+function Country(props) {
+  const [countryId, setCountryId] = useState(props.location.state.selected);
+  const [country, setCountry] = useState({});
+  const { countryList } = props.location.state;
 
-  componentDidMount() {
-    this.props.countryGet(this.state)
-      .then((response) => {
-        this.setState({ selected: response.body });
-        return this.props.countriesGetExisting();
-      });
-  }
+  const { loading, error, data } = useQuery(GET_COUNTRY, {
+    variables: { id: countryId },
+  });
 
-  render() {
-    const { selected, existing } = this.props;
+  useEffect(() => {
+    if (data) {
+      setCountry(data);
+      setCountryId(data.country._id);
+    }
+  }, [data]);
+  
+  if (loading) return 'Loading...';
+  if (error) return `Error: ${error.message}`;
 
-    return (
-      <div className="country-info">
-        {
-          selected 
-            ? <div>
-                <CountryBasic selected={ selected } existingCount={ existing.length }/>
-                <CountryCulture selected={ selected }/>
-                <CountryEconomy selected={ selected } existingCount={ existing.length }/>
-              </div>
-            : null
-        }
-      </div>
-    );
-  }
+  return (
+    <div className="country-info">
+    { country && country.country
+      ? <div>
+          <CountryBasic selected={ country.country } existingCount={ countryList.length }/>
+          <CountryCulture selected={ country.country }/>
+          <CountryEconomy selected={ country.country } existingCount={ countryList.length }/>
+        </div>
+      : null
+    }
+    </div>
+  );
 }
 
 Country.propTypes = {
   history: PropTypes.object,
   selected: PropTypes.object,
-  existing: PropTypes.array,
   location: PropTypes.object,
-  countryGet: PropTypes.func,
-  countriesGetExisting: PropTypes.func,
+  countryList: PropTypes.array,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    selected: state.country,
-    existing: state.countries.existing,
-  };
-};
-
-const mapDispatchToProps = dispatch => ({
-  countryGet: country => dispatch(countryActions.countryGetRequest(country.selected)),
-  countriesGetExisting: () => dispatch(countryActions.countriesExistingFetch()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Country);
+export default Country;

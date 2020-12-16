@@ -4,7 +4,8 @@
     "browser": true
   },
   "globals": {
-    "API_URL": true,
+    "GRAPHQL_API_URL": true,
+    "REST_API_URL": true,
     "GOOGLE_API_KEY": true
   },
   "parser": "babel-eslint",

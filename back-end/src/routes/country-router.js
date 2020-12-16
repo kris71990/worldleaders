@@ -73,7 +73,7 @@ countryRouter.get('/countries/db', (request, response, next) => {
 
   return Country.find()
     .then((countries) => {
-      logger.log(logger.INFO, 'GET /country/all successful, getting all countries, returning 200');
+      logger.log(logger.INFO, 'GET /country/db successful, getting all countries, returning 200');
       return response.json(countries);
     })
     .catch(next);
@@ -93,6 +93,7 @@ countryRouter.get('/countries/cia', (request, response) => {
     }
     return null;
   });
+  
   return response.json(filteredCountries);
 });
 

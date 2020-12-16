@@ -13,7 +13,7 @@ webpackConfig.entry = `${__dirname}/src/main.js`;
 webpackConfig.output = {
   filename: '[name].[hash].js',
   path: `${__dirname}/build`,
-  publicPath: process.env.CDN_URL,
+  publicPath: '/',
 };
 
 webpackConfig.plugins = [
@@ -24,7 +24,8 @@ webpackConfig.plugins = [
     filename: '[name].[hash].css',
   }),
   new DefinePlugin({
-    API_URL: JSON.stringify(process.env.API_URL),
+    REST_API_URL: JSON.stringify(process.env.REST_API_URL),
+    GRAPHQL_API_URL: JSON.stringify(process.env.GRAPHQL_API_URL),
     GOOGLE_API_KEY: JSON.stringify(process.env.GOOGLE_API_KEY),
   }),
 ];

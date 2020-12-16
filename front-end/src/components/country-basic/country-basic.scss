@@ -1,8 +1,14 @@
 @import '../../style/vars';
 
 .basic-info {
-  border: 10px ridge $header-border;
-  background-color: $basic-background;
+  border-bottom: 10px solid black;
+  background: repeating-linear-gradient(
+    45deg,
+    $basic-background,
+    $basic-background 2px,
+    $background-color 2px,
+    $background-color 4px
+  );
   text-align: center;
 
   h1 {
@@ -25,6 +31,16 @@
       margin: 5px 5px 10px 0;
       font-style: italic;
       font-size: 90%;
+    }
+  
+    @keyframes fade {
+      0% { opacity: 1 }
+    }
+
+    #update-status {
+      position: absolute;
+      opacity: 0;
+      animation: fade 5s;
     }
   }
 

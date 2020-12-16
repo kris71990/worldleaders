@@ -1,72 +1,81 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import autoBind from '../../../utils/autoBind';
+import React, { useState } from 'react';
+
+import { useMutation } from '@apollo/client';
+import { ADD_COUNTRY } from '../../../graphql/mutations/country';
+
+import { parseCountryName } from '../../../utils/parser';
 
 import './countryForm.scss';
 
-const defaultState = {
-  countryName: '',
-  countryNameDirty: false,
-  countryNameError: 'Country already on list',
-};
+function CountryForm() {
+  const [countryName, setCountryName] = useState('');
+  const [countryNameDirty, setCountryNameDirty] = useState(false);
+  const [countryNameError, setError] = useState('');
+  const [countryAddSuccess, setSuccess] = useState('');
 
-class CountryForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = defaultState;
-    autoBind.call(this, CountryForm);
-  }
+  const [addCountry, { data, error }] = useMutation(ADD_COUNTRY, { // eslint-disable-line
+    variables: { countryName },
+    onCompleted() {
+      setCountryName('');
+      setCountryNameDirty(false);
+      setError('');
+    },
+    update(cache, { data: { createCountry } }) { // eslint-disable-line
+      cache.modify({
+        fields: {
+          countries(existingCountries) {
+            return [...existingCountries, createCountry];
+          },
+        },
+      });
+      setSuccess(`${parseCountryName(createCountry.countryName)} added`);
+    },
+    onError(error) { // eslint-disable-line
+      setCountryNameDirty(true);
+      setError(`Error: ${error.message}`);
+      setSuccess('');
+    },
+  });
 
-  handleChange(e) {
-    const { name, value } = e.target;
-    this.setState({
-      [name]: value,
-      countryNameDirty: false,
-    });
-  }
+  const handleChange = (e) => {
+    setCountryName(e.target.value);
+    setCountryNameDirty(false);
+    setSuccess('');
+  };
 
-  handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const { countries } = this.props;
-    const countryNames = countries.map((x) => {
-      return x.countryName;
-    });
+    return addCountry(countryName);
+  };
 
-    if (countryNames.includes(this.state.countryName)) {
-      this.setState({ countryNameDirty: true });
-    } else {
-      this.props.onComplete(this.state);
-      this.setState(defaultState);
-    }
-  }
-
-  render() {
-    return (
-      <div className="country-container">
-        <h4>{'Don\'t see a country? Add it here:'}</h4>
-        <form className="country-form" onSubmit={ this.handleSubmit }>
-          <input
-            className="country-name"
-            name="countryName"
-            placeholder="Enter a country"
-            type="text"
-            value={ this.state.countryName }
-            onChange={ this.handleChange }
-          />
-          <button type="submit">Add</button>
-          { this.state.countryNameDirty ? 
-              <p>{ this.state.countryNameError }</p>
-            : null
-          }
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div className="country-container">
+      <h4>{'Don\'t see a country? Add it here:'}</h4>
+      { data && data.addCountry && !data.addCountry.success
+        ? <p>{ data.addCountry.message }</p>
+        :
+          <form className="country-form" onSubmit={ handleSubmit }>
+            <input
+              className="country-name"
+              name="countryName"
+              placeholder="Enter a country"
+              type="text"
+              value={ countryName }
+              onChange={ handleChange }
+            />
+            <button type="submit">Add</button>
+          </form>
+      }
+      { countryNameDirty ? 
+          <p id="error">{ countryNameError }</p>
+        : null
+      }
+      { countryAddSuccess ? 
+          <p id="success">{ countryAddSuccess }</p>
+        : null
+      }
+    </div>
+  );
 }
-
-CountryForm.propTypes = {
-  onComplete: PropTypes.func,
-  countries: PropTypes.array,
-};
 
 export default CountryForm;

@@ -1,93 +1,84 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import autoBind from '../../../utils/autoBind';
+
+import { useMutation } from '@apollo/client';
+import { UPDATE_FLAG } from '../../../graphql/mutations/country';
 
 import CustomButton from '../../common/button/button';
-
 import { parseCountryName } from '../../../utils/parser';
-import * as countryActions from '../../../actions/countryActions';
-import * as photoActions from '../../../actions/photoActions';
+
 import './flag-form.scss';
 
-const defaultState = {
-  flagUrl: '',
-  flagUrlDirty: false,
-  flagUrlError: 'Flag link invalid',
-};
+function FlagForm(props) {
+  const id = props.country._id;
+  const [flagUrl, setFlagUrl] = useState('');
+  const [flagUrlDirty, setFlagDirty] = useState(false);
+  const [flagUrlError, setFlagError] = useState('');
 
-class FlagForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = defaultState;
-    autoBind.call(this, FlagForm);
-  }
+  const [updateFlag, { data, error }] = useMutation(UPDATE_FLAG, { // eslint-disable-line
+    variables: { id, flagUrl },
+    onCompleted() {
+      setFlagDirty(false);
+      setFlagError('');
+      setFlagUrl('');
+    },
+    update(cache, { data: { country } }) { // eslint-disable-line
+      cache.modify({
+        fields: {
+          country() {
+            return country;
+          },
+        },
+      });
+    },
+    onError(error) { // eslint-disable-line
+      setFlagError(`Error: ${error.message}`);
+    },
+  });
 
-  handleChange(e) {
-    const { name, value } = e.target;
-    this.setState({
-      [name]: value,
-      flagUrlDirty: false,
-    });
-  }
+  const handleChange = (e) => {
+    setFlagUrl(e.target.value);
+    setFlagDirty(false);
+    setFlagError('');
+  };
 
-  handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const { country } = this.props;
-    const searchableCountryName = parseCountryName(country.countryName);
+    const searchableCountryName = parseCountryName(props.country.countryName);
     
-    if (this.state.flagUrl.slice(0, 29) !== 'https://upload.wikimedia.org/'
-        || !this.state.flagUrl.includes('Flag') 
-        || !this.state.flagUrl.includes(searchableCountryName)) {
-      this.setState({ flagUrlDirty: true });
-    } else {
-      this.props.flagCreate(this.state, country._id)
-        .then(() => {
-          this.props.countryGet(this.props.country);
-        });
-      this.setState(defaultState);
+    if (flagUrl.slice(0, 29) !== 'https://upload.wikimedia.org/'
+        || !flagUrl.includes('Flag') 
+        || !flagUrl.includes(searchableCountryName)) {
+      return setFlagDirty(true);
     }
-  }
 
-  render() {
-    return (
-      <div className="flag-container">
-        <h4>{ 'Enter Url of flag picture:' }</h4>
-        <form className="flag-form" onSubmit={ this.handleSubmit }>
-          <input
-            className="flag-url"
-            name="flagUrl"
-            placeholder="Enter URL"
-            type="text"
-            value={ this.state.countryName }
-            onChange={ this.handleChange }
-          />
-          <CustomButton text='Submit'/>
-          { this.state.flagUrlDirty ? 
-              <p>{ this.state.flagUrlError }</p>
-            : null
-          }
-        </form>
-      </div>
-    );
-  }
+    return updateFlag(id, flagUrl);
+  };
+
+  return (
+    <div className="flag-container">
+      <h4>{ 'Enter Url of flag picture:' }</h4>
+      <form className="flag-form" onSubmit={ handleSubmit }>
+        <input
+          className="flag-url"
+          name="flagUrl"
+          placeholder="Enter URL"
+          type="text"
+          value={ flagUrl }
+          onChange={ handleChange }
+        />
+        <CustomButton text='Submit'/>
+        { flagUrlDirty ? 
+            <p>{ flagUrlError }</p>
+          : null
+        }
+      </form>
+    </div>
+  );
 }
 
 FlagForm.propTypes = {
-  flagCreate: PropTypes.func,
-  countryGet: PropTypes.func,
   country: PropTypes.object,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    country: state.country,
-  };
-};
-
-const mapDispatchToProps = dispatch => ({
-  flagCreate: (flag, countryId) => dispatch(photoActions.flagCreateRequest(flag, countryId)),
-  countryGet: country => dispatch(countryActions.countryGetRequest(country._id)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(FlagForm);
+export default FlagForm;

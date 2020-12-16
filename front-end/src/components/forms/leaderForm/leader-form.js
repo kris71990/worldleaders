@@ -1,113 +1,109 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import autoBind from '../../../utils/autoBind';
 
-import * as systemActions from '../../../actions/systemActions';
-import * as photoActions from '../../../actions/photoActions';
+import { useMutation } from '@apollo/client';
+import { UPDATE_LEADER } from '../../../graphql/mutations/system';
 
 import './leader-form.scss';
 
-const defaultState = {
-  leaderUrl: '',
-  leaderUrlDirty: false,
-  leaderUrlError: 'link invalid',
-};
+function LeaderPhotoForm(props) {
+  const id = props.system._id;
+  const [leaderUrl, setLeaderUrl] = useState('');
+  const [leaderUrlDirty, setLeaderUrlDirty] = useState(false);
+  const [leaderUrlError, setLeaderUrlError] = useState('');
 
-class LeaderPhotoForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = defaultState;
-    autoBind.call(this, LeaderPhotoForm);
-  }
+  const [updateLeader, { data, error }] = useMutation(UPDATE_LEADER, { // eslint-disable-line
+    variables: { id, leaderUrl, leaderType: props.type },
+    onCompleted() {
+      setLeaderUrlDirty(false);
+      setLeaderUrlError('');
+      setLeaderUrl('');
+    },
+    update(cache, { data: { system } }) { // eslint-disable-line
+      cache.modify({
+        fields: {
+          system() {
+            return system;
+          },
+        },
+      });
+    },
+    onError(error) { // eslint-disable-line
+      setLeaderUrlError(`Error: ${error.message}`);
+    },
+  });
 
-  handleChange(e) {
-    const { name, value } = e.target;
-    this.setState({
-      [name]: value,
-      leaderUrlDirty: false,
-    });
-  }
+  const handleChange = (e) => {
+    setLeaderUrl(e.target.value);
+    setLeaderUrlDirty(false);
+    setLeaderUrlError('');
+  };
 
-  handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const { keywords } = this.props;
-    const { system } = this.props;
-    const caselessUrl = this.state.leaderUrl.toLowerCase();
+    const { keywords } = props;
+    const caselessUrl = leaderUrl.toLowerCase();
 
     if (keywords) {
       let validated = false;
 
-      keywords[1].some((name) => {
+      keywords.some((name) => {
         if (caselessUrl.includes(name)) {
           validated = true;
         }
         return null;
       }); 
 
-      if (validated && this.props.type === 'hog') {
-        this.props.headOfGovernmentPhotoCreate(this.state, system._id)
-          .then(() => {
-            this.props.systemGet(system.countryName);
-          });
-        this.setState(defaultState);
-      } else if (validated && this.props.type === 'hos') {
-        this.props.headOfStatePhotoCreate(this.state, system._id)
-          .then(() => {
-            this.props.systemGet(system.countryName);
-          });
-        this.setState(defaultState);
+      if (validated && props.type === 'hog') {
+        updateLeader(id, leaderUrl);
+        // .then(() => {
+        //   this.props.systemGet(system.countryName);
+        // });
+        setLeaderUrl('');
+        setLeaderUrlDirty(false);
+        setLeaderUrlError('');
+      } else if (validated && props.type === 'cos') {
+        updateLeader(id, leaderUrl);
+        // .then(() => {
+        //   this.props.systemGet(system.countryName);
+        // });
+        setLeaderUrl('');
+        setLeaderUrlDirty(false);
+        setLeaderUrlError('');
       } else {
-        this.setState({ leaderUrlDirty: true });
+        setLeaderUrl('');
+        setLeaderUrlDirty(true);
+        setLeaderUrlError('Invalid URL');
       }
     }
-  }
+  };
 
-  render() {
-    return (
-      <div className="leader-container">
-        <h5>{ 'Enter Url of leader photo:' }</h5>
-        <form className="leader-form" onSubmit={ this.handleSubmit }>
-          <input
-            className="leader-url"
-            name="leaderUrl"
-            placeholder="Enter URL"
-            type="text"
-            value={ this.state.countryName }
-            onChange={ this.handleChange }
-          />
-          <button type="submit">Submit</button>
-          { this.state.leaderUrlDirty ? 
-              <p>{ this.state.leaderUrlError }</p>
-            : null
-          }
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div className="leader-container">
+      <h5>{ 'Enter Url of leader photo:' }</h5>
+      <form className="leader-form" onSubmit={ handleSubmit }>
+        <input
+          className="leader-url"
+          name="leaderUrl"
+          placeholder="Enter URL"
+          type="text"
+          value={ leaderUrl }
+          onChange={ handleChange }
+        />
+        <button type="submit">Submit</button>
+        { leaderUrlDirty ? 
+            <p>{ leaderUrlError }</p>
+          : null
+        }
+      </form>
+    </div>
+  );
 }
 
 LeaderPhotoForm.propTypes = {
-  headOfGovernmentPhotoCreate: PropTypes.func,
-  headOfStatePhotoCreate: PropTypes.func,
-  systemGet: PropTypes.func,
   system: PropTypes.object,
-  keywords: PropTypes.object,
+  keywords: PropTypes.array,
   type: PropTypes.string,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    system: state.system,
-  };
-};
-
-const mapDispatchToProps = dispatch => ({
-  headOfGovernmentPhotoCreate: 
-  (leader, systemId) => dispatch(photoActions.headOfGovernmentPhotoCreateRequest(leader, systemId)),
-  headOfStatePhotoCreate: 
-  (leader, systemId) => dispatch(photoActions.headOfStatePhotoCreateRequest(leader, systemId)),
-  systemGet: system => dispatch(systemActions.systemGetRequest(system)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(LeaderPhotoForm);
+export default LeaderPhotoForm;

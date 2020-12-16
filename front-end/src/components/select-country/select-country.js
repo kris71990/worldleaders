@@ -10,6 +10,12 @@ const SelectMenu = (props) => {
     onClick, onChange, countries, value,
   } = props;
 
+  const alphabetize = () => {
+    return countries.slice().sort((a, b) => {
+      return a.countryName.localeCompare(b.countryName);
+    });
+  };
+
   return (
     <div>
       <h2>Choose a country</h2>
@@ -21,9 +27,9 @@ const SelectMenu = (props) => {
 
           <option value="empty">Select</option>
           { countries
-            ? countries.map((country) => {
+            ? alphabetize().map((country) => {
               return (
-                <option name={ country.countryName } value={ country.id } key={ country.id }>
+                <option name={ country.countryName } value={ country._id } key={ country._id }>
                   { parser.parseCountryName(country.countryName) }
                 </option>
               );
