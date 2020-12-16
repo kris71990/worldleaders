@@ -1,8 +1,14 @@
 @import '../../style/vars';
 
 .basic-info {
-  border: 5px ridge $header-border;
-  background-color: $basic-background;
+  border-bottom: 10px solid black;
+  background: repeating-linear-gradient(
+    45deg,
+    $basic-background,
+    $basic-background 2px,
+    $background-color 2px,
+    $background-color 4px
+  );
   text-align: center;
 
   h1 {

@@ -1,8 +1,14 @@
 @import '../../style/vars';
 
 .economy {
-  border: 5px ridge $economy-border;
-  background-color: $economy-background;
+  border-top: 10px ridge $economy-border;
+  background: repeating-linear-gradient(
+    45deg,
+    $economy-background,
+    $economy-background 2px,
+    $background-color 2px,
+    $background-color 4px
+  );
 
   h3 {
     margin-bottom: 0;

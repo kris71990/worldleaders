@@ -1,8 +1,15 @@
 @import '../../style/vars';
 
 .culture {
-  border: 5px ridge $culture-border;
-  background-color: $culture-background;
+  border-top: 10px ridge $culture-border;
+  border-bottom: 10px solid black;
+  background: repeating-linear-gradient(
+    45deg,
+    $culture-background,
+    $culture-background 2px,
+    $background-color 2px,
+    $background-color 4px
+  );
 
   h5 {
     margin-left: 5px;
