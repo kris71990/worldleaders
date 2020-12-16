@@ -49,24 +49,28 @@ npm run watch
 ```
 App
   Header
-    AreaRank
-    GDPRank
-    PopulationRank
-    LanguageRank
-    SystemRank
   Footer
   Landing
     CountryForm
-    Country
-      CountryBasic
-      FlagForm
-      CountryEconomy
-      CountryCulture
-    System
-      CapitalMap
-      SystemLeaders
-      LeaderForm
-      SystemElections
+  Containers
+    CountryContainer
+      Country
+        CountryBasic
+        FlagForm
+        CountryEconomy
+        CountryCulture
+    SystemContainer
+      System
+        CapitalMap
+        SystemLeaders
+        LeaderForm
+        SystemElections
+    RankingsContainer
+      AreaRank
+      GDPRank
+      PopulationRank
+      LanguageRank
+      SystemRank
 ```
 
 *Components*
