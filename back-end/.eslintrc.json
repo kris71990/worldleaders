@@ -1,7 +1,10 @@
 {
-  "extends": ["airbnb-base","plugin:jest/recommended"],
+  "extends": ["airbnb-base"],
   "parser": "babel-eslint",
-  "plugins": ["jest"],
+  "plugins": ["mocha"],
+  "env": {
+    "mocha": true
+  },
   "rules": {
     "arrow-body-style": "off",
     "global-require": "off",

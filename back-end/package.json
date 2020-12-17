@@ -4,17 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "eslint . && jest --coverage --runInBand",
-    "test-nolint": "jest --coverage --runInBand --detectOpenHandles",
-    "dbon": "mkdir -p ./db && mongod --dbpath ./db",
-    "dboff": "killall mongod",
+    "test": "eslint . && mocha --exit ./src/__test__",
+    "test-report": "eslint . && nyc --reporter=html --reporter=text mocha --exit ./src/__test__",
+    "test-nolint": "mocha --exit ./src/__test__/country-router.test.js",
     "build": "babel src -d build",
     "start": "node index.js"
   },
-  "jest": {
-    "setupFiles": [
-      "<rootDir>/src/__test__/lib/test.env.js"
-    ]
+  "mocha": {
+    "require": "./src/__test__/lib/test.env.js"
   },
   "author": "",
   "license": "ISC",
@@ -26,8 +23,7 @@
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jest": "^21.27.2",
-    "jest": "^23.6.0"
+    "eslint-plugin-mocha": "^8.0.0"
   },
   "dependencies": {
     "apollo-datasource-rest": "^0.9.4",
@@ -35,6 +31,7 @@
     "apollo-server-express": "^2.18.2",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
     "cors": "^2.8.5",
     "dotenv": "^5.0.1",
     "express": "^4.17.1",
@@ -42,7 +39,9 @@
     "fs-extra": "^6.0.1",
     "graphql": "^15.3.0",
     "http-errors": "^1.8.0",
+    "mocha": "^8.2.1",
     "mongoose": "^5.10.3",
+    "nyc": "^15.1.0",
     "superagent": "^6.1.0",
     "winston": "^3.3.3"
   }
