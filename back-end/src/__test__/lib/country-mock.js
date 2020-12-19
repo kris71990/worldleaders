@@ -3,10 +3,10 @@
 import Country from '../../models/country';
 import data from '../../../data.json';
 
-const createCountryMock = (update, linked) => {
+const createCountryMock = ({ country, update, linked }) => {
   const mock = {};
   mock.request = {
-    countryName: 'benin',
+    countryName: country,
   };
 
   return Country.create(mock.request.countryName)

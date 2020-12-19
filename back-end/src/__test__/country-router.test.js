@@ -5,7 +5,9 @@ import { assert } from 'chai';
 
 import { server, closeDbConnection, dropTestDb, startServer } from '../lib/server';
 import { GET_COUNTRIES, GET_COUNTRY, GET_COUNTRIES_CIA } from './lib/queries.test';
+import { ADD_COUNTRY, UPDATE_COUNTRY } from './lib/mutations.test';
 import { createCountryMock, createFakeMock, removeCountryMock } from './lib/country-mock';
+import { AddArgumentsAsVariables } from 'apollo-server-express';
 // import { createFakeMockSystem } from './lib/system-mock';
 
 before(() => {
@@ -20,10 +22,10 @@ after(() => {
     .then(() => console.log('database disconnected'));
 });
 
-const { query } = createTestClient(server);
+const { query, mutate } = createTestClient(server);
 
 describe('Testing country queries and mutations...', function () {
-  describe('/countries/cia', function () {
+  describe('GET /countries/cia', function () {
     it('should return array of strings of all country names in CIA factbook', async () => {
       const { data, errors } = await query({ query: GET_COUNTRIES_CIA });
       assert.isUndefined(errors);
@@ -42,20 +44,21 @@ describe('Testing country queries and mutations...', function () {
     });
 
     it('should return array of countries that exist', async () => {
-      return createCountryMock() // add one country
+      return createCountryMock({ country: 'benin' }) // add one country
         .then(async () => {
           const { data, errors } = await query({ query: GET_COUNTRIES });
           assert.isUndefined(errors);
           assert.isArray(data.countries);
           assert.lengthOf(data.countries, 1);
           assert.hasAllKeys(data.countries[0], ['_id', 'countryName']);
+          assert.equal(data.countries[0].countryName, 'benin');
         });
     });
   });
 
-  describe('/country/:id', function () {
+  describe('GET /country/:id', function () {
     it('should return a single country', async () => {
-      return createCountryMock()
+      return createCountryMock({ country: 'benin' })
         .then(async (countryMock) => {
           const { data, errors } = await query({ 
             query: GET_COUNTRY, 
@@ -80,6 +83,7 @@ describe('Testing country queries and mutations...', function () {
       });
       assert.exists(errors);
       assert.isNull(data.country);
+      assert.equal(errors[0].message, '404: Not Found');
     });
 
     it('should return error for missing country id', async () => {
@@ -87,154 +91,61 @@ describe('Testing country queries and mutations...', function () {
         query: GET_COUNTRY,
       });
       assert.exists(errors);
+      assert.equal(errors[0].extensions.code, 'INTERNAL_SERVER_ERROR');
       assert.equal(errors[0].message, 'Variable "$id" of required type "String!" was not provided.');
     });
   });
 
-  // describe('POST to /countries', () => {
-  //   test('POST under normal circumstances returns 201', () => {
-  //     return superagent.post(`${REST_API_URL}/country`)
-  //       .send({
-  //         countryName: 'democratic republic of congo',
-  //       })
-  //       .then((response) => {
-  //         expect(response.status).toEqual(201);
-  //         expect(response.body.countryName).toEqual('congo_democratic_republic_of_the');
-  //         expect(response.body.population).toBeTruthy();
-  //         expect(response.body.area).toBeTruthy();
-  //         expect(response.body.gdpPPPRank).toBeTruthy();
-  //         expect(response.body.imports).toBeInstanceOf(Array);
-  //         expect(response.body.exports).toBeInstanceOf(Array);
-  //         expect(response.body.naturalResources).toBeInstanceOf(Array);
-  //         expect(response.body.ethnicities).toBeInstanceOf(Array);
-  //         expect(response.body.languages).toBeInstanceOf(Array);
-  //         expect(response.body.religions).toBeInstanceOf(Array);
-  //       });
-  //   });
+  describe('POST /country', function () {
+    it('should return posted country', async () => {
+      const { data, errors } = await mutate({
+        mutation: ADD_COUNTRY,
+        variables: {
+          countryName: 'singapore',
+        },
+      });
+      assert.isUndefined(errors);
+      assert.exists(data.createCountry);
+      assert.isObject(data.createCountry);
+      assert.hasAllKeys(data.createCountry, ['_id', 'countryName']);
+    });
 
-  //   test('POST a country without bordering countries should return empty array for border countries', () => {
-  //     return superagent.post(`${API_URL}/countries`)
-  //       .send({
-  //         countryName: 'the bahamas',
-  //       })
-  //       .then((response) => {
-  //         expect(response.status).toEqual(201);
-  //         expect(response.body.countryName).toEqual('bahamas_the');
-  //         expect(response.body.borderCountries).toBeInstanceOf(Array);
-  //         expect(response.body.borderCountries).toHaveLength(0);
-  //       });
-  //   });
+    it('should return error if country doesn\'t exist', async () => {
+      const { data, errors } = await mutate({
+        mutation: ADD_COUNTRY,
+        variables: {
+          countryName: 'nonexistent country',
+        },
+      });
+      assert.exists(errors);
+      assert.isNull(data.createCountry);
+      assert.equal(errors[0].message, '404: Not Found');
+    });
 
-  //   test('POST a country that does not exist returns 404', () => {
-  //     return superagent.post(`${API_URL}/countries`)
-  //       .send({
-  //         countryName: 'beni',
-  //       })
-  //       .then(() => {})
-  //       .catch((error) => {
-  //         expect(error.status).toEqual(404);
-  //       });
-  //   });
+    it('should return error if country already exists', async () => {
+      return createCountryMock({ country: 'benin' })
+        .then(async (countryMock) => {
+          const { data, errors } = await mutate({
+            mutation: ADD_COUNTRY,
+            variables: {
+              countryName: countryMock.country.countryName,
+            },
+          });
+          assert.exists(errors);
+          assert.isNull(data.createCountry);
+          assert.equal(errors[0].message, '409: Conflict');
+        });
+    });
 
-  //   test('POST a country that already exists returns 409', () => {
-  //     return superagent.post(`${API_URL}/countries`)
-  //       .send({
-  //         countryName: 'china',
-  //       })
-  //       .then(() => {
-  //         return superagent.post(`${API_URL}/countries`)
-  //           .send({
-  //             countryName: 'china',
-  //           });
-  //       })
-  //       .catch((error) => {
-  //         expect(error.status).toEqual(409);
-  //       });
-  //   });
-
-  //   test('POST with improper arguments returns 400', () => {
-  //     return superagent.post(`${API_URL}/countries`)
-  //       .send({
-  //         countryName: 'ecuador',
-  //         typeOfGovernment: 'democracy',
-  //         headOfState: 'Donald Trump',
-  //       })
-  //       .then(() => Promise.reject())
-  //       .catch((error) => {
-  //         expect(error.status).toEqual(400);
-  //       });
-  //   });
-
-  //   test('POST with no arguments returns 400', () => {
-  //     return superagent.post(`${API_URL}/countries`)
-  //       .then(() => {})
-  //       .catch((error) => {
-  //         expect(error.status).toEqual(400);
-  //       });
-  //   });
-  // });
-
-  // describe('POST - additional middleware testing', () => {
-  //   test('bahamas (no the)', () => {
-  //     return superagent.post(`${API_URL}/countries`)
-  //       .send({
-  //         countryName: 'bahamas',
-  //       })
-  //       .then((response) => {
-  //         expect(response.body.countryName).toEqual('bahamas_the');
-  //       });
-  //   });
-
-  //   test('netherlands (with the)', () => {
-  //     return superagent.post(`${API_URL}/countries`)
-  //       .send({
-  //         countryName: 'the netherlands',
-  //       })
-  //       .then((response) => {
-  //         expect(response.body.countryName).toEqual('netherlands');
-  //       });
-  //   });
-
-  //   test('congo (rep)', () => {
-  //     return superagent.post(`${API_URL}/countries`)
-  //       .send({
-  //         countryName: 'congo',
-  //       })
-  //       .then((response) => {
-  //         expect(response.body.countryName).toEqual('congo_republic_of_the');
-  //       });
-  //   });
-
-  //   test('ivory coast', () => {
-  //     return superagent.post(`${API_URL}/countries`)
-  //       .send({
-  //         countryName: 'ivory coast',
-  //       })
-  //       .then((response) => {
-  //         expect(response.body.countryName).toEqual('cote_d\'_ivoire');
-  //       });
-  //   });
-
-  //   test('czech republic', () => {
-  //     return superagent.post(`${API_URL}/countries`)
-  //       .send({
-  //         countryName: 'czech republic',
-  //       })
-  //       .then((response) => {
-  //         expect(response.body.countryName).toEqual('czechia');
-  //       });
-  //   });
-
-  //   test('south korea', () => {
-  //     return superagent.post(`${API_URL}/countries`)
-  //       .send({
-  //         countryName: 'south korea',
-  //       })
-  //       .then((response) => {
-  //         expect(response.body.countryName).toEqual('korea_south');
-  //       });
-  //   });
-  // }); 
+    it('should return error if no country is given', async () => {
+      const { errors } = await mutate({
+        mutation: ADD_COUNTRY,
+      });
+      assert.exists(errors);
+      assert.equal(errors[0].extensions.code, 'INTERNAL_SERVER_ERROR');
+      assert.equal(errors[0].message, 'Variable "$countryName" of required type "String!" was not provided.');
+    });
+  });
 
   // describe('PUT to countries/:id', () => {
   //   test('PUT with old lastUpdated date should return updated data', () => {
