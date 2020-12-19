@@ -75,4 +75,17 @@ const stopServer = () => {
     });
 };
 
-export { startServer, stopServer };
+const closeDbConnection = () => {
+  return mongoose.connection.close()
+    .then(() => logger.log(logger.INFO, 'DB connection closed'));
+};
+
+const dropTestDb = () => {
+  if (process.env.NODE_ENV === 'test') {
+    return mongoose.connection.db.dropDatabase()
+      .catch(() => logger.log(logger.INFO, 'Error dropping database'));
+  }
+  return null;
+};
+
+export { startServer, stopServer, server, dropTestDb, closeDbConnection };

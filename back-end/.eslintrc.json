@@ -17,6 +17,8 @@
     "no-underscore-dangle": "off",
     "strict": "off",
     "max-len": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "func-names": "off",
+    "prefer-arrow-callback": "off"
   }
 }

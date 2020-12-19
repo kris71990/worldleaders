@@ -1,25 +1,85 @@
 'use strict';
 
-import superagent from 'superagent';
+import { createTestClient } from 'apollo-server-testing';
 import { assert } from 'chai';
-import { startServer, stopServer } from '../lib/server';
+
+import { server, closeDbConnection, dropTestDb, startServer } from '../lib/server';
+import { GET_COUNTRIES, GET_COUNTRY } from './lib/queries.test';
 import { createCountryMock, createFakeMock, removeCountryMock } from './lib/country-mock';
-import { createFakeMockSystem } from './lib/system-mock';
+// import { createFakeMockSystem } from './lib/system-mock';
 
-const REST_API_URL = `http://localhost:${process.env.PORT}`;
+before(() => {
+  return startServer()
+    .then(() => console.log('database connected'));
+  // .then(() => dropTestDb());
+});
+afterEach(removeCountryMock);
+after(() => {
+  return dropTestDb()
+    .then(() => closeDbConnection())
+    .then(() => console.log('database disconnected'));
+});
 
-/* 
-Tests for the following (13):
-  - POST /countries (201 x 4, 400, 404, 409)
-  - GET /countries/:id (201, 404)
-  - PUT /countries/:id (200, 201, 400, 404)
-  - DELETE /countries/:id (204, 400 x 2)
-*/
+const { query } = createTestClient(server);
 
-describe('Test country-router', () => {
-  before(startServer);
-  // afterEach(removeCountryMock);
-  after(stopServer);
+describe('Testing country queries and mutations...', function () {
+  describe('/countries/db', function () {
+    it('should return empty array if no countries exist', async () => {
+      const { data, errors } = await query({ query: GET_COUNTRIES });
+      assert.equal(errors, undefined);
+      assert.isArray(data.countries);
+      assert.lengthOf(data.countries, 0);
+    });
+
+    it('should return array of countries that exist', async () => {
+      return createCountryMock() // add one country
+        .then(async () => {
+          const { data, errors } = await query({ query: GET_COUNTRIES });
+          assert.equal(errors, undefined);
+          assert.isArray(data.countries);
+          assert.lengthOf(data.countries, 1);
+          assert.hasAllKeys(data.countries[0], ['_id', 'countryName']);
+        });
+    });
+  });
+
+  describe('/country/:id', function () {
+    it('should return a single country', async () => {
+      return createCountryMock()
+        .then(async (countryMock) => {
+          const { data, errors } = await query({ 
+            query: GET_COUNTRY, 
+            variables: {
+              id: countryMock.country._id.toString(),
+            },
+          });
+          assert.equal(errors, undefined);
+          assert.isObject(data.country);
+          assert.equal(data.country.countryName, 'benin');
+          assert.equal(data.country._id, countryMock.country.id);
+          assert.lengthOf(Object.keys(data.country), 23);
+        });
+    });
+
+    it('should return error for nonexisting country', async () => {
+      const { data, errors } = await query({ 
+        query: GET_COUNTRY,
+        variables: {
+          id: '1234',
+        },
+      });
+      assert.exists(errors);
+      assert.isNull(data.country);
+    });
+
+    it('should return error for missing country id', async () => {
+      const { errors } = await query({ 
+        query: GET_COUNTRY,
+      });
+      assert.exists(errors);
+      assert.equal(errors[0].message, 'Variable "$id" of required type "String!" was not provided.');
+    });
+  });
 
   // describe('POST to /countries', () => {
   //   test('POST under normal circumstances returns 201', () => {
@@ -166,76 +226,17 @@ describe('Test country-router', () => {
   //   });
   // }); 
 
-  // describe('GET from /countries/:id', () => {
-  //   test('GET with correct id should return 200 and json', () => {
-  //     return superagent.post(`${API_URL}/countries`)
-  //       .send({
-  //         countryName: 'north korea',
-  //       })
+  // describe('GET from /countries/cia', () => {
+  //   it('should GET all country names that exist in the world, return 200', () => {
+  //     return superagent.get(`${REST_API_URL}/countries/cia`)
   //       .then((response) => {
-  //         return superagent.get(`${API_URL}/countries/${response.body._id}`)
-  //           .then((res) => {
-  //             expect(res.status).toEqual(200);
-  //             expect(res.body).toBeTruthy();
-  //             expect(res.body.countryName).toEqual('korea_north');
-  //             expect(response.body.countryName).toEqual('korea_north');
-  //             expect(response.body.population).toBeTruthy();
-  //             expect(response.body.area).toBeTruthy();
-  //             expect(response.body.gdpPPPRank).toBeTruthy();
-  //             expect(response.body.imports).toBeInstanceOf(Array);
-  //             expect(response.body.exports).toBeInstanceOf(Array);
-  //             expect(response.body.naturalResources).toBeInstanceOf(Array);
-  //             expect(response.body.ethnicities).toBeInstanceOf(Array);
-  //             expect(response.body.languages).toBeInstanceOf(Array);
-  //             expect(response.body.religions).toBeInstanceOf(Array);
-  //           });
-  //       });
-  //   });
-
-  //   test('GET with incorrect id should return 404', () => {
-  //     return superagent.get(`${API_URL}/countries/1234`)
-  //       .then(() => {})
-  //       .catch((error) => {
-  //         expect(error.status).toEqual(404);
-  //         expect(error.body).toBeFalsy();
+  //         assert.equal(response.status, 200);
+  //         assert.isArray(response.body);
+  //         assert.lengthOf(response.body, 240);
+  //         assert.isString(response.body[0]);
   //       });
   //   });
   // });
-
-  // describe('GET from /countries/all', () => {
-  //   beforeEach(() => createFakeMock('benin'));
-  //   beforeEach(() => createFakeMock('togo'));
-
-  //   test('GET all should return 200 and return all countries in database', () => {
-  //     return superagent.get(`${API_URL}/countries/all`)
-  //       .then((response) => {
-  //         expect(response.status).toEqual(200);
-  //         expect(response.body).toBeInstanceOf(Array);
-  //         expect(response.body).toHaveLength(2);
-  //       });
-  //   });
-  // });
-
-  // test('GET all should return 200 and return no countries if none exist', () => {
-  //   return superagent.get(`${API_URL}/countries/all`)
-  //     .then((response) => {
-  //       expect(response.status).toEqual(200);
-  //       expect(response.body).toBeInstanceOf(Array);
-  //       expect(response.body).toHaveLength(0);
-  //     });
-  // });
-
-  describe('GET from /countries/cia', () => {
-    it('should GET all country names that exist in the world, return 200', () => {
-      return superagent.get(`${REST_API_URL}/countries/cia`)
-        .then((response) => {
-          assert.equal(response.status, 200);
-          assert.isArray(response.body);
-          assert.lengthOf(response.body, 240);
-          assert.isString(response.body[0]);
-        });
-    });
-  });
 
   // describe('PUT to countries/:id', () => {
   //   test('PUT with old lastUpdated date should return updated data', () => {

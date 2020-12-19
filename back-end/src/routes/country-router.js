@@ -74,7 +74,7 @@ countryRouter.get('/countries/db', (request, response, next) => {
   return Country.find()
     .then((countries) => {
       logger.log(logger.INFO, 'GET /country/db successful, getting all countries, returning 200');
-      return response.json(countries);
+      return response.status(200).json(countries);
     })
     .catch(next);
 });
