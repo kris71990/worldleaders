@@ -2,6 +2,12 @@
 
 import { gql } from 'apollo-server-express';
 
+const GET_COUNTRIES_CIA = gql`
+  query {
+    countriesCIA
+  }
+`;
+
 const GET_COUNTRIES = gql`
   query {
     countries {
@@ -60,4 +66,4 @@ const GET_COUNTRY = gql`
   }
 `;
 
-export { GET_COUNTRIES, GET_COUNTRY };
+export { GET_COUNTRIES, GET_COUNTRY, GET_COUNTRIES_CIA };

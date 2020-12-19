@@ -42,6 +42,13 @@ export default class CountryAPI extends RESTDataSource {
       });
   }
 
+  getCountriesCIA() {
+    return this.get('/countries/cia')
+      .then((responseCountries) => {
+        return Array.isArray ? responseCountries : [];
+      });
+  }
+
   // get all countries in database
   getCountries() {
     return this.get('/countries/db')

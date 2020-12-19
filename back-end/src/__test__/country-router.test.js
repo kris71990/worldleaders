@@ -4,7 +4,7 @@ import { createTestClient } from 'apollo-server-testing';
 import { assert } from 'chai';
 
 import { server, closeDbConnection, dropTestDb, startServer } from '../lib/server';
-import { GET_COUNTRIES, GET_COUNTRY } from './lib/queries.test';
+import { GET_COUNTRIES, GET_COUNTRY, GET_COUNTRIES_CIA } from './lib/queries.test';
 import { createCountryMock, createFakeMock, removeCountryMock } from './lib/country-mock';
 // import { createFakeMockSystem } from './lib/system-mock';
 
@@ -23,10 +23,20 @@ after(() => {
 const { query } = createTestClient(server);
 
 describe('Testing country queries and mutations...', function () {
+  describe('/countries/cia', function () {
+    it('should return array of strings of all country names in CIA factbook', async () => {
+      const { data, errors } = await query({ query: GET_COUNTRIES_CIA });
+      assert.isUndefined(errors);
+      assert.isArray(data.countriesCIA);
+      assert.lengthOf(data.countriesCIA, 240);
+      assert.isString(data.countriesCIA[0]);
+    });
+  });
+
   describe('/countries/db', function () {
     it('should return empty array if no countries exist', async () => {
       const { data, errors } = await query({ query: GET_COUNTRIES });
-      assert.equal(errors, undefined);
+      assert.isUndefined(errors);
       assert.isArray(data.countries);
       assert.lengthOf(data.countries, 0);
     });
@@ -35,7 +45,7 @@ describe('Testing country queries and mutations...', function () {
       return createCountryMock() // add one country
         .then(async () => {
           const { data, errors } = await query({ query: GET_COUNTRIES });
-          assert.equal(errors, undefined);
+          assert.isUndefined(errors);
           assert.isArray(data.countries);
           assert.lengthOf(data.countries, 1);
           assert.hasAllKeys(data.countries[0], ['_id', 'countryName']);
@@ -225,18 +235,6 @@ describe('Testing country queries and mutations...', function () {
   //       });
   //   });
   // }); 
-
-  // describe('GET from /countries/cia', () => {
-  //   it('should GET all country names that exist in the world, return 200', () => {
-  //     return superagent.get(`${REST_API_URL}/countries/cia`)
-  //       .then((response) => {
-  //         assert.equal(response.status, 200);
-  //         assert.isArray(response.body);
-  //         assert.lengthOf(response.body, 240);
-  //         assert.isString(response.body[0]);
-  //       });
-  //   });
-  // });
 
   // describe('PUT to countries/:id', () => {
   //   test('PUT with old lastUpdated date should return updated data', () => {

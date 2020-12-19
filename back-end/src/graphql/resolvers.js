@@ -2,6 +2,7 @@
 
 export default {
   Query: {
+    countriesCIA: (_, __, { dataSources }) => dataSources.countryAPI.getCountriesCIA(),
     countries: (_, __, { dataSources }) => dataSources.countryAPI.getCountries(),
     country: (_, { id }, { dataSources }) => dataSources.countryAPI.getCountry(id),
     

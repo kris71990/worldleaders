@@ -5,6 +5,7 @@ import { gql } from 'apollo-server-express';
 const typeDefs = gql`
   extend type Query {
     countries: [Country]
+    countriesCIA: [String]
     country(id: String!): Country
     rankingsGDP: [Country]
     rankingsPop: [Country]
